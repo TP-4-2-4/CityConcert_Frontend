@@ -46,19 +46,47 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).tertiary,
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(128),
+          preferredSize: Size.fromHeight(80),
           child: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).primary,
+            backgroundColor: FlutterFlowTheme.of(context).alternate,
             automaticallyImplyLeading: false,
-            title: Text(
-              'CityConcert',
-              style: FlutterFlowTheme.of(context).headlineMedium.override(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 22,
-                  ),
+            title: Align(
+              alignment: AlignmentDirectional(-1, 0),
+              child: Text(
+                'CityConcert',
+                textAlign: TextAlign.start,
+                style: FlutterFlowTheme.of(context).headlineMedium.override(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  fontSize: 22,
+                ),
+              ),
             ),
-            actions: [],
+            actions: [
+              FlutterFlowIconButton(
+                borderColor: Colors.transparent,
+                borderRadius: 30,
+                borderWidth: 1,
+                buttonSize: 60,
+                icon: Icon(
+                  Icons.info_rounded,
+                  color: FlutterFlowTheme.of(context).secondary,
+                  size: 24,
+                ),
+                onPressed: () async {
+                  context.pushNamed(
+                    'Info',
+                    extra: <String, dynamic>{
+                      kTransitionInfoKey: TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.rightToLeft,
+                        duration: Duration(milliseconds: 300),
+                      ),
+                    },
+                  );
+                },
+              ),
+            ],
             centerTitle: false,
             elevation: 2,
           ),
