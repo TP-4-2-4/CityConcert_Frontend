@@ -67,7 +67,8 @@ class _InfoWidgetState extends State<InfoWidget> {
               style: FlutterFlowTheme.of(context).headlineMedium.override(
                 fontFamily: 'Poppins',
                 color: Colors.white,
-                fontSize: 22,
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
             actions: [],

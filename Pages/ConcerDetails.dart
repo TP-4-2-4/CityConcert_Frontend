@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -42,8 +43,10 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
       body: SingleChildScrollView(
         child: Column(
           mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
+            SingleChildScrollView(
+            child: Column(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Column(
@@ -64,7 +67,10 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                             height: 90,
                             decoration: BoxDecoration(
                               gradient: LinearGradient(
-                                colors: [Color(0xB3090F13), Color(0x00090F13)],
+                                colors: [
+                                  Color(0xB3090F13),
+                                  Color(0x00090F13)
+                                ],
                                 stops: [0, 1],
                                 begin: AlignmentDirectional(0, -1),
                                 end: AlignmentDirectional(0, 1),
@@ -76,6 +82,10 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                           padding:
                               EdgeInsetsDirectional.fromSTEB(16, 40, 16, 16),
                           child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () async {
                               context.pop();
                             },
@@ -87,12 +97,11 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                                 borderRadius: BorderRadius.circular(30),
                               ),
                               child: Padding(
-                                padding:
-                                    EdgeInsetsDirectional.fromSTEB(4, 4, 4, 4),
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    4, 4, 4, 4),
                                 child: Icon(
                                   Icons.arrow_back_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: FlutterFlowTheme.of(context).primary,
                                   size: 24,
                                 ),
                               ),
@@ -100,27 +109,6 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                           ),
                         ),
                       ],
-                    ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(12, 16, 12, 0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
-                            child: Text(
-                              'Internal Team',
-                              style: FlutterFlowTheme.of(context)
-                                  .bodySmall
-                                  .override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.87,
@@ -130,16 +118,24 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(12, 0, 12, 4),
+                      padding: EdgeInsetsDirectional.fromSTEB(12, 8, 12, 8),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                            padding:
+                              EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                             child: Text(
-                              'Kickoff Meeting',
-                              style:
-                                  FlutterFlowTheme.of(context).headlineMedium,
+                              'NICKELBACK',
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                fontFamily: 'Poppins',
+                                color:
+                                FlutterFlowTheme.of(context).primary,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],
@@ -152,8 +148,14 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                         children: [
                           Expanded(
                             child: Text(
-                              'Short description goes here and can be more\nthan one line. Two lines is the best length… ',
-                              style: FlutterFlowTheme.of(context).bodySmall,
+                              'Канадская альтернативная рок-группа, основанная в 1995 году в городе Ханна. ',
+                              textAlign: TextAlign.justify,
+                              style: FlutterFlowTheme.of(context)
+                                  .bodySmall
+                                  .override(
+                                fontFamily: 'Poppins',
+                                fontSize: 14,
+                              ),
                             ),
                           ),
                         ],
@@ -163,63 +165,96 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                       padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 8),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 4),
-                            child: Icon(
-                              Icons.schedule,
+                            padding:
+                              EdgeInsetsDirectional.fromSTEB(0, 0, 8, 4),
+                            child: FaIcon(
+                              FontAwesomeIcons.clock,
                               color: FlutterFlowTheme.of(context).primary,
-                              size: 20,
+                              size: 22,
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                            padding:
+                              EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                             child: Text(
                               '8:00am',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontWeight: FontWeight.w500,
+                                    color:
+                                      FlutterFlowTheme.of(context).primary,
+                                    fontWeight: FontWeight.w600,
                                   ),
                             ),
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(24, 0, 0, 4),
+                                EdgeInsetsDirectional.fromSTEB(24, 0, 8, 4),
                             child: Icon(
                               Icons.location_on_sharp,
                               color: FlutterFlowTheme.of(context).primary,
-                              size: 20,
+                              size: 22,
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                            padding:
+                              EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
+                            child: InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                context.pushNamed('VenueDetails');
+                              },
                             child: Text(
-                              'Kaleo Office - San Antionio...',
+                              'Event Hall',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
                                     fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontWeight: FontWeight.w500,
+                                    color: FlutterFlowTheme.of(context)
+                                        .primary,
+                                    fontWeight: FontWeight.w600,
                                   ),
+                            ),
                             ),
                           ),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 0),
+                      padding: EdgeInsetsDirectional.fromSTEB(12, 4, 12, 8),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(0, 0, 8, 4),
+                            child: FaIcon(
+                              FontAwesomeIcons.rubleSign,
+                              color: FlutterFlowTheme.of(context).primary,
+                              size: 22,
+                            ),
+                          ),
+                          Padding(
+                            padding:
+                            EdgeInsetsDirectional.fromSTEB(4, 0, 0, 0),
                             child: Text(
-                              'Event Details',
-                              style: FlutterFlowTheme.of(context).bodySmall,
+                              '1500 - 3000',
+                              style: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .override(
+                                fontFamily: 'Poppins',
+                                color:
+                                FlutterFlowTheme.of(context).primary,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ],
@@ -235,43 +270,54 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
                               padding:
                                   EdgeInsetsDirectional.fromSTEB(0, 4, 0, 4),
                               child: Text(
-                                'Drag-and-drop builder and no-code configuration make it easy to add chat to your app. Professionally designed templates and custom styling will take your app to the next level.Drag-and-drop builder and no-code configuration make it easy to add chat to your app. Professionally designed templates and custom styling will take your app to the next level.Drag-and-drop builder and no-code configuration make it easy to add chat to your app. Professionally designed templates and custom styling will take your app to the next level.',
-                                textAlign: TextAlign.start,
-                                style: FlutterFlowTheme.of(context).bodyMedium,
+                                'Группа состоит из гитариста и вокалиста Чеда Крюгера; гитариста, клавишника и бэк-вокалиста Райана Пик; басиста Майка Крюгера и барабанщика Дэниеля Адэра. Название группы образовано от Here’s your nickel back. - «Вот ваша сдача». Или дословно: «Вот ваши пять центов сдачи». Никель - американское название пятицентовой монеты. Группа попала в список лучших артистов первого десятилетия XXI века, по мнению Billboard, где заняла первое место среди рок-групп.',
+                                textAlign: TextAlign.justify,
+                                style:
+                                FlutterFlowTheme.of(context).bodyMedium,
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(0, 20, 0, 40),
-                      child: FFButtonWidget(
+                  ],
+                ),
+              ],
+            ),
+            ),
+            Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
+                    child: FFButtonWidget(
                         onPressed: () {
                           print('Button pressed ...');
                         },
-                        text: 'RSVP to Event',
+                        text: 'Купить билет',
                         options: FFButtonOptions(
-                          width: 270,
                           height: 50,
                           padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
-                          iconPadding:
-                              EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
                                     fontFamily: 'Poppins',
                                     color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
                                   ),
                           elevation: 2,
                           borderSide: BorderSide(
                             color: Colors.transparent,
                             width: 1,
                           ),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
                     ),
-                  ],
                 ),
               ],
             ),
@@ -280,4 +326,4 @@ class _ConcertDetailsWidgetState extends State<ConcertDetailsWidget> {
       ),
     );
   }
-}
+
