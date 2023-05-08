@@ -86,7 +86,7 @@ class _PillmenuWidgetState extends State<PillmenuWidget> {
                       size: 24,
                     ),
                     onPressed: () async {
-                      context.pushNamed('Recomendations');
+                      context.pushNamed('Recommendations');
                     },
                   ),
                 ),
