@@ -1,15 +1,16 @@
+import 'package:my_flutter/src/models/events_list.dart';
+
 import '../resources/event_repository.dart';
 import 'package:rxdart/rxdart.dart';
-import '../models/event_model.dart';
 
 class EventBloc {
   final _repository = Repository();
-  final _eventsFetcher = PublishSubject<event_model>();
+  final _eventsFetcher = PublishSubject<EventsList>();
 
-  Stream<event_model> get events => _eventsFetcher.stream;
+  Stream<EventsList> get events => _eventsFetcher.stream;
 
   fetchEventsByName(String searchText) async {
-    event_model itemModel = await _repository.fetchEventsByName(searchText);
+    EventsList itemModel = await _repository.fetchEventsByName(searchText);
     _eventsFetcher.sink.add(itemModel);
   }
 
