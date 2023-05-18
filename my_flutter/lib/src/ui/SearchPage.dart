@@ -1,6 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:my_flutter/src/resources/util/ServerUrls.dart';
+import '../models/event_model.dart';
+import '../blocs/event_bloc.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -14,9 +17,8 @@ class _SearchPageState extends State<SearchPage> {
 
   Future<void> _startSearch() async {
     String searchText = _searchController.text;
-    // Ваша логика API-вызова...
-    // Здесь предполагается, что ваш API-эндпоинт возвращает JSON-ответ
-    String apiUrl = 'https://example.com/api/search?query=$searchText';
+   bloc.fetchEventsByName(searchText);
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_EVENT_URL}/$searchText';
     var response = await http.get(Uri.parse(apiUrl));
 
     if (response.statusCode == 200) {
