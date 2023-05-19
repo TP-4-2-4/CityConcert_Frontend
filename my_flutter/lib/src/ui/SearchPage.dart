@@ -1,6 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:my_flutter/src/models/events_list.dart';
+import '../blocs/event_bloc.dart';
 
 class SearchPage extends StatefulWidget {
   @override
@@ -9,25 +9,11 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController _searchController = TextEditingController();
-  List<dynamic> searchResults = [];
-
+  Stream<EventsList> searchResults = bloc.events;
 
   Future<void> _startSearch() async {
     String searchText = _searchController.text;
-    // Ваша логика API-вызова...
-    // Здесь предполагается, что ваш API-эндпоинт возвращает JSON-ответ
-    String apiUrl = 'https://example.com/api/search?query=$searchText';
-    var response = await http.get(Uri.parse(apiUrl));
-
-    if (response.statusCode == 200) {
-      List<dynamic> jsonResults = jsonDecode(response.body);
-      setState(() {
-        searchResults = jsonResults;
-      });
-    } else {
-      // Обработка ошибки API-вызова
-      print('Ошибка при выполнении API-вызова: ${response.statusCode}');
-    }
+    bloc.fetchEventsByName(searchText);
   }
 
   @override
@@ -68,16 +54,24 @@ class _SearchPageState extends State<SearchPage> {
             ),
             SizedBox(height: 16.0),
             Expanded(
-              child: ListView.builder(
-                itemCount: searchResults.length,
-                itemBuilder: (context, index) {
-                  return ListTile( //todo: change tile to card, but so far let it be
-                    title: Text(searchResults[index]['name']),
-                    subtitle: Text(searchResults[index]['startTime']),
-                  );
-                },
-              ),
-            ),
+                child: StreamBuilder(
+              stream: bloc.events,
+              builder: (context, AsyncSnapshot<EventsList> snapshot) {
+                if (snapshot.hasData) {
+                    return ListView( children: List.generate(
+                        snapshot.data!.events.length,
+                            (index) => ListTile(
+                              //todo: change tile to card, but so far let it be
+                              title: Text(snapshot.data!.events[index].name!),
+                              subtitle: Text(snapshot.data!.events[index].startTime!),
+                            )));
+
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                }
+                return Center(child: CircularProgressIndicator());
+              },
+            )),
           ],
         ),
       ),
