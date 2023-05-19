@@ -11,7 +11,7 @@ class VenueBloc {
   final _venuesFetcher = PublishSubject<VenuesList>();
   final _venueFetcher = PublishSubject<VenueModel>();
   Stream<VenuesList> get venues => _venuesFetcher.stream;
-
+  Stream<VenueModel> get venue => _venueFetcher.stream;
   fetchVenues() async {
     VenuesList itemModel = await _repository.fetchVenues();
     _venuesFetcher.sink.add(itemModel);
@@ -35,6 +35,7 @@ class VenueBloc {
 
   dispose() {
     _venuesFetcher.close();
+    _venueFetcher.close();
   }
 }
 

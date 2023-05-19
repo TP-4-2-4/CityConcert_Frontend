@@ -11,7 +11,7 @@ class EventBloc {
   final _eventsFetcher = PublishSubject<EventsList>();
   final _eventFetcher = PublishSubject<EventModel>();
   Stream<EventsList> get events => _eventsFetcher.stream;
-
+  Stream<EventModel> get event => _eventFetcher.stream;
   fetchEventsByName(String searchText) async {
     EventsList events = await _repository.fetchEventsByName(searchText);
     _eventsFetcher.sink.add(events);
@@ -43,6 +43,7 @@ class EventBloc {
 
   dispose() {
     _eventsFetcher.close();
+    _eventFetcher.close();
   }
 }
 
