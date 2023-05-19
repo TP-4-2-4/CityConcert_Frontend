@@ -25,7 +25,7 @@ class VenueApiProvider {
 
   Future<VenueModel> fetchVenue(Long id) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_VENUE_BY_ID_URL}/$id';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_VENUE_BY_ID_URL}$id';
     final response = await client
         .get(Uri.parse(apiUrl));
     print(response.body.toString());
@@ -49,7 +49,7 @@ class VenueApiProvider {
   }
   Future<VenueModel> deleteVenue(Long id) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_VENUE_URL}/$id';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_VENUE_URL}$id';
     final response = await client
         .delete(Uri.parse(apiUrl));
     print(response.body.toString());

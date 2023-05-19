@@ -18,7 +18,7 @@ class EventApiProvider {
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }
   }
 
@@ -31,7 +31,7 @@ class EventApiProvider {
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }
   }
   Future<EventsList> fetchEventListAll() async {
@@ -43,19 +43,19 @@ class EventApiProvider {
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }
   }
   Future<EventModel> fetchEvent(Long id) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENT_BY_ID_URL}/$id';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENT_BY_ID_URL}$id';
     final response = await client
         .get(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode == 200) {
       return EventModel.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }
   }
   Future<EventModel> addEvent(EventModel event) async {
@@ -67,19 +67,19 @@ class EventApiProvider {
     if (response.statusCode == 200) {
       return EventModel.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }
   }
   Future<EventModel> deleteEvent(Long id) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_EVENT_URL}/$id';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_EVENT_URL}$id';
     final response = await client
         .delete(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode == 200) {
       return EventModel.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }}
   Future<EventModel> updateEvent(EventModel event) async {
     print("entered");
@@ -90,7 +90,7 @@ class EventApiProvider {
     if (response.statusCode == 200) {
       return EventModel.fromJson(json.decode(response.body));
     } else {
-      throw Exception('Failed to load post');
+      throw Exception('Failed to load event');
     }
   }
 
