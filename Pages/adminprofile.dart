@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
@@ -30,7 +31,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
     _model.textController1 ??= TextEditingController(text: 'Логин');
     _model.textController2 ??=
         TextEditingController(text: 'somauserpaddress@gmail.com');
-    _model.textController3 ??= TextEditingController(text: 'Пароль');
+    _model.textController3 ??= TextEditingController(text: '******');
   }
 
   @override
@@ -49,6 +50,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         key: scaffoldKey,
         backgroundColor: Color(0xFF262626),
         body: SafeArea(
+          top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -120,6 +122,11 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               ),
                               filled: true,
                               fillColor: Color(0x4D131313),
+                              suffixIcon: FaIcon(
+                                FontAwesomeIcons.pen,
+                                color: Color(0x80D9D9D9),
+                                size: 25,
+                              ),
                             ),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -177,6 +184,10 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               ),
                               filled: true,
                               fillColor: Color(0x4D131313),
+                              suffixIcon: FaIcon(
+                                FontAwesomeIcons.pen,
+                                color: Color(0x80FFFFFF),
+                              ),
                             ),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
@@ -196,7 +207,7 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                           child: TextFormField(
                             controller: _model.textController3,
                             autofocus: true,
-                            obscureText: !_model.passwordVisibility,
+                            obscureText: false,
                             decoration: InputDecoration(
                               hintStyle: FlutterFlowTheme.of(context)
                                   .bodySmall
@@ -234,18 +245,9 @@ class _ProfileWidgetState extends State<ProfileWidget> {
                               ),
                               filled: true,
                               fillColor: Color(0x4D131313),
-                              suffixIcon: InkWell(
-                                onTap: () => setState(
-                                  () => _model.passwordVisibility =
-                                      !_model.passwordVisibility,
-                                ),
-                                focusNode: FocusNode(skipTraversal: true),
-                                child: Icon(
-                                  _model.passwordVisibility
-                                      ? Icons.visibility_outlined
-                                      : Icons.visibility_off_outlined,
-                                  size: 22,
-                                ),
+                              suffixIcon: FaIcon(
+                                FontAwesomeIcons.pen,
+                                color: Color(0x80FFFFFF),
                               ),
                             ),
                             style: FlutterFlowTheme.of(context)
