@@ -1,4 +1,4 @@
-import 'package:my_flutter/src/models/events_list.dart';
+import 'package:my_flutter/src/models/lists/events_list.dart';
 
 import '../resources/event_repository.dart';
 import 'package:rxdart/rxdart.dart';

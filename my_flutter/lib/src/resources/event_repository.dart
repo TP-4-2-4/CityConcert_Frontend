@@ -1,8 +1,7 @@
 import 'dart:async';
-import 'package:my_flutter/src/models/events_list.dart';
+import 'package:my_flutter/src/models/lists/events_list.dart';
 
 import 'event_api_provider.dart';
-import '../models/event_model.dart';
 
 class Repository {
   final moviesApiProvider = MovieApiProvider();
