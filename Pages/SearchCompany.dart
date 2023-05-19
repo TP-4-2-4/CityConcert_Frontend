@@ -171,7 +171,7 @@ class _SearchCompanyWidgetState extends State<SearchCompanyWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            'assets/images/pngtree-black-default-avatar-image_2237212.jpg',
+                            'assets/images/foto.jpg',
                             fit: BoxFit.fitWidth,
                           ),
                         ),
@@ -181,7 +181,7 @@ class _SearchCompanyWidgetState extends State<SearchCompanyWidget> {
                         children: [
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(0, 5, 80, 1),
+                                EdgeInsetsDirectional.fromSTEB(0, 10, 80, 1),
                             child: Text(
                               'Вика Потапова',
                               style: FlutterFlowTheme.of(context)
@@ -195,7 +195,7 @@ class _SearchCompanyWidgetState extends State<SearchCompanyWidget> {
                           ),
                           Padding(
                             padding:
-                                EdgeInsetsDirectional.fromSTEB(12, 5, 0, 10),
+                                EdgeInsetsDirectional.fromSTEB(12, 3, 0, 10),
                             child: Text(
                               'Приветик! Недавно в городе. Хотела\nбы с кем-нибудь познакомиться, \nна концерт сходить.',
                               style: FlutterFlowTheme.of(context)
@@ -299,7 +299,7 @@ class _SearchCompanyWidgetState extends State<SearchCompanyWidget> {
                             shape: BoxShape.circle,
                           ),
                           child: Image.asset(
-                            'assets/images/pngtree-black-default-avatar-image_2237212.jpg',
+                            'assets/images/foto.jpg',
                             fit: BoxFit.fitWidth,
                           ),
                         ),
