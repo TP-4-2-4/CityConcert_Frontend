@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter/src/models/events_list.dart';
+import 'package:my_flutter/src/models/lists/events_list.dart';
 import '../blocs/event_bloc.dart';
 
 class SearchPage extends StatefulWidget {
