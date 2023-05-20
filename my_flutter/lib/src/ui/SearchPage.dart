@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/lists/events_list.dart';
+import 'package:my_flutter/src/ui/custom_widgets/event_card.dart';
 import '../blocs/event_bloc.dart';
 
 class SearchPage extends StatefulWidget {
@@ -27,16 +28,19 @@ class _SearchPageState extends State<SearchPage> {
               children: [
                 Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.0),
+                    decoration: const BoxDecoration(
+                      color: Colors.transparent,
                     ),
                     child: TextField(
                       controller: _searchController,
                       decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.black54,
                         hintText: 'Введите текст для поиска',
-                        border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        contentPadding: const EdgeInsets.symmetric(
                           vertical: 14.0,
                           horizontal: 10.0,
                         ),
@@ -45,31 +49,29 @@ class _SearchPageState extends State<SearchPage> {
                   ),
                 ),
                 IconButton(
-                  icon: Icon(Icons.search),
+                  icon: const Icon(Icons.search),
+                  color: Colors.pink,
                   onPressed: () {
                     _startSearch();
                   },
                 ),
               ],
             ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             Expanded(
                 child: StreamBuilder(
               stream: bloc.events,
               builder: (context, AsyncSnapshot<EventsList> snapshot) {
                 if (snapshot.hasData) {
-                    return ListView( children: List.generate(
-                        snapshot.data!.events.length,
-                            (index) => ListTile(
-                              //todo: change tile to card, but so far let it be
-                              title: Text(snapshot.data!.events[index].name!),
-                              subtitle: Text(snapshot.data!.events[index].startTime!),
-                            )));
-
+                  return ListView(
+                      children: List.generate(
+                          snapshot.data!.events.length,
+                          (index) => EventCardWidget(
+                              event: snapshot.data!.events[index])));
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: Text('Здесь пока ничего нет ...'));
               },
             )),
           ],
