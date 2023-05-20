@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:http/http.dart' show Client;
 import 'package:my_flutter/src/models/event_model.dart';
 import 'package:my_flutter/src/models/lists/events_list.dart';
@@ -46,7 +45,7 @@ class EventApiProvider {
       throw Exception('Failed to load event');
     }
   }
-  Future<EventModel> fetchEvent(Long id) async {
+  Future<EventModel> fetchEvent(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENT_BY_ID_URL}$id';
     final response = await client
@@ -70,7 +69,7 @@ class EventApiProvider {
       throw Exception('Failed to load event');
     }
   }
-  Future<EventModel> deleteEvent(Long id) async {
+  Future<EventModel> deleteEvent(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_EVENT_URL}$id';
     final response = await client

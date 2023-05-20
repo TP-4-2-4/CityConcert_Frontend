@@ -1,5 +1,4 @@
-import 'dart:ffi';
-
+import 'dart:async';
 import 'package:my_flutter/src/models/event_model.dart';
 import 'package:my_flutter/src/models/lists/events_list.dart';
 
@@ -24,7 +23,7 @@ class EventBloc {
     EventsList events = await _repository.fetchEventsListByFilter();
     _eventsFetcher.sink.add(events);
   }
-  fetchEventById(Long id) async {
+  fetchEventById(int id) async {
     EventModel event = await _repository.fetchEvent(id);
     _eventFetcher.sink.add(event);
   }
@@ -32,7 +31,7 @@ class EventBloc {
     EventModel e = await _repository.addEvent(event);
     _eventFetcher.sink.add(e);
   }
-  deleteEventById(Long id) async {
+  deleteEventById(int id) async {
     EventModel event = await _repository.deleteEvent(id);
     _eventFetcher.sink.add(event);
   }

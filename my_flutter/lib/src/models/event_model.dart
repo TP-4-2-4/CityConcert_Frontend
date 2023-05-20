@@ -6,7 +6,7 @@ class EventModel {
   int? ticketLimit;
   String? status;
   String? genreDescriptors;
-  String? image;
+  List<String>? image;
   String? description;
   int? venue;
 
