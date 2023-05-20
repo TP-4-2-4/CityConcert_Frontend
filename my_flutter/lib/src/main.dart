@@ -12,11 +12,20 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final darkTheme = ThemeData(
+      primaryColor: const Color.fromRGBO(252, 23, 229, 1), // Новый primary color
+      primaryColorDark: const Color.fromRGBO(19, 19, 19, 1),
+      primaryColorLight: const Color.fromRGBO(157, 157, 157, 1),
+      canvasColor: const Color.fromRGBO(38, 38, 38, 1),
+      textTheme: const TextTheme(
+        // Новые стили текста style: Theme.of(context).textTheme.titleLarge
+        titleLarge: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      ),
+    );
     return MaterialApp(
       title: 'My App',
-      theme: ThemeData(
-        colorScheme: const ColorScheme.dark(),
-      ),
+      theme: darkTheme,
+        //colorScheme: const ColorScheme.dark(),
       home: const NavigationPage(),
     );
   }
@@ -55,11 +64,11 @@ class _NavigationPageState extends State<NavigationPage> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(30.0), // Радиус скругления краев
           child: BottomNavigationBar(
-            backgroundColor: Colors.pink,
+            backgroundColor: Theme.of(context).primaryColor,
             type: BottomNavigationBarType.fixed, // Отменяем анимацию навбара
             elevation: 0, // Устанавливаем значение elevation на 0, чтобы убрать тень
-            fixedColor: Colors.black, // Устанавливаем цвет активной кнопки
-            unselectedItemColor: Colors.black26, // Устанавливаем цвет неактивных кнопок
+            fixedColor: Theme.of(context).primaryColorDark, // Устанавливаем цвет активной кнопки
+            unselectedItemColor: Theme.of(context).canvasColor, // Устанавливаем цвет неактивных кнопок
             showSelectedLabels: false, // Устанавливаем значение false, чтобы скрыть выбранные метки
             showUnselectedLabels: false, // Устанавливаем значение false, чтобы скрыть не выбранные метки
             items: const [
