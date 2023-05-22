@@ -55,7 +55,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                   topRight: Radius.circular(8),
                 ),
                 child: Image(
-                  image: MemoryImage(base64Decode(widget.event.image!.join())),
+                  image: MemoryImage(base64Decode(widget.event.image!)),
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
@@ -82,7 +82,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                         ),
                       ),
                       Text(
-                        widget.event.ticketLimit! as String,
+                        widget.event.ticketLimit!,
                         style: const TextStyle(
                           fontFamily: 'Outfit',
                           color: Colors.white,
