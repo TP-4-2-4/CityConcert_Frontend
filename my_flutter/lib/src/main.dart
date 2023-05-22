@@ -56,6 +56,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return Scaffold(
       appBar: AppBar(
         title: _appbarText[_selectedIndex],
+        backgroundColor: Theme.of(context).canvasColor,
       ),
       body: _pages[_selectedIndex],
 

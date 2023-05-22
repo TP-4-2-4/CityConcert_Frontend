@@ -32,12 +32,23 @@ class _SearchPageState extends State<SearchPage> {
                       color: Colors.transparent,
                     ),
                     child: TextField(
+                      style: TextStyle(
+                        color: Theme.of(context).primaryColorLight,
+                      ),
                       controller: _searchController,
+                      cursorColor: Theme.of(context).primaryColor,
                       decoration: InputDecoration(
                         filled: true,
                         fillColor: Colors.black54,
                         hintText: 'Введите текст для поиска',
-                        border: OutlineInputBorder(
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: Theme.of(context).primaryColor,
+                            width: 2.0,
+                          ),
                           borderRadius: BorderRadius.circular(30.0),
                         ),
                         contentPadding: const EdgeInsets.symmetric(
@@ -50,7 +61,7 @@ class _SearchPageState extends State<SearchPage> {
                 ),
                 IconButton(
                   icon: const Icon(Icons.search),
-                  color: Colors.pink,
+                  color: Theme.of(context).primaryColor,
                   onPressed: () {
                     _startSearch();
                   },
