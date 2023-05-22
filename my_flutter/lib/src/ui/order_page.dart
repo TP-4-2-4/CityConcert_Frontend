@@ -58,7 +58,7 @@ class _OrderPageState extends State<OrderPage> {
                     borderRadius: BorderRadius.circular(30),
                     child: Image(
                       image: MemoryImage(base64Decode(
-                          widget.event.image!.join())),
+                          widget.event.image!)),
                       width: 136,
                       height: 136,
                       fit: BoxFit.cover,
