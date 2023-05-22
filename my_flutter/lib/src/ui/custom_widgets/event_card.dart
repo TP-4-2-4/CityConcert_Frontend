@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/ui/event_details.dart';
 import '../../models/event_model.dart';
 import '../order_page.dart';
 
@@ -19,6 +20,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
       padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
       child: Container(
         width: double.infinity,
+        height: 260,
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColorDark,
           boxShadow: const [
@@ -43,7 +45,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OrderPage(eventId: widget.event.id!),
+                    builder: (context) => EventDetailsPage(event: widget.event),
                   ),
                 );
               },
@@ -82,7 +84,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                         ),
                       ),
                       Text(
-                        widget.event.ticketLimit! as String,
+                        widget.event.startTime!,
                         style: const TextStyle(
                           fontFamily: 'Outfit',
                           color: Colors.white,
@@ -98,7 +100,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              OrderPage(eventId: widget.event.id!),
+                              OrderPage(event: widget.event),
                         ),
                       );
                     },
@@ -133,6 +135,14 @@ final ButtonStyle flatButtonStyle = TextButton.styleFrom(
 final ButtonStyle flatroundedButtonStyle = TextButton.styleFrom(
   backgroundColor: const Color.fromRGBO(252, 23, 229, 1),
   minimumSize: const Size(100, 40),
+  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+  ),
+);
+final ButtonStyle flatroundedButtonStyleDark = TextButton.styleFrom(
+  backgroundColor: const Color.fromRGBO(19, 19, 19, 1),
+  minimumSize: const Size(100, 50),
   padding: const EdgeInsets.symmetric(horizontal: 16.0),
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(30.0)),
