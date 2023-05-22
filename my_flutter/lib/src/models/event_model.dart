@@ -3,10 +3,11 @@ class EventModel {
   int? id;
   String? name;
   String? startTime;
-  int? ticketLimit;
+  String? ticketLimit;
+  String? ticketPrice;
   String? status;
   String? genreDescriptors;
-  List<String>? image;
+  String? image;
   String? description;
   int? venue;
 
@@ -15,6 +16,7 @@ class EventModel {
         this.name,
         this.startTime,
         this.ticketLimit,
+        this.ticketPrice,
         this.status,
         this.genreDescriptors,
         this.image,
@@ -26,6 +28,7 @@ class EventModel {
     name = json['name'];
     startTime = json['startTime'];
     ticketLimit = json['ticketLimit'];
+    ticketPrice = json['ticketLimit'];
     status = json['status'];
     genreDescriptors = json['genreDescriptors'];
     var imgArray = json['image'];
@@ -41,6 +44,7 @@ class EventModel {
     data['name'] = this.name;
     data['startTime'] = this.startTime;
     data['ticketLimit'] = this.ticketLimit;
+    data['ticketPrice'] = this.ticketPrice;
     data['status'] = this.status;
     data['genreDescriptors'] = this.genreDescriptors;
     data['image'] = this.image;
