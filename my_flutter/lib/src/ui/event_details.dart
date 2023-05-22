@@ -39,7 +39,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                         children: [
                           Image(
                             image: MemoryImage(base64Decode(
-                                widget.event.image!.join())),
+                                widget.event.image!)),
                             width: double.infinity,
                             height: 300,
                             fit: BoxFit.cover,
@@ -313,7 +313,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                OrderPage(eventId: widget.event.id!),
+                                OrderPage(event: widget.event),
                           ),
                         );
                       },

@@ -43,7 +43,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OrderPage(eventId: widget.event.id!),
+                    builder: (context) => OrderPage(event: widget.event),
                   ),
                 );
               },
@@ -55,7 +55,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                   topRight: Radius.circular(8),
                 ),
                 child: Image(
-                  image: MemoryImage(base64Decode(widget.event.image!.join())),
+                  image: MemoryImage(base64Decode(widget.event.image!)),
                   width: double.infinity,
                   height: 200,
                   fit: BoxFit.cover,
@@ -82,7 +82,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                         ),
                       ),
                       Text(
-                        widget.event.ticketLimit! as String,
+                        widget.event.ticketLimit!,
                         style: const TextStyle(
                           fontFamily: 'Outfit',
                           color: Colors.white,
@@ -98,7 +98,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                         context,
                         MaterialPageRoute(
                           builder: (context) =>
-                              OrderPage(eventId: widget.event.id!),
+                              OrderPage(event: widget.event),
                         ),
                       );
                     },
@@ -133,6 +133,14 @@ final ButtonStyle flatButtonStyle = TextButton.styleFrom(
 final ButtonStyle flatroundedButtonStyle = TextButton.styleFrom(
   backgroundColor: const Color.fromRGBO(252, 23, 229, 1),
   minimumSize: const Size(100, 40),
+  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+  shape: const RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(30.0)),
+  ),
+);
+final ButtonStyle flatroundedButtonStyleDark = TextButton.styleFrom(
+  backgroundColor: const Color.fromRGBO(19, 19, 19, 1),
+  minimumSize: const Size(100, 50),
   padding: const EdgeInsets.symmetric(horizontal: 16.0),
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.all(Radius.circular(30.0)),
