@@ -15,7 +15,7 @@ class EventBloc {
     EventsList events = await _repository.fetchEventsByName(searchText);
     _eventsFetcher.sink.add(events);
   }
-  fetchEventsGetAll() async {
+  fetchEventsGetAll(String searchText) async {
     EventsList events = await _repository.fetchEventsListAll();
     _eventsFetcher.sink.add(events);
   }

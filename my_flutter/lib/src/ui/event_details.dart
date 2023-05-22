@@ -313,7 +313,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                OrderPage(event: widget.event),
+                                OrderPage(eventId: widget.event.id!),
                           ),
                         );
                       },
