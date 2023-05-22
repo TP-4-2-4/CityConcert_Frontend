@@ -8,23 +8,22 @@ import 'custom_widgets/event_card.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
-  Future<void> _getInitialEvents() async {
-    bloc.fetchEventsGetAll('');
-  }
 
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // do something
-      print("Build Completed");
-      _getInitialEvents();
-    });
-  }
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>{
+  @override
+  void initState() {
+    super.initState();
+  WidgetsBinding.instance.addPostFrameCallback((_) {
+    // do something
+    print("Build Completed");
+    _getInitialEvents();
+  });
+}
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +44,9 @@ class _HomePageState extends State<HomePage>{
                                   event: snapshot.data!.events[index])));
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
+                    } else {
+                      return const Center(child: Text('Нет мероприятий ...'));
                     }
-                    return const Center(child: Text('Нет мероприятий ...'));
                   },
                 )),
           ],
@@ -54,6 +54,8 @@ class _HomePageState extends State<HomePage>{
       ),
     );
   }
-
+  Future<void> _getInitialEvents() async {
+    bloc.fetchEventsGetAll('');
+  }
 }
 
