@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:my_flutter/src/models/event_model.dart';
 import 'package:my_flutter/src/models/lists/events_list.dart';
 
@@ -11,8 +10,8 @@ class Repository {
   Future<EventsList> fetchEventsByName(String searchText) => eventsApiProvider.fetchEventListByName(searchText);
   Future<EventsList> fetchEventsListAll() => eventsApiProvider.fetchEventListAll();
   Future<EventsList> fetchEventsListByFilter() => eventsApiProvider.fetchEventListByFilter();
-  Future<EventModel> fetchEvent(Long id) => eventsApiProvider.fetchEvent(id);
-  Future<EventModel> deleteEvent(Long id) => eventsApiProvider.deleteEvent(id);
+  Future<EventModel> fetchEvent(int id) => eventsApiProvider.fetchEvent(id);
+  Future<EventModel> deleteEvent(int id) => eventsApiProvider.deleteEvent(id);
   Future<EventModel> addEvent(EventModel event) => eventsApiProvider.addEvent(event);
   Future<EventModel> updateEvent(EventModel event) => eventsApiProvider.updateEvent(event);
 }
