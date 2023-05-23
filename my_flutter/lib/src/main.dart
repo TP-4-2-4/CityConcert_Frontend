@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/ui/SearchPage.dart';
 import 'package:my_flutter/src/ui/account_page.dart';
 import 'package:my_flutter/src/ui/home_page.dart';
+import 'package:my_flutter/src/ui/recommendations_page.dart';
 
 
 void main() {
@@ -42,7 +43,7 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
-  final List<Widget> _pages = [HomePage(), RecsPage(),
+  final List<Widget> _pages = [HomePage(), RecommendationsPage(),
     SearchPage(), TicketsPage(), AccountPage()];
   final List<Widget> _appbarText = [const Text('Home'), const Text('Recommendations'),
     const Text('Search'), const Text('My tickets'), const Text('Account')];
@@ -105,16 +106,6 @@ class _NavigationPageState extends State<NavigationPage> {
   }
 }
 
-class RecsPage extends StatelessWidget {
-  const RecsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Recs Page'),
-    );
-  }
-}
 
 class TicketsPage extends StatelessWidget {
   const TicketsPage({super.key});
