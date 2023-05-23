@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage>{
     );
   }
   Future<void> _getInitialEvents() async {
-    bloc.fetchEventsGetAll('');
+    bloc.fetchEventsGetAll();
   }
 }
 

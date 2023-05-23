@@ -93,4 +93,17 @@ class EventApiProvider {
     }
   }
 
+  Future<EventsList> fetchEventsByRecommendations() async {
+    print("entered");
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
+    final response = await client
+        .post(Uri.parse(apiUrl));
+    print(response.statusCode);
+    if (response.statusCode == 200) {
+      return EventsList.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load event');
+    }
+  }
+
 }
