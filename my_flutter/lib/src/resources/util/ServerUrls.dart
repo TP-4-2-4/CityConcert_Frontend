@@ -1,5 +1,5 @@
 class ServerUrls {
-  static const SERVER_URL='http://cityconcertbackend-production.up.railway.app';
+  static const SERVER_URL='https://cityconcertbackend-production.up.railway.app';
 
   static const FILTER_BY_NAME_EVENT_URL = '/event/filter_by_name';
   static const FILTER_BY_PRICE_EVENT_URL = '/event/filter_by_price';
@@ -11,6 +11,7 @@ class ServerUrls {
   static const UPDATE_EVENT_URL = '/admin/event/update';
   static const ADD_EVENT_URL = '/admin/event/add';
   static const DELETE_EVENT_URL = '/admin/event/delete/';
+  static const RECOMMENDATIONS_EVENT_URL = '/event/recommendations';
 
   static const GET_VENUES_URL = '/venue/get_all';
   static const GET_VENUE_BY_ID_URL = '/venue/get/';

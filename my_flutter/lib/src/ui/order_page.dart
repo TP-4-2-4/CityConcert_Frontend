@@ -76,7 +76,7 @@ class _OrderPageState extends State<OrderPage> {
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 0, 8, 0, 16),
                             child: Text(
-                              widget.event as String,
+                              widget.event.name!,
                               style: TextStyle(
                                 fontFamily: 'Poppins',
                                 color: Theme.of(context).primaryColorLight,

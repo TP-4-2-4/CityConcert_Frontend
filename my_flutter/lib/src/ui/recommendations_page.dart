@@ -5,25 +5,25 @@ import '../blocs/event_bloc.dart';
 import '../models/lists/events_list.dart';
 import 'custom_widgets/event_card.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class RecommendationsPage extends StatefulWidget {
+  const RecommendationsPage({super.key});
 
 
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _RecommendationsPageState createState() => _RecommendationsPageState();
 }
 
-class _HomePageState extends State<HomePage>{
+class _RecommendationsPageState extends State<RecommendationsPage>{
   @override
   void initState() {
     super.initState();
-  WidgetsBinding.instance.addPostFrameCallback((_) {
-    // do something
-    print("Build Completed");
-    _getInitialEvents();
-  });
-}
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // do something
+      print("Build Completed");
+      _getInitialEvents();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +55,6 @@ class _HomePageState extends State<HomePage>{
     );
   }
   Future<void> _getInitialEvents() async {
-    bloc.fetchEventsGetAll();
+    bloc.fetchEventsRecommendations();
   }
 }
-
