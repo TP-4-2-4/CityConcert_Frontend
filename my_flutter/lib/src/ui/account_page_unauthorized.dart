@@ -20,6 +20,7 @@ class _AccountPageState extends State<AccountPage> {
   TextEditingController _passwordConfirmController = TextEditingController();
   TextEditingController _mailController = TextEditingController();
 
+  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,8 +88,10 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                     controller: _passwordController,
                     cursorColor: Theme.of(context).primaryColor,
+                    obscureText: _isObscure,
                     decoration: InputDecoration(
                       filled: true,
+
                       fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
                       hintText: 'Введите пароль',
                       hintStyle: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
@@ -106,6 +109,14 @@ class _AccountPageState extends State<AccountPage> {
                         vertical: 14.0,
                         horizontal: 10.0,
                       ),
+                      suffixIcon: IconButton(
+                          icon: Icon(
+                              _isObscure ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _isObscure = !_isObscure;
+                            });}
+                      ),
                     ),
                   ),
                 ),
@@ -117,6 +128,7 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                     controller: _passwordConfirmController,
                     cursorColor: Theme.of(context).primaryColor,
+                    obscureText: _isObscure,
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
@@ -136,7 +148,15 @@ class _AccountPageState extends State<AccountPage> {
                         vertical: 14.0,
                         horizontal: 10.0,
                       ),
-                    ),
+    suffixIcon: IconButton(
+    icon: Icon(
+    _isObscure ? Icons.visibility : Icons.visibility_off),
+    onPressed: () {
+    setState(() {
+    _isObscure = !_isObscure;
+    });}
+    ),
+    ),
                   ),
                 ),
                 Padding(
