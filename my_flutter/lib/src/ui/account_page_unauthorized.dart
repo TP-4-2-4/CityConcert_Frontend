@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:my_flutter/src/models/registration_model.dart';
+import '../blocs/user_bloc.dart';
 import 'custom_widgets/event_card.dart';
+import 'home_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -11,6 +14,12 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+
+  TextEditingController _loginController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _passwordConfirmController = TextEditingController();
+  TextEditingController _mailController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +38,7 @@ class _AccountPageState extends State<AccountPage> {
                 const Align(
                   alignment: AlignmentDirectional(0, 0),
                   child: Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(0, 215, 0, 0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0, 175, 0, 0),
                     child: Text(
                       'Добро пожаловать!',
                       style: TextStyle(
@@ -46,6 +55,7 @@ class _AccountPageState extends State<AccountPage> {
                     style: TextStyle(
                       color: Theme.of(context).primaryColorLight,
                     ),
+                    controller: _loginController,
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       filled: true,
@@ -75,6 +85,7 @@ class _AccountPageState extends State<AccountPage> {
                     style: TextStyle(
                       color: Theme.of(context).primaryColorLight,
                     ),
+                    controller: _passwordController,
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       filled: true,
@@ -99,11 +110,42 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+                  child: TextField(
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColorLight,
+                    ),
+                    controller: _passwordConfirmController,
+                    cursorColor: Theme.of(context).primaryColor,
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
+                      hintText: 'Подтвердите пароль',
+                      hintStyle: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Theme.of(context).primaryColor,
+                          width: 2.0,
+                        ),
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      contentPadding: const EdgeInsets.symmetric(
+                        vertical: 14.0,
+                        horizontal: 10.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextField(
                     style: TextStyle(
                       color: Theme.of(context).primaryColorLight,
                     ),
+                    controller: _mailController,
                     cursorColor: Theme.of(context).primaryColor,
                     decoration: InputDecoration(
                       filled: true,
@@ -135,7 +177,7 @@ class _AccountPageState extends State<AccountPage> {
                       Expanded(
                         child: TextButton(
                           onPressed: () {
-                            print('button sign up pressed');
+                           signup();
                           },
                           style: flatroundedButtonStyle,
                           child: const Text('Зарегистрироваться'),
@@ -170,5 +212,16 @@ class _AccountPageState extends State<AccountPage> {
         ),
       ),
     );
+  }
+
+  Future<void>  signup() async {
+    String login = _loginController.text;
+    String password = _passwordController.text;
+    String passwordConfirm = _passwordConfirmController.text;
+    String email = _mailController.text;
+    RegistrationModel newUser = RegistrationModel(username:login,email: email,
+        password: password, passwordConfirm: passwordConfirm);
+    bloc.registration(newUser);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
   }
 }
