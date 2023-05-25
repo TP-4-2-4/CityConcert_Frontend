@@ -1,6 +1,7 @@
 
 import 'dart:ffi';
 
+import 'package:my_flutter/src/models/registration_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import '../models/user_model.dart';
@@ -10,6 +11,7 @@ class UserBloc {
   final _repository = Repository();
 
   final _userFetcher = PublishSubject<UserModel>();
+  final _regFetcher = PublishSubject<RegistrationModel>();
 
   Stream<UserModel> get user => _userFetcher.stream;
   fetchUsers() async {
@@ -31,6 +33,10 @@ class UserBloc {
   updateUser(UserModel user) async {
     UserModel e = await _repository.updateUser(user);
     _userFetcher.sink.add(e);
+  }
+  registration(RegistrationModel user) async {
+    RegistrationModel r = await _repository.registration(user);
+    _regFetcher.sink.add(r);
   }
 
   dispose() {

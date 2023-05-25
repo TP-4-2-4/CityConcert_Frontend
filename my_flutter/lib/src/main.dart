@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/ui/SearchPage.dart';
-import 'package:my_flutter/src/ui/account_page.dart';
+import 'package:my_flutter/src/ui/account_page_unauthorized.dart';
 import 'package:my_flutter/src/ui/home_page.dart';
 import 'package:my_flutter/src/ui/recommendations_page.dart';
 
