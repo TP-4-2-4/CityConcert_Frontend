@@ -14,23 +14,20 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
+  TextEditingController loginController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController passwordConfirmController = TextEditingController();
+  TextEditingController mailController = TextEditingController();
 
-  TextEditingController _loginController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _passwordConfirmController = TextEditingController();
-  TextEditingController _mailController = TextEditingController();
+  bool showSignUp = false;
+  bool showSignIn = true;
+  bool showSignInAdmin = false;
 
-  bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFF262626),
-        ),
+      body: SingleChildScrollView(
         child: Stack(
           children: [
             Column(
@@ -50,182 +47,248 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
-                  child: TextField(
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorLight,
-                    ),
-                    controller: _loginController,
-                    cursorColor: Theme.of(context).primaryColor,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-                      hintText: 'Введите логин',
-                      hintStyle: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                          width: 2.0,
+                if (showSignIn & !showSignUp & !showSignInAdmin) ...[
+                  LoginField(controller: loginController),
+                  PasswordField(
+                      controller: passwordController,
+                      hintText: 'Введите пароль'),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              //todo: does signin()
+                            },
+                            style: flatroundedButtonStyle,
+                            child: const Text('Войти'),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14.0,
-                        horizontal: 10.0,
-                      ),
+                      ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
-                  child: TextField(
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorLight,
-                    ),
-                    controller: _passwordController,
-                    cursorColor: Theme.of(context).primaryColor,
-                    obscureText: _isObscure,
-                    decoration: InputDecoration(
-                      filled: true,
-
-                      fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-                      hintText: 'Введите пароль',
-                      hintStyle: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                          width: 2.0,
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                //does not call signin func but redraws interface
+                                showSignIn = false;
+                                showSignUp = true;
+                                showSignInAdmin = false;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              minimumSize: const Size(100, 50),
+                            ),
+                            child: Text(
+                              'Зарегистрироваться',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            ),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14.0,
-                        horizontal: 10.0,
-                      ),
-                      suffixIcon: IconButton(
-                          icon: Icon(
-                              _isObscure ? Icons.visibility : Icons.visibility_off),
-                          onPressed: () {
-                            setState(() {
-                              _isObscure = !_isObscure;
-                            });}
-                      ),
+                      ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
-                  child: TextField(
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorLight,
-                    ),
-                    controller: _passwordConfirmController,
-                    cursorColor: Theme.of(context).primaryColor,
-                    obscureText: _isObscure,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-                      hintText: 'Подтвердите пароль',
-                      hintStyle: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                          width: 2.0,
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showSignIn = false;
+                                showSignUp = false;
+                                showSignInAdmin = true;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              minimumSize: const Size(100, 50),
+                            ),
+                            child: Text(
+                              'Войти как администратор',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            ),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14.0,
-                        horizontal: 10.0,
-                      ),
-    suffixIcon: IconButton(
-    icon: Icon(
-    _isObscure ? Icons.visibility : Icons.visibility_off),
-    onPressed: () {
-    setState(() {
-    _isObscure = !_isObscure;
-    });}
-    ),
-    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
-                  child: TextField(
-                    style: TextStyle(
-                      color: Theme.of(context).primaryColorLight,
+                      ],
                     ),
-                    controller: _mailController,
-                    cursorColor: Theme.of(context).primaryColor,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
-                      hintText: 'Введите e-mail',
-                      hintStyle: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: Theme.of(context).primaryColor,
-                          width: 2.0,
+                  ),
+                ],
+                if (showSignUp && !showSignIn && !showSignInAdmin) ...[
+                  LoginField(controller: loginController),
+                  PasswordField(
+                      controller: passwordController,
+                      hintText: 'Введите пароль'),
+                  PasswordField(
+                      controller: passwordConfirmController,
+                      hintText: 'Повторите пароль'),
+                  EmailField(controller: mailController),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              //todo: does signup()
+                            },
+                            style: flatroundedButtonStyle,
+                            child: Text('Зарегистрироваться'),
+                          ),
                         ),
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      contentPadding: const EdgeInsets.symmetric(
-                        vertical: 14.0,
-                        horizontal: 10.0,
-                      ),
+                      ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 30, 16, 0),
-                  child:  Row(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Expanded(
-                        child: TextButton(
-                          onPressed: () {
-                           signup();
-                          },
-                          style: flatroundedButtonStyle,
-                          child: const Text('Зарегистрироваться'),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showSignIn = true;
+                                showSignUp = false;
+                                showSignInAdmin = false;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              minimumSize: const Size(100, 50),
+                            ),
+                            child: Text(
+                              'Войти',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-                  child: Text(
-                    'Войти',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF9D9D9D),
+                      ],
                     ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(0, 25, 0, 0),
-                  child: Text(
-                    'Войти как администратор',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color(0xFF9D9D9D),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showSignIn = false;
+                                showSignUp = false;
+                                showSignInAdmin = true;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              minimumSize: const Size(100, 50),
+                            ),
+                            child: Text(
+                              'Войти как администратор',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ),
+                ],
+                if (showSignInAdmin && !showSignIn && !showSignUp) ...[
+                  LoginField(controller: loginController),
+                  PasswordField(
+                      controller: passwordController,
+                      hintText: 'Введите пароль'),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              //todo: does signin() admin
+                            },
+                            style: flatroundedButtonStyle,
+                            child: Text('Войти'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showSignIn = true;
+                                showSignUp = false;
+                                showSignInAdmin = false;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              minimumSize: const Size(100, 50),
+                            ),
+                            child: Text(
+                              'Войти',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              setState(() {
+                                showSignIn = false;
+                                showSignUp = true;
+                                showSignInAdmin = false;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.transparent,
+                              minimumSize: const Size(100, 50),
+                            ),
+                            child: Text(
+                              'Зарегистрироваться',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColorLight),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ],
             ),
           ],
@@ -234,14 +297,166 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
-  Future<void>  signup() async {
-    String login = _loginController.text;
-    String password = _passwordController.text;
-    String passwordConfirm = _passwordConfirmController.text;
-    String email = _mailController.text;
-    RegistrationModel newUser = RegistrationModel(username:login,email: email,
-        password: password, passwordConfirm: passwordConfirm);
+  Future<void> signup() async {
+    String login = loginController.text;
+    String password = passwordController.text;
+    String passwordConfirm = passwordConfirmController.text;
+    String email = mailController.text;
+    RegistrationModel newUser = RegistrationModel(
+        username: login,
+        email: email,
+        password: password,
+        passwordConfirm: passwordConfirm);
     bloc.registration(newUser);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => HomePage()));
+  }
+}
+
+class LoginField extends StatefulWidget {
+  final TextEditingController controller;
+
+  const LoginField({super.key, required this.controller});
+
+  @override
+  _LoginFieldState createState() => _LoginFieldState();
+}
+
+class _LoginFieldState extends State<LoginField> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
+      child: TextField(
+        style: TextStyle(
+          color: Theme.of(context).primaryColorLight,
+        ),
+        controller: widget.controller,
+        cursorColor: Theme.of(context).primaryColor,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
+          hintText: 'Введите логин',
+          hintStyle: TextStyle(
+              color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 14.0,
+            horizontal: 10.0,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PasswordField extends StatefulWidget {
+  final TextEditingController controller;
+  final String hintText;
+
+  const PasswordField(
+      {super.key, required this.controller, required this.hintText});
+
+  @override
+  _PasswordFieldState createState() => _PasswordFieldState();
+}
+
+class _PasswordFieldState extends State<PasswordField> {
+  bool isObscure = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 8),
+      child: TextField(
+        style: TextStyle(
+          color: Theme.of(context).primaryColorLight,
+        ),
+        controller: widget.controller,
+        cursorColor: Theme.of(context).primaryColor,
+        obscureText: isObscure,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
+          hintText: widget.hintText,
+          hintStyle: TextStyle(
+              color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 14.0,
+            horizontal: 10.0,
+          ),
+          suffixIcon: IconButton(
+              icon: Icon(isObscure ? Icons.visibility : Icons.visibility_off),
+              onPressed: () {
+                isObscure = !isObscure;
+              }),
+        ),
+      ),
+    );
+  }
+}
+
+class EmailField extends StatefulWidget {
+  final TextEditingController controller;
+
+  const EmailField({super.key, required this.controller});
+
+  @override
+  _EmailFieldState createState() => _EmailFieldState();
+}
+
+class _EmailFieldState extends State<EmailField> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
+      child: TextField(
+        style: TextStyle(
+          color: Theme.of(context).primaryColorLight,
+        ),
+        controller: widget.controller,
+        cursorColor: Theme.of(context).primaryColor,
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: Theme.of(context).primaryColorDark.withOpacity(0.6),
+          hintText: 'Введите e-mail',
+          hintStyle: TextStyle(
+              color: Theme.of(context).primaryColorLight.withOpacity(0.3)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: Theme.of(context).primaryColor,
+              width: 2.0,
+            ),
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 14.0,
+            horizontal: 10.0,
+          ),
+        ),
+      ),
+    );
   }
 }
