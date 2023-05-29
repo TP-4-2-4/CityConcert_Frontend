@@ -85,4 +85,19 @@ class UserApiProvider {
       throw Exception('Failed to load User');
     }
   }
+
+  Future<UserModel> login(String username, String password) async  {
+    print("entered");
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.LOGIN_URL}'
+        '?username=$username&login=$password';
+    Map<String,String> headers = {'content-type':'application/json','Accept':"*/*"};
+    final response = await client
+        .get(Uri.parse(apiUrl),headers: headers);
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      return UserModel.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load User');
+    }
+  }
 }

@@ -14,6 +14,7 @@ class Repository {
   Future<UserModel> addUser(UserModel user) => usersApiProvider.addUser(user);
   Future<UserModel> updateUser(UserModel user) => usersApiProvider.updateUser(user);
   Future<RegistrationModel> registration(RegistrationModel user) => usersApiProvider.registration(user);
+  Future<UserModel> login(String username, String password) => usersApiProvider.login(username, password);
 
 
 }
