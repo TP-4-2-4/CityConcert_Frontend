@@ -4,6 +4,7 @@ import 'package:my_flutter/src/ui/SearchPage.dart';
 import 'package:my_flutter/src/ui/account_page_unauthorized.dart';
 import 'package:my_flutter/src/ui/home_page.dart';
 import 'package:my_flutter/src/ui/recommendations_page.dart';
+import 'package:my_flutter/src/ui/splash_screen.dart';
 
 
 void main() {
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
       title: 'My App',
       theme: darkTheme,
         //colorScheme: const ColorScheme.dark(),
-      home: const NavigationPage(),
+      home: SplashScreen(),
     );
   }
 }
