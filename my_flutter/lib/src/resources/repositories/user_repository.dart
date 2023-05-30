@@ -5,7 +5,7 @@ import 'package:my_flutter/src/models/user_model.dart';
 
 import '../api_providers/user_api_provider.dart';
 
-class Repository {
+class UserRepository {
   final usersApiProvider = UserApiProvider();
 
   Future<UserModel> fetchCurrentUser() => usersApiProvider.fetchCurrentUser();

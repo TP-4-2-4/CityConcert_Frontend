@@ -89,7 +89,7 @@ class UserApiProvider {
   Future<UserModel> login(String username, String password) async  {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.LOGIN_URL}'
-        '?username=$username&login=$password';
+        '?username=$username&password=$password';
     Map<String,String> headers = {'content-type':'application/json','Accept':"*/*"};
     final response = await client
         .get(Uri.parse(apiUrl),headers: headers);
