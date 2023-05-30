@@ -8,31 +8,32 @@ import '../models/user_model.dart';
 import '../resources/repositories/user_repository.dart';
 
 class UserBloc {
-  final _repository = Repository();
-
+  final _repository = UserRepository();
   final _userFetcher = PublishSubject<UserModel>();
   final _regFetcher = PublishSubject<RegistrationModel>();
 
+  UserModel currentUser = UserModel.empty();
+
   Stream<UserModel> get user => _userFetcher.stream;
-  fetchUsers() async {
-    UserModel itemModel = await _repository.fetchCurrentUser();
-    _userFetcher.sink.add(itemModel);
+  fetchCurrentUser() async {
+    UserModel user = await _repository.fetchCurrentUser();
+    _userFetcher.sink.add(user);
   }
   fetchUserById(Long id) async {
     UserModel user = await _repository.fetchUser(id);
     _userFetcher.sink.add(user);
   }
   addUser(UserModel user) async {
-    UserModel e = await _repository.addUser(user);
-    _userFetcher.sink.add(e);
+    UserModel u = await _repository.addUser(user);
+    _userFetcher.sink.add(u);
   }
   deleteUserById(Long id) async {
     UserModel user = await _repository.deleteUser(id);
     _userFetcher.sink.add(user);
   }
   updateUser(UserModel user) async {
-    UserModel e = await _repository.updateUser(user);
-    _userFetcher.sink.add(e);
+    UserModel u = await _repository.updateUser(user);
+    _userFetcher.sink.add(u);
   }
   registration(RegistrationModel user) async {
     RegistrationModel r = await _repository.registration(user);
@@ -40,8 +41,11 @@ class UserBloc {
   }
   login(String username, String password) async {
     UserModel user = await _repository.login(username,password);
+    currentUser =  user;
     _userFetcher.sink.add(user);
   }
+
+
   dispose() {
     _userFetcher.close();
   }
