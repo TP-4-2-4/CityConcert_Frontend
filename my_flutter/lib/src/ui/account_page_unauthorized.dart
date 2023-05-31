@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:my_flutter/src/models/registration_model.dart';
 import '../blocs/user_bloc.dart';
+import '../resources/repositories/authentication_repository.dart';
 import 'custom_widgets/event_card.dart';
 import 'home_page.dart';
 
@@ -22,6 +22,20 @@ class _AccountPageState extends State<AccountPage> {
   bool showSignUp = false;
   bool showSignIn = true;
   bool showSignInAdmin = false;
+
+  late final AuthenticationRepository _authenticationRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationRepository = AuthenticationRepository();
+  }
+
+  @override
+  void dispose() {
+    _authenticationRepository.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,14 +67,15 @@ class _AccountPageState extends State<AccountPage> {
                       controller: passwordController,
                       hintText: 'Введите пароль'),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: TextButton(
                             onPressed: () {
-                              //todo: does signin()
+                              signIn();
                             },
                             style: flatroundedButtonStyle,
                             child: const Text('Войти'),
@@ -70,7 +85,8 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -99,7 +115,8 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -137,24 +154,26 @@ class _AccountPageState extends State<AccountPage> {
                       hintText: 'Повторите пароль'),
                   EmailField(controller: mailController),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: TextButton(
                             onPressed: () {
-                              //todo: does signup()
+                              signup();
                             },
                             style: flatroundedButtonStyle,
-                            child: Text('Зарегистрироваться'),
+                            child: const Text('Зарегистрироваться'),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -182,7 +201,8 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -216,24 +236,26 @@ class _AccountPageState extends State<AccountPage> {
                       controller: passwordController,
                       hintText: 'Введите пароль'),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Expanded(
                           child: TextButton(
                             onPressed: () {
-                              //todo: does signin() admin
+                              signInAsAdmin();
                             },
                             style: flatroundedButtonStyle,
-                            child: Text('Войти'),
+                            child: const Text('Войти'),
                           ),
                         ),
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -261,7 +283,8 @@ class _AccountPageState extends State<AccountPage> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 25, 16, 8),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
@@ -308,10 +331,27 @@ class _AccountPageState extends State<AccountPage> {
         password: password,
         passwordConfirm: passwordConfirm);
     bloc.registration(newUser);
+    bloc.login(login, password);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => HomePage()));
+        context, MaterialPageRoute(builder: (context) => const HomePage()));
   }
-}
+
+  void signIn() async {
+    String login = loginController.text;
+    String password = passwordController.text;
+    bloc.login(login, password);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const HomePage()));
+  }
+
+
+void signInAsAdmin() async {
+  String login = loginController.text;
+  String password = passwordController.text;
+  bloc.login(login, password);
+//todo: admin page redirect
+}}
+
 
 class LoginField extends StatefulWidget {
   final TextEditingController controller;
@@ -460,3 +500,6 @@ class _EmailFieldState extends State<EmailField> {
     );
   }
 }
+
+
+

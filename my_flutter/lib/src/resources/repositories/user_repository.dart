@@ -5,7 +5,7 @@ import 'package:my_flutter/src/models/user_model.dart';
 
 import '../api_providers/user_api_provider.dart';
 
-class Repository {
+class UserRepository {
   final usersApiProvider = UserApiProvider();
 
   Future<UserModel> fetchCurrentUser() => usersApiProvider.fetchCurrentUser();
@@ -14,6 +14,7 @@ class Repository {
   Future<UserModel> addUser(UserModel user) => usersApiProvider.addUser(user);
   Future<UserModel> updateUser(UserModel user) => usersApiProvider.updateUser(user);
   Future<RegistrationModel> registration(RegistrationModel user) => usersApiProvider.registration(user);
+  Future<UserModel> login(String username, String password) => usersApiProvider.login(username, password);
 
 
 }
