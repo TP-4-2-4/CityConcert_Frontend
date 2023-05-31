@@ -1,0 +1,44 @@
+def flutterPluginVersion = 'managed'
+
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 33
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    defaultConfig {
+        applicationId "com.example.my_flutter.host"
+        minSdkVersion 16
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+    }
+    signingConfigs{
+        release{
+            apply from: '../keystoreConfig.gradle'
+            keyAlias keystoreConfig.keyAlias
+            keyPassword keystoreConfig.keyPassword
+            storeFile file(keystoreConfig.storeFile)
+            storePassword keystoreConfig.storePassword
+        }
+    }
+    buildTypes {
+        profile {
+            initWith debug
+        }
+        release {
+            signingConfig signingConfigs.release
+        }
+    }
+
+}
+buildDir = new File(rootProject.projectDir, "../build/host")
+dependencies {
+    implementation project(':flutter')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+}
