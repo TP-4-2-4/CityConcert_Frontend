@@ -1,5 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 
+import '../../blocs/user_bloc.dart';
 import '../../models/request_model.dart';
 import '../custom_widgets/event_card.dart';
 import 'exchange_page.dart';
@@ -53,7 +56,7 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 50, 16, 25),
             child: Text(
-              widget.exchange.userId as String, //todo: bloc
+              bloc.fetchUserById(widget.exchange.userId as Long).username,
             ),
           ),
           Padding(
@@ -83,7 +86,7 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ExchangePage(),
+                        builder: (context) => ExchangePage(exchange: widget.exchange),
                       ),
                     );
                   },
