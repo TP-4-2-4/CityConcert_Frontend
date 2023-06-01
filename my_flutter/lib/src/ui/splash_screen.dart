@@ -7,30 +7,29 @@ class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 
-  SplashScreen({super.key});
+  const SplashScreen({super.key});
 }
 
-class _SplashScreenState extends State<SplashScreen> {
-  @override
-  void initState() {
+class  _SplashScreenState extends State {
+  @override void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const NavigationPage(),
-          ));
-    });
+    Future.delayed( const Duration(seconds: 5), () =>
+        Navigator.pushReplacement( context,
+          MaterialPageRoute(builder: (context) => const NavigationPage()),
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Image.asset(
-          'SplashScreen.gif',
-        ),
-      ),
-    );
+        backgroundColor: Colors.white,
+        body: SizedBox(
+            height: double.infinity,
+            width: double.infinity,
+            child: Image.asset("lib/src/ui/assets/SplashScreen.gif",
+                gaplessPlayback: true,
+                fit: BoxFit.fill
+            )
+        ));
   }
 }

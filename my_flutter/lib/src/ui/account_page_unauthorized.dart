@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:my_flutter/src/models/registration_model.dart';
 import '../blocs/user_bloc.dart';
-import '../resources/repositories/authentication_repository.dart';
 import 'custom_widgets/event_card.dart';
 import 'home_page.dart';
 
@@ -22,20 +21,6 @@ class _AccountPageState extends State<AccountPage> {
   bool showSignUp = false;
   bool showSignIn = true;
   bool showSignInAdmin = false;
-
-  late final AuthenticationRepository _authenticationRepository;
-
-  @override
-  void initState() {
-    super.initState();
-    _authenticationRepository = AuthenticationRepository();
-  }
-
-  @override
-  void dispose() {
-    _authenticationRepository.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
