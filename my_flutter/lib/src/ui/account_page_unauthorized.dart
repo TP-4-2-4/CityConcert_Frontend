@@ -326,7 +326,7 @@ class _AccountPageState extends State<AccountPage> {
     String password = passwordController.text;
     bloc.login(login, password);
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+        context, MaterialPageRoute(builder: (context) => const HomePage())); //todo: NavPage
   }
 
 

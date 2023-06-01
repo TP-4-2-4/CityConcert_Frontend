@@ -11,7 +11,7 @@ class RequestBloc {
   final _requestFetcher = PublishSubject<RequestModel>();
   final _requestsFetcher = PublishSubject<RequestsList>();
 
-  Stream<RequestModel> get requests => _requestFetcher.stream;
+  Stream<RequestsList> get requests => _requestsFetcher.stream;
 
   fetchRequests(String type) async {
     RequestsList itemModel = await _repository.fetchRequests(type);

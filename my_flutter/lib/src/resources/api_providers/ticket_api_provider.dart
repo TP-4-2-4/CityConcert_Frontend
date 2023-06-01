@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:http/http.dart';
+import 'package:my_flutter/src/models/lists/tickets_list.dart';
 import 'package:my_flutter/src/models/ticket_model.dart';
 
+import '../../models/request_model.dart';
 import '../util/ServerUrls.dart';
 
 class TicketApiProvider {
@@ -35,7 +37,7 @@ class TicketApiProvider {
       throw Exception('Failed to load Ticket');
     }
   }
-  Future<TicketModel> exchangeTicket(TicketModel ticket) async {
+  Future<TicketModel> exchangeTicket(RequestModel ticket) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}';
     final response = await client
@@ -46,6 +48,19 @@ class TicketApiProvider {
     } else {
 
       throw Exception('Failed to load Ticket');
+    }
+  }
+
+  Future<TicketsList> fetchTicketsByUserId(Long userId) async {
+    print("entered");
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKETS_BY_USER_ID_URL}$userId';
+    final response = await client
+        .get(Uri.parse(apiUrl));
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      return TicketsList.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load Tickets');
     }
   }
 
