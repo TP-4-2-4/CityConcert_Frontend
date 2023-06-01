@@ -42,7 +42,7 @@ class _ExchangePageState extends State<ExchangePage> {
   }
 
   Future<void> _getCurrentUserId() async {
-    ubloc.fetchCurrentUser();
+    ubloc.bloc.fetchCurrentUser();
   }
 
   @override
@@ -117,18 +117,19 @@ class _ExchangePageState extends State<ExchangePage> {
                           return Text(snapshot.error.toString());
                         }
                         return DropdownButton(items: ticketItems,
-                          onChanged: dropdownCallback(_dropdownValue),
-                          value: _dropdownValue,);
+                          //onChanged: dropdownCallback(_dropdownValue),
+                          value: _dropdownValue, onChanged: (value) {  },);
                       }),
                 ),
               ],
             ),
             Row(children: [
               StreamBuilder(
-                stream: ubloc.user,
+                stream: ubloc.bloc.user,
                 builder: (context, AsyncSnapshot<UserModel> snapshot) {
                   if (snapshot.hasData) {
                     userId = snapshot.data!.id as Long;
+                    return Text(userId as String);
                   } else {
                     return Text(snapshot.error.toString());
                   }
