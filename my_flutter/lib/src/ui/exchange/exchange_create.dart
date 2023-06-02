@@ -89,7 +89,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
         decoration: BoxDecoration(
           color: Theme.of(context).canvasColor,
         ),
-        child: ListView(
+        child: Column(
           children: [
             StreamBuilder(
               stream: ubloc.bloc.user,
