@@ -38,10 +38,11 @@ class UserBloc {
     RegistrationModel r = await _repository.registration(user);
     _regFetcher.sink.add(r);
   }
-  login(String username, String password) async {
+  Future<UserModel> login(String username, String password) async {
     UserModel user = await _repository.login(username,password);
     currentUser =  user;
     _userFetcher.sink.add(user);
+    return user;
   }
 
 
