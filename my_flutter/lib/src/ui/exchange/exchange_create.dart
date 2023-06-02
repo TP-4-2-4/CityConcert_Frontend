@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/request_model.dart';
@@ -37,7 +36,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
   }
 
   void _fetchTicketsByUserId(int userId) {
-    tbloc.bloc.fetchTicketsByUserId(userId as Long);
+    tbloc.bloc.fetchTicketsByUserId(userId);
   }
 
   Future<void> _createExchange() async {

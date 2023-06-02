@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 
@@ -56,7 +55,7 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 50, 16, 25),
             child: Text(
-              bloc.fetchUserById(widget.exchange.userId as Long).username,
+              bloc.fetchUserById(widget.exchange.userId?.toInt() ?? 0).username,
             ),
           ),
           Padding(

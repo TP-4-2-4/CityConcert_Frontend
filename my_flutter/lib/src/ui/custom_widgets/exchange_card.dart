@@ -55,7 +55,7 @@ class _ExchangeCardWidgetState extends State<ExchangeCardWidget> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
                     child: Text(
-                      'Предлагаемый билет: ${widget.exchange.seatFromUser!}',
+                      'Предлагаемый билет: ${widget.exchange.currentSeat!}',
                       style: TextStyle(
                         color: Theme.of(context).primaryColorLight,
                       ),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/lists/tickets_list.dart';
@@ -21,7 +20,7 @@ class ExchangePage extends StatefulWidget {
 
 class _ExchangePageState extends State<ExchangePage> {
   late String _dropdownValue = "Выберете билет";
-  late Long userId;
+  late int userId;
   late TicketModel selectedTicket;
 
   void dropdownCallback(String? selectedValue) {
@@ -38,7 +37,7 @@ class _ExchangePageState extends State<ExchangePage> {
     _getCurrentUserId();
   }
 
-  Future<void> _getCurrentUserTickets(Long userId) async {
+  Future<void> _getCurrentUserTickets(int userId) async {
     bloc.fetchTicketsByUserId(userId);
   }
 
@@ -99,7 +98,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   stream: ubloc.bloc.user,
                   builder: (context, AsyncSnapshot<UserModel> snapshot) {
                     if (snapshot.hasData) {
-                      userId = snapshot.data!.id as Long;
+                      userId = snapshot.data!.id?.toInt() ?? 0;
                       _getCurrentUserTickets(userId);
                     } else {
                       return Text(snapshot.error.toString());
