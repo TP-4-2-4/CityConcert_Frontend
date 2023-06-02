@@ -1,12 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/request_model.dart';
 import 'package:my_flutter/src/models/ticket_model.dart';
 import 'package:my_flutter/src/models/user_model.dart';
 import '../../models/lists/tickets_list.dart';
+import '../../resources/util/flutter_session.dart';
 import '../custom_widgets/event_card.dart';
 
-import '../../blocs/user_bloc.dart' as ubloc;
 import '../../blocs/ticket_bloc.dart' as tbloc;
 
 class CreateExchangeWidget extends StatefulWidget {
@@ -21,13 +20,12 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _wantedSeatController = TextEditingController();
 
-  int? userId;
+  late UserModel user;
   late TicketModel selectedTicket;
 
   @override
   void initState() {
     super.initState();
-    ubloc.bloc.fetchCurrentUser();
   }
 
   @override
@@ -35,7 +33,13 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
     super.dispose();
   }
 
-  void _fetchTicketsByUserId(int userId) {
+  Future<UserModel> _fetchCurrentUser() async {
+    user = await FlutterSession().get("currentUser");
+    print(user.username);
+    return user;
+  }
+
+  Future<void> _fetchTicketsByUserId(int userId) async {
     tbloc.bloc.fetchTicketsByUserId(userId);
   }
 
@@ -91,18 +95,12 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
         ),
         child: Column(
           children: [
-            StreamBuilder(
-              stream: ubloc.bloc.user,
-              builder: (context, AsyncSnapshot<UserModel> snapshot) {
-                if (snapshot.hasData) {
-                  userId = snapshot.data!.id;
-                  _fetchTicketsByUserId(userId!);
-                } else {
-                  return Text(snapshot.error.toString());
-                }
-                return Text("Выбор билетов для пользователя $userId");
-              },
-            ),
+            FutureBuilder<UserModel>(
+                future: _fetchCurrentUser(),
+                builder: (context, snapshot) {
+                  return Text(
+                      "Выбор билетов для пользователя ${user.username}");
+                }),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
               child: TextField(

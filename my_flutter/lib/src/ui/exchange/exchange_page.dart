@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/lists/tickets_list.dart';
 import 'package:my_flutter/src/models/ticket_model.dart';
 import '../../blocs/ticket_bloc.dart';
-import '../../blocs/user_bloc.dart' as ubloc;
 import '../../models/request_model.dart';
 import '../../models/user_model.dart';
+import '../../resources/util/flutter_session.dart';
 import '../custom_widgets/event_card.dart';
 
 class ExchangePage extends StatefulWidget {
@@ -20,8 +20,8 @@ class ExchangePage extends StatefulWidget {
 
 class _ExchangePageState extends State<ExchangePage> {
   late String _dropdownValue = "Выберете билет";
-  late int userId;
   late TicketModel selectedTicket;
+  late UserModel user;
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
@@ -34,15 +34,16 @@ class _ExchangePageState extends State<ExchangePage> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUserId();
   }
 
   Future<void> _getCurrentUserTickets(int userId) async {
     bloc.fetchTicketsByUserId(userId);
   }
 
-  Future<void> _getCurrentUserId() async {
-    ubloc.bloc.fetchCurrentUser();
+  Future<UserModel> _fetchCurrentUser() async {
+    user = await FlutterSession().get("currentUser");
+    print(user.username);
+    return user;
   }
 
   @override
@@ -94,18 +95,11 @@ class _ExchangePageState extends State<ExchangePage> {
           children: [
             Row(
               children: [
-                StreamBuilder(
-                  stream: ubloc.bloc.user,
-                  builder: (context, AsyncSnapshot<UserModel> snapshot) {
-                    if (snapshot.hasData) {
-                      userId = snapshot.data!.id?.toInt() ?? 0;
-                      _getCurrentUserTickets(userId);
-                    } else {
-                      return Text(snapshot.error.toString());
-                    }
-                    return Text("Выбор билетов для пользователя $userId");
-                  },
-                ),
+                FutureBuilder<UserModel>(
+                    future: _fetchCurrentUser(),
+                    builder: (context, snapshot) {
+                      return Text("Выбор билетов для пользователя ${user.id!}");
+                    }),
                 Expanded(
                   child: StreamBuilder(
                       stream: bloc.tickets,
@@ -150,7 +144,7 @@ class _ExchangePageState extends State<ExchangePage> {
                   padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      widget.exchange.seatFromUser = userId as String?;
+                      widget.exchange.seatFromUser = user.id! as String?;
                       bloc.exchangeTicket(widget.exchange);
                     },
                     style: flatroundedButtonStyle,

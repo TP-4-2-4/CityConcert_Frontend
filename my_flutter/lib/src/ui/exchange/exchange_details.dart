@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../../blocs/user_bloc.dart';
 import '../../models/request_model.dart';
 import '../../models/user_model.dart';
+import '../../resources/util/flutter_session.dart';
 import '../custom_widgets/event_card.dart';
 import 'exchange_page.dart';
 
@@ -17,11 +18,21 @@ class ExchangeDetailsPage extends StatefulWidget {
 }
 
 class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
+
+  late UserModel user;
+
   @override
   void initState() {
     super.initState();
     bloc.fetchUserById(widget.exchange.userId!);
   }
+
+  Future<UserModel> _fetchCurrentUser() async {
+    user = await FlutterSession().get("currentUser");
+    print(user.username);
+    return user;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,17 +71,16 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
         children: [
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 50, 16, 25),
-            child: StreamBuilder(
-              stream: bloc.user,
-              builder: (context, AsyncSnapshot<UserModel> snapshot) {
-                if (snapshot.hasData) {
-                  return Text("${snapshot.data!.username}");
-                } else {
-                  return Text(snapshot.error.toString());
-                }
-              },
+            child:  FutureBuilder<UserModel>(
+                future: _fetchCurrentUser(),
+                builder: (context, snapshot) {
+                  return Text(
+                      "${user.username}");
+                }),
+
+
             ),
-          ),
+
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
             child: Text(
