@@ -1,5 +1,4 @@
 
-import 'dart:ffi';
 
 import 'package:my_flutter/src/models/registration_model.dart';
 import 'package:rxdart/rxdart.dart';
@@ -19,7 +18,7 @@ class UserBloc {
     UserModel user = await _repository.fetchCurrentUser();
     _userFetcher.sink.add(user);
   }
-  fetchUserById(Long id) async {
+  fetchUserById(int id) async {
     UserModel user = await _repository.fetchUser(id);
     _userFetcher.sink.add(user);
   }
@@ -27,7 +26,7 @@ class UserBloc {
     UserModel u = await _repository.addUser(user);
     _userFetcher.sink.add(u);
   }
-  deleteUserById(Long id) async {
+  deleteUserById(int id) async {
     UserModel user = await _repository.deleteUser(id);
     _userFetcher.sink.add(user);
   }

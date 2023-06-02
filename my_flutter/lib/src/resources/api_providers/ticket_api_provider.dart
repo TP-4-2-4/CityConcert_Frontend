@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:http/http.dart';
 import 'package:my_flutter/src/models/lists/tickets_list.dart';
@@ -51,7 +50,7 @@ class TicketApiProvider {
     }
   }
 
-  Future<TicketsList> fetchTicketsByUserId(Long userId) async {
+  Future<TicketsList> fetchTicketsByUserId(int userId) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKETS_BY_USER_ID_URL}$userId';
     final response = await client
@@ -64,7 +63,7 @@ class TicketApiProvider {
     }
   }
 
-  Future<TicketModel> fetchTicket(Long id) async {
+  Future<TicketModel> fetchTicket(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKET_BY_ID_URL}$id';
     final response = await client
@@ -88,7 +87,7 @@ class TicketApiProvider {
       throw Exception('Failed to load Ticket');
     }
   }
-  Future<TicketModel> deleteTicket(Long id) async {
+  Future<TicketModel> deleteTicket(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_TICKET_URL}$id';
     final response = await client

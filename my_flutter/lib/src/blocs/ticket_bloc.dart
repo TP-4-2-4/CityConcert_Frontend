@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:my_flutter/src/models/lists/tickets_list.dart';
 import 'package:my_flutter/src/models/request_model.dart';
@@ -30,12 +29,12 @@ class TicketBloc {
     _ticketFetcher.sink.add(t);
   }
 
-  fetchTicketsByUserId(Long userId) async {
+  fetchTicketsByUserId(int userId) async {
     TicketsList tickets = await _repository.fetchTicketsByUserId(userId);
     _ticketsFetcher.sink.add(tickets);
   }
 
-  fetchTicketById(Long id) async {
+  fetchTicketById(int id) async {
     TicketModel ticket = await _repository.fetchTicket(id);
     _ticketFetcher.sink.add(ticket);
   }
@@ -45,7 +44,7 @@ class TicketBloc {
     _ticketFetcher.sink.add(e);
   }
 
-  deleteTicketById(Long id) async {
+  deleteTicketById(int id) async {
     TicketModel ticket = await _repository.deleteTicket(id);
     _ticketFetcher.sink.add(ticket);
   }
