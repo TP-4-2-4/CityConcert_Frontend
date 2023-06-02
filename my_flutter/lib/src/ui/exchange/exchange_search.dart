@@ -4,6 +4,7 @@ import 'package:my_flutter/src/ui/custom_widgets/exchange_card.dart';
 import '../../blocs/request_bloc.dart';
 import '../../models/lists/requests_list.dart';
 import '../custom_widgets/event_card.dart';
+import 'exchange_create.dart';
 
 class SearchExchangeWidget extends StatefulWidget {
   const SearchExchangeWidget({Key? key}) : super(key: key);
@@ -22,9 +23,11 @@ class _SearchExchangeWidgetState extends State<SearchExchangeWidget> {
       _getExchanges();
     });
   }
+
   Future<void> _getExchanges() async {
     bloc.fetchRequests("EXCHANGE");
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,54 +60,43 @@ class _SearchExchangeWidgetState extends State<SearchExchangeWidget> {
         centerTitle: false,
         elevation: 2,
       ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        decoration: BoxDecoration(
-          color: Theme.of(context).canvasColor,
-        ),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          scrollDirection: Axis.vertical,
-          children: [
-            Column(
-              children: [
-                const SizedBox(height: 16.0),
-                Expanded(
-                    child: StreamBuilder(
-                      stream: bloc.requests,
-                      builder: (context, AsyncSnapshot<RequestsList> snapshot) {
-                        if (snapshot.hasData) {
-                          return ListView(
-                              children: List.generate(
-                                  snapshot.data!.requests.length,
-                                      (index) => ExchangeCardWidget(
-                                      exchange: snapshot.data!.requests[index])));
-                        } else if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        } else {
-                          return const Center(child: Text('Нет обменов ...'));
-                        }
-                      },
-                    )),
-              ],
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
-                child: TextButton(
-                  onPressed: () {
-                    print('Button pressed ...');
-                  },
-                  style: flatroundedButtonStyle,
-                  child: const Text(
-                    'Добавить запись',
-                  ),
+      body: SafeArea(
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
+          Expanded(
+            child: StreamBuilder(
+            stream: bloc.requests,
+            builder: (context, AsyncSnapshot<RequestsList> snapshot) {
+              if (snapshot.hasData) {
+                return ListView(
+                    children: List.generate(
+                        snapshot.data!.requests.length,
+                        (index) => ExchangeCardWidget(
+                            exchange: snapshot.data!.requests[index])));
+              } else if (snapshot.hasError) {
+                return Text(snapshot.error.toString());
+              } else {
+                return const Center(child: Text('Нет обменов ...'));
+              }
+            },
+          )),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
+              child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateExchangeWidget()));
+                },
+                style: flatroundedButtonStyle,
+                child: const Text(
+                  'Добавить запись',
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ]),
       ),
     );
   }
