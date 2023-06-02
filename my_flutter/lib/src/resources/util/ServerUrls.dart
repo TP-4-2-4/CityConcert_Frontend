@@ -34,11 +34,11 @@ class ServerUrls {
   static const ADD_TICKET_URL = '/ticket/add';
   static const DELETE_TICKET_URL = '/ticket/delete/';
 
-  static const GET_USER_CURRENT_URL = '/user/current';
-  static const GET_USER_BY_ID_URL = '/user/get/';
-  static const UPDATE_USER_URL = '/user/update';
-  static const ADD_USER_URL = '/user/add';
-  static const DELETE_USER_URL = '/user/delete/';
+  static const GET_USER_CURRENT_URL = '/users/current';
+  static const GET_USER_BY_ID_URL = '/users/get/';
+  static const UPDATE_USER_URL = '/users/update';
+  static const ADD_USER_URL = '/users/add';
+  static const DELETE_USER_URL = '/users/delete/';
 
   static const LOGIN_URL = '/login';
   static const REGISTRATION_URL = '/registration';
