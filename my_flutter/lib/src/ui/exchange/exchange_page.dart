@@ -3,6 +3,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/lists/tickets_list.dart';
+import 'package:my_flutter/src/models/ticket_model.dart';
 import '../../blocs/ticket_bloc.dart';
 import '../../blocs/user_bloc.dart' as ubloc;
 import '../../models/request_model.dart';
@@ -21,6 +22,7 @@ class ExchangePage extends StatefulWidget {
 class _ExchangePageState extends State<ExchangePage> {
   late String _dropdownValue = "Выберете билет";
   late Long userId;
+  late TicketModel selectedTicket;
 
   void dropdownCallback(String? selectedValue) {
     if (selectedValue is String) {
@@ -33,11 +35,10 @@ class _ExchangePageState extends State<ExchangePage> {
   @override
   void initState() {
     super.initState();
-    _getCurrentUserTickets();
     _getCurrentUserId();
   }
 
-  Future<void> _getCurrentUserTickets() async {
+  Future<void> _getCurrentUserTickets(Long userId) async {
     bloc.fetchTicketsByUserId(userId);
   }
 
@@ -94,19 +95,34 @@ class _ExchangePageState extends State<ExchangePage> {
           children: [
             Row(
               children: [
+                StreamBuilder(
+                  stream: ubloc.bloc.user,
+                  builder: (context, AsyncSnapshot<UserModel> snapshot) {
+                    if (snapshot.hasData) {
+                      userId = snapshot.data!.id as Long;
+                      _getCurrentUserTickets(userId);
+                    } else {
+                      return Text(snapshot.error.toString());
+                    }
+                    return Text("Выбор билетов для пользователя $userId");
+                  },
+                ),
                 Expanded(
                   child: StreamBuilder(
                       stream: bloc.tickets,
                       builder: (context, AsyncSnapshot<TicketsList> snapshot) {
                         List<DropdownMenuItem> ticketItems = [];
                         if (snapshot.hasData) {
-                          final tickets =
-                              snapshot.data!.tickets.toList();
-                          ticketItems.add(DropdownMenuItem(value: _dropdownValue, child: Text('Выберете билет')),);
+                          final tickets = snapshot.data!.tickets.toList();
+                          ticketItems.add(
+                            DropdownMenuItem(
+                                value: _dropdownValue,
+                                child: const Text('Отдаваемый билет')),
+                          );
                           for (var ticket in tickets) {
                             ticketItems.add(
                               DropdownMenuItem(
-                                value: ticket.seat,
+                                value: ticket,
                                 child: Text(
                                   ticket.seat!,
                                 ),
@@ -116,25 +132,20 @@ class _ExchangePageState extends State<ExchangePage> {
                         } else if (snapshot.hasError) {
                           return Text(snapshot.error.toString());
                         }
-                        return DropdownButton(items: ticketItems,
-                          //onChanged: dropdownCallback(_dropdownValue),
-                          value: _dropdownValue, onChanged: (value) {  },);
+                        return DropdownButton(
+                          items: ticketItems,
+                          value: _dropdownValue,
+                          onChanged: (value) {
+                            setState(() {
+                              selectedTicket = value;
+                            });
+                          },
+                        );
                       }),
                 ),
               ],
             ),
             Row(children: [
-              StreamBuilder(
-                stream: ubloc.bloc.user,
-                builder: (context, AsyncSnapshot<UserModel> snapshot) {
-                  if (snapshot.hasData) {
-                    userId = snapshot.data!.id as Long;
-                    return Text(userId as String);
-                  } else {
-                    return Text(snapshot.error.toString());
-                  }
-                },
-              ),
               Expanded(
                 child: Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
