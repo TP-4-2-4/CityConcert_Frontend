@@ -1,5 +1,11 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:my_flutter/src/models/event_model.dart';
+
+import '../../../blocs/event_bloc.dart';
 import '../../custom_widgets/event_card.dart';
 import '../admin_main.dart';
 
@@ -14,10 +20,14 @@ class _AdminAddEventState extends State<AdminAddEvent> {
   TextEditingController _eventTicketLimitController = TextEditingController();
   TextEditingController _eventTicketPriceController = TextEditingController();
   TextEditingController _eventGenreDescriptorsController =
-  TextEditingController();
-  TextEditingController _eventImageController = TextEditingController();
+      TextEditingController();
   TextEditingController _eventDescriptionController = TextEditingController();
   TextEditingController _eventVenueController = TextEditingController();
+
+  final ImagePicker picker = ImagePicker();
+
+// Pick an image.
+  late var _image;
 
   @override
   Widget build(BuildContext context) {
@@ -71,12 +81,46 @@ class _AdminAddEventState extends State<AdminAddEvent> {
                 hintText: "Жанровые дескрипторы"),
             InputField(
                 controller: _eventDescriptionController, hintText: "Описание"),
+            InputField(controller: _eventVenueController, hintText: "Площадка"),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                child: IconButton(
+                  style: flatroundedButtonStyleDark,
+                  icon: Icon(
+                    Icons.add,
+                    color: Theme.of(context).primaryColorLight,
+                    size: 24,
+                  ),
+                  onPressed: () async {
+                    XFile? image = await picker.pickImage(
+                        source: ImageSource.gallery,
+                        imageQuality: 50,
+                        preferredCameraDevice: CameraDevice.front);
+                    setState(() {
+                      _image = File(image!.path);
+                    });
+                  },
+                ),
+              ),
+            ),
             Row(children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
+                      EventModel event = EventModel(id:0, name:_eventNameController.text,
+                          description:_eventDescriptionController.text,
+                          image: base64Encode(_image.readAsBytesSync()),
+                          startTime: _eventStartTimeController.text,
+                          ticketLimit: _eventTicketLimitController.text,
+                      genreDescriptors: _eventGenreDescriptorsController.text,
+                      venue: int.parse(_eventVenueController.text),
+                      ticketPrice: _eventTicketPriceController.text,
+                      status: "SELLING");
+
+                      bloc.addEvent(event);
                       Navigator.push(
                         context,
                         MaterialPageRoute(
