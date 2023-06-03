@@ -18,7 +18,7 @@ class TicketCardWidget extends StatefulWidget {
 }
 
 class _EventCardWidgetState extends State<TicketCardWidget> {
-  late EventModel event;
+  EventModel? event;
 
   Future<void> _getEvent() async {
     bloc.fetchEventById(widget.ticket.eventId!);
@@ -49,7 +49,7 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
             context,
             MaterialPageRoute(
                 builder: (context) => EventDetailsPage(
-                      event: event,
+                      event: event!,
                     )));
       },
       child: Container(
@@ -84,9 +84,9 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                         builder: (context, AsyncSnapshot<EventModel> snapshot) {
                           if (snapshot.hasData) {
                             event = snapshot.data!;
-                            _getVenue(event.venue!);
+                            _getVenue(event!.venue!);
                             return Text(
-                              event.name!.toUpperCase(),
+                              event!.name!.toUpperCase(),
                               style: TextStyle(
                                 color: Theme.of(context).primaryColorLight,
                                 fontWeight: FontWeight.bold,
@@ -106,7 +106,7 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                         if (snapshot.hasData) {
                           event = snapshot.data!;
                           return Text(
-                            event.startTime!,
+                            event!.startTime!,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .primaryColorLight
