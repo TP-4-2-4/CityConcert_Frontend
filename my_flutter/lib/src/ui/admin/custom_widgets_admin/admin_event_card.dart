@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/event_model.dart';
+
 
 class AdminEventCardWidget extends StatefulWidget {
   final EventModel event;
@@ -19,7 +22,7 @@ class _AdminEventCardWidgetState extends State<AdminEventCardWidget> {
       children: [
         Expanded(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
@@ -30,12 +33,7 @@ class _AdminEventCardWidgetState extends State<AdminEventCardWidget> {
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
                   ),
-                  child: Image.asset(
-                    '',
-                    width: 300,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.memory(base64Decode(widget.event.image!)),
                 ),
               ),
               Padding(
@@ -56,7 +54,7 @@ class _AdminEventCardWidgetState extends State<AdminEventCardWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                 child: TextButton(
                   onPressed: () {
-                    print('Button pressed ...');
+                    //AdminAddEvent();
                   },
                   style: editButtonStyle,
                   child: const Text(

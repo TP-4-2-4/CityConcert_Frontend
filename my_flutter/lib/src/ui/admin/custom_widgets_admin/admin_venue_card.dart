@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import '../../../models/venue_model.dart';
@@ -32,12 +34,7 @@ class _AdminVenueCardWidgetState extends State<AdminVenueCardWidget> {
                     topLeft: Radius.circular(16),
                     topRight: Radius.circular(16),
                   ),
-                  child: Image.asset(
-                    '',
-                    width: 300,
-                    height: 100,
-                    fit: BoxFit.cover,
-                  ),
+                  child: Image.memory(base64Decode(widget.venue.image!)),
                 ),
               ),
               Padding(
