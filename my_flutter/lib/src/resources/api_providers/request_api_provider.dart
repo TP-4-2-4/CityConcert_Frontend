@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:http/http.dart';
 
@@ -24,7 +23,7 @@ class RequestApiProvider {
     }
   }
 
-  Future<RequestModel> fetchRequest(Long id) async {
+  Future<RequestModel> fetchRequest(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_REQUEST_BY_ID_URL}$id';
     final response = await client
@@ -48,7 +47,7 @@ class RequestApiProvider {
       throw Exception('Failed to load Request');
     }
   }
-  Future<RequestModel> deleteRequest(Long id) async {
+  Future<RequestModel> deleteRequest(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_REQUEST_URL}$id';
     final response = await client
