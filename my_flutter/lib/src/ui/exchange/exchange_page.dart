@@ -85,13 +85,13 @@ class _ExchangePageState extends State<ExchangePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            FutureBuilder<UserModel>(
+                future: _fetchCurrentUser(),
+                builder: (context, snapshot) {
+                  return Text("Выбор билетов для пользователя ${user.id!}");
+                }),
             Row(
               children: [
-                FutureBuilder<UserModel>(
-                    future: _fetchCurrentUser(),
-                    builder: (context, snapshot) {
-                      return Text("Выбор билетов для пользователя ${user.id!}");
-                    }),
                 TextButton(
                   onPressed: () {
                     _getCurrentUserTickets(user.id!);
@@ -121,6 +121,7 @@ class _ExchangePageState extends State<ExchangePage> {
                                                   onPressed: () {
                                                     selectedTicket = snapshot
                                                         .data!.tickets[index];
+                                                    Navigator.pop(context);
                                                   },
                                                   child: Text(snapshot.data!
                                                       .tickets[index].seat!))));
