@@ -107,29 +107,33 @@ class _ExchangePageState extends State<ExchangePage> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              StreamBuilder(
-                                stream: bloc.tickets,
-                                builder: (context,
-                                    AsyncSnapshot<TicketsList> snapshot) {
-                                  if (snapshot.hasData) {
-                                    return ListView(
-                                        children: List.generate(
-                                            snapshot.data!.tickets.length,
-                                            (index) => TextButton(
-                                                onPressed: () {
-                                                  selectedTicket = snapshot
-                                                      .data!.tickets[index];
-                                                },
-                                                child: Text(snapshot.data!
-                                                    .tickets[index].seat!))));
-                                  } else if (snapshot.hasError) {
-                                    return Text(snapshot.error.toString());
-                                  } else {
-                                    return const Center(
-                                        child: Text('У Вас пока нет билетов'));
-                                  }
-                                },
-                              ),
+                              SizedBox(
+                                height: 300.0,
+                                child: StreamBuilder(
+                                  stream: bloc.tickets,
+                                  builder: (context,
+                                      AsyncSnapshot<TicketsList> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return ListView(
+                                          children: List.generate(
+                                              snapshot.data!.tickets.length,
+                                              (index) => TextButton(
+                                                  onPressed: () {
+                                                    selectedTicket = snapshot
+                                                        .data!.tickets[index];
+                                                  },
+                                                  child: Text(snapshot.data!
+                                                      .tickets[index].seat!))));
+                                    } else if (snapshot.hasError) {
+                                      return Text(snapshot.error.toString());
+                                    } else {
+                                      return const Center(
+                                          child:
+                                              Text('У Вас пока нет билетов'));
+                                    }
+                                  },
+                                ),
+                              )
                             ],
                           ),
                         ),
