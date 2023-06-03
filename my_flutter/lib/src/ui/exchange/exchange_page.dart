@@ -19,7 +19,6 @@ class ExchangePage extends StatefulWidget {
 }
 
 class _ExchangePageState extends State<ExchangePage> {
-  late String _dropdownValue = "Выберете билет";
   late TicketModel selectedTicket;
   late UserModel user;
 
@@ -159,12 +158,6 @@ class _ExchangePageState extends State<ExchangePage> {
                     style: flatroundedButtonStyle,
                     child: const Text(
                       'Обменяться',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 ),

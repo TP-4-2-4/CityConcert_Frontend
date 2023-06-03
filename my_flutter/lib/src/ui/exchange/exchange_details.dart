@@ -110,12 +110,6 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
                   style: flatroundedButtonStyle,
                   child: const Text(
                     'Обменяться',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
                   ),
                 ),
               ),

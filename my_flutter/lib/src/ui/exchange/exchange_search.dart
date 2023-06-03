@@ -63,7 +63,7 @@ class _SearchExchangeWidgetState extends State<SearchExchangeWidget> {
       body: SafeArea(
         child: Column(mainAxisSize: MainAxisSize.max, children: [
           Expanded(
-            child: StreamBuilder(
+              child: StreamBuilder(
             stream: bloc.requests,
             builder: (context, AsyncSnapshot<RequestsList> snapshot) {
               if (snapshot.hasData) {
@@ -79,23 +79,27 @@ class _SearchExchangeWidgetState extends State<SearchExchangeWidget> {
               }
             },
           )),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
-              child: TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => CreateExchangeWidget()));
-                },
-                style: flatroundedButtonStyle,
-                child: const Text(
-                  'Добавить запись',
+          Row(
+            children: [
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => CreateExchangeWidget()));
+                    },
+                    style: flatroundedButtonStyle,
+                    child: const Text(
+                      'Добавить запись',
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
+            ],
+          )
         ]),
       ),
     );
