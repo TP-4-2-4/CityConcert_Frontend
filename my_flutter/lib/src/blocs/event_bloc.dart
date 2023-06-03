@@ -27,9 +27,10 @@ class EventBloc {
     EventsList events = await _repository.fetchEventsListByFilter();
     _eventsFetcher.sink.add(events);
   }
-  fetchEventById(int id) async {
+  Future<EventModel> fetchEventById(int id) async {
     EventModel event = await _repository.fetchEvent(id);
     _eventFetcher.sink.add(event);
+    return event;
   }
   addEvent(EventModel event) async {
     EventModel e = await _repository.addEvent(event);
