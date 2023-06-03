@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/blocs/event_bloc.dart';
-import 'package:my_flutter/src/blocs/venue_bloc.dart' as vbloc;
 import 'package:my_flutter/src/models/event_model.dart';
 import 'package:my_flutter/src/models/ticket_model.dart';
 
-import '../../models/venue_model.dart';
 import '../event_details.dart';
 
 class TicketCardWidget extends StatefulWidget {
@@ -18,15 +16,11 @@ class TicketCardWidget extends StatefulWidget {
 }
 
 class _EventCardWidgetState extends State<TicketCardWidget> {
-  EventModel? event;
-
-  Future<void> _getEvent() async {
-    bloc.fetchEventById(widget.ticket.eventId!);
+ late EventModel event;
+  Future<EventModel> _getEvent() async {
+    return bloc.fetchEventById(widget.ticket.eventId!);
   }
 
-  Future<void> _getVenue(int id) async {
-    vbloc.bloc.fetchVenueById(id);
-  }
 
   @override
   void initState() {
@@ -49,7 +43,7 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
             context,
             MaterialPageRoute(
                 builder: (context) => EventDetailsPage(
-                      event: event!,
+                      event: event,
                     )));
       },
       child: Container(
@@ -79,14 +73,12 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                     Padding(
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                      child: StreamBuilder(
-                        stream: bloc.event,
-                        builder: (context, AsyncSnapshot<EventModel> snapshot) {
+                      child: FutureBuilder(
+                        future: _getEvent(),
+                        builder: (context,snapshot) {
                           if (snapshot.hasData) {
-                            event = snapshot.data!;
-                            _getVenue(event!.venue!);
                             return Text(
-                              event!.name!.toUpperCase(),
+                              event.name!.toUpperCase(),
                               style: TextStyle(
                                 color: Theme.of(context).primaryColorLight,
                                 fontWeight: FontWeight.bold,
@@ -106,7 +98,7 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                         if (snapshot.hasData) {
                           event = snapshot.data!;
                           return Text(
-                            event!.startTime!,
+                            event.startTime!,
                             style: TextStyle(
                               color: Theme.of(context)
                                   .primaryColorLight
@@ -120,25 +112,7 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                         return Text("Event stream");
                       },
                     ),
-                    StreamBuilder(
-                      stream: vbloc.bloc.venue,
-                      builder: (context, AsyncSnapshot<VenueModel> snapshot) {
-                        if (snapshot.hasData) {
-                          return Text(
-                            snapshot.data!.name!,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .primaryColorLight
-                                  .withOpacity(0.40),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Не удалось получить площадку билета');
-                        }
-                        return Text("Venue stream");
-                      },
-                    ),
+
                   ],
                 ),
               ),

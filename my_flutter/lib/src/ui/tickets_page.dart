@@ -14,16 +14,15 @@ class TicketsWidget extends StatefulWidget {
 }
 
 class _TicketsWidgetState extends State<TicketsWidget> {
-  UserModel? user;
+  late UserModel user;
 
-  Future<void> _fetchCurrentUser() async {
+  Future<UserModel?> _fetchCurrentUser() async {
     user = await FlutterSession().get("currentUser");
-    print("fetched user ${user!.username}");
-    if (user != null) {
+      print("fetched user ${user.username}");
       print("start fetching tickets...");
-      _getUserTickets(user!.id!);
+      _getUserTickets(user.id!);
       print("got tickets");
-    }
+      return user;
   }
 
   void _getUserTickets(int id) {
@@ -32,7 +31,7 @@ class _TicketsWidgetState extends State<TicketsWidget> {
 
   @override
   void initState() {
-    //_fetchCurrentUser();
+
     super.initState();
     // do something
     print("Build Tickets Page Completed");
@@ -45,7 +44,6 @@ class _TicketsWidgetState extends State<TicketsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    _fetchCurrentUser();
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
@@ -54,15 +52,11 @@ class _TicketsWidgetState extends State<TicketsWidget> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (user == null) ...[
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                child: Text(
-                  "Зарегистрируйтесь или войдите, чтобы просматривать свои билеты",
-                  style: TextStyle(color: Theme.of(context).primaryColorLight),
-                ),
-              ),
-            ] else if (user != null) ...[
+            FutureBuilder<UserModel?>(
+                future: _fetchCurrentUser(),
+                builder: (context, snapshot) {
+                  return Text(" ");
+                }),
               Expanded(
                   child: StreamBuilder(
                 stream: bloc.tickets,
@@ -82,7 +76,6 @@ class _TicketsWidgetState extends State<TicketsWidget> {
                 },
               )),
             ]
-          ],
         ),
       ),
     );
