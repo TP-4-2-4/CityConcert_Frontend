@@ -9,7 +9,7 @@ class Repository {
 
   Future<VenuesList> fetchVenues() => venuesApiProvider.fetchVenueList();
   Future<VenueModel> fetchVenue(int id) => venuesApiProvider.fetchVenue(id);
-  Future<VenueModel> deleteVenue(int id) => venuesApiProvider.deleteVenue(id);
+  Future<void> deleteVenue(int id) => venuesApiProvider.deleteVenue(id);
   Future<VenueModel> addVenue(VenueModel venue) => venuesApiProvider.addVenue(venue);
   Future<VenueModel> updateVenue(VenueModel venue) => venuesApiProvider.updateVenue(venue);
 

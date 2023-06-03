@@ -49,7 +49,7 @@ class EventModel {
     data['genreDescriptors'] = this.genreDescriptors;
     data['image'] = this.image;
     data['description'] = this.description;
-    data['venue'] = this.venue;
+    data['venueId'] = this.venue;
     return data;
   }
 }
