@@ -4,7 +4,7 @@ class VenueModel {
   String? location;
   String? description;
   int? capacity;
-  List<String>? image;
+  String? image;
 
   VenueModel(
       {this.id,
@@ -20,7 +20,7 @@ class VenueModel {
     location = json['location'];
     description = json['description'];
     capacity = json['capacity'];
-    image = json['image'].cast<String>();
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {

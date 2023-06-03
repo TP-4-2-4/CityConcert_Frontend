@@ -11,7 +11,7 @@ class Repository {
   Future<EventsList> fetchEventsListAll() => eventsApiProvider.fetchEventListAll();
   Future<EventsList> fetchEventsListByFilter() => eventsApiProvider.fetchEventListByFilter();
   Future<EventModel> fetchEvent(int id) => eventsApiProvider.fetchEvent(id);
-  Future<EventModel> deleteEvent(int id) => eventsApiProvider.deleteEvent(id);
+  Future<void> deleteEvent(int id) => eventsApiProvider.deleteEvent(id);
   Future<EventModel> addEvent(EventModel event) => eventsApiProvider.addEvent(event);
   Future<EventModel> updateEvent(EventModel event) => eventsApiProvider.updateEvent(event);
   Future<EventsList> fetchEventsRecommendations() => eventsApiProvider.fetchEventsByRecommendations();

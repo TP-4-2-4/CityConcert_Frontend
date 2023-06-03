@@ -3,6 +3,7 @@ import 'package:my_flutter/src/main.dart';
 
 import 'package:my_flutter/src/models/registration_model.dart';
 import 'package:my_flutter/src/models/user_model.dart';
+import 'package:my_flutter/src/ui/admin/admin_main.dart';
 import '../blocs/user_bloc.dart';
 import '../resources/util/flutter_session.dart';
 import 'custom_widgets/event_card.dart';
@@ -339,7 +340,8 @@ void signInAsAdmin() async {
   String password = passwordController.text;
   UserModel user = await bloc.login(login, password);
   await FlutterSession().set('currentUser', user );
-//todo: admin page redirect
+  Navigator.push(
+      context, MaterialPageRoute(builder: (context) => NavigationPageAdmin()));
 }}
 
 

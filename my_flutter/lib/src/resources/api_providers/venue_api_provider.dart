@@ -34,11 +34,12 @@ class VenueApiProvider {
       throw Exception('Failed to load venue');
     }
   }
-  Future<VenueModel> addVenue(VenueModel Venue) async {
+  Future<VenueModel> addVenue(VenueModel venue) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_VENUE_URL}';
+    Map<String,String> headers = {'content-type':'application/json','Accept':"*/*"};
     final response = await client
-        .post(Uri.parse(apiUrl),body: Venue);
+        .post(Uri.parse(apiUrl),body: json.encode(venue.toJson()),headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return VenueModel.fromJson(json.decode(response.body));
@@ -46,22 +47,21 @@ class VenueApiProvider {
       throw Exception('Failed to load venue');
     }
   }
-  Future<VenueModel> deleteVenue(int id) async {
+  Future<void> deleteVenue(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_VENUE_URL}$id';
     final response = await client
         .delete(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode == 200) {
-      return VenueModel.fromJson(json.decode(response.body));
-    } else {
       throw Exception('Failed to load venue');
-    }}
+    } }
   Future<VenueModel> updateVenue(VenueModel venue) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.UPDATE_VENUE_URL}';
+    Map<String,String> headers = {'content-type':'application/json','Accept':"*/*"};
     final response = await client
-        .post(Uri.parse(apiUrl),body: venue);
+        .post(Uri.parse(apiUrl),body: json.encode(venue.toJson()),headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return VenueModel.fromJson(json.decode(response.body));
