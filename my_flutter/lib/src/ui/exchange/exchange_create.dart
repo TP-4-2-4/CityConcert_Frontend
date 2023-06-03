@@ -7,6 +7,7 @@ import '../../resources/util/flutter_session.dart';
 import '../custom_widgets/event_card.dart';
 
 import '../../blocs/ticket_bloc.dart';
+import '../../blocs/request_bloc.dart' as rbloc;
 
 class CreateExchangeWidget extends StatefulWidget {
   const CreateExchangeWidget({Key? key}) : super(key: key);
@@ -50,8 +51,8 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
         description: _descriptionController.text,
         currentSeat: selectedTicket.seat,
         wantedSeat: _wantedSeatController.text,
-        seatFromUser: "");
-    bloc.exchangeTicket(newExchange);
+        seatFromUser: null);
+    rbloc.bloc.addRequest(newExchange);
   }
 
   @override
@@ -74,7 +75,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
         title: const Align(
           alignment: AlignmentDirectional(-0.6, 0),
           child: Text(
-            'Обмен билетов',
+            'Создать обмен',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
