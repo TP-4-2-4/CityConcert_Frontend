@@ -99,4 +99,15 @@ class UserApiProvider {
       throw Exception('Failed to load User');
     }
   }
+
+  logout() async{
+    print("entered");
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.LOGIN_URL}';
+   final response = await client
+        .get(Uri.parse(apiUrl));
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      throw Exception('Failed to load User');
+    }
+  }
 }

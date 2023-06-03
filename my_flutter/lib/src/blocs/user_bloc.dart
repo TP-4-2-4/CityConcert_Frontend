@@ -44,7 +44,9 @@ class UserBloc {
     _userFetcher.sink.add(user);
     return user;
   }
-
+  logout() async {
+    await _repository.logout();
+  }
 
   dispose() {
     _userFetcher.close();
