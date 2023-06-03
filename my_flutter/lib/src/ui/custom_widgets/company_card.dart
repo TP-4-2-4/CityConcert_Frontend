@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/request_model.dart';
-import 'package:my_flutter/src/ui/exchange/exchange_details.dart';
+
+import '../company/company_details.dart';
 
 class CompanyCardWidget extends StatefulWidget {
   final RequestModel company;
@@ -22,7 +23,7 @@ class _CompanyCardWidgetState extends State<CompanyCardWidget> {
             context,
             MaterialPageRoute(
               builder: (context) =>
-                  ExchangeDetailsPage(exchange: widget.company),
+                  CompanyDetailsPage(company: widget.company),
             ),
           );
         },
