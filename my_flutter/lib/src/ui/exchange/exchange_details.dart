@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../blocs/user_bloc.dart';
@@ -18,19 +17,10 @@ class ExchangeDetailsPage extends StatefulWidget {
 }
 
 class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
-
-  late UserModel user;
-
   @override
   void initState() {
     super.initState();
     bloc.fetchUserById(widget.exchange.userId!);
-  }
-
-  Future<UserModel> _fetchCurrentUser() async {
-    user = await FlutterSession().get("currentUser");
-    print(user.username);
-    return user;
   }
 
   @override
@@ -71,16 +61,20 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
         children: [
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 50, 16, 25),
-            child:  FutureBuilder<UserModel>(
-                future: _fetchCurrentUser(),
-                builder: (context, snapshot) {
-                  return Text(
-                      "${user.username}");
-                }),
-
-
+            child: StreamBuilder(
+              stream: bloc.user,
+              builder: (context, AsyncSnapshot<UserModel> snapshot) {
+                if (snapshot.hasData) {
+                  return Text(snapshot.data!.username!);
+                } else if (snapshot.hasError) {
+                  return Text(snapshot.error.toString());
+                } else {
+                  return const Center(
+                      child: Text('Пользователь обмена не найден'));
+                }
+              },
             ),
-
+          ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
             child: Text(
@@ -90,7 +84,7 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
             child: Text(
-              'Место автора: ${widget.exchange.seatFromUser}',
+              'Место автора: ${widget.exchange.currentSeat}',
             ),
           ),
           Padding(
@@ -108,7 +102,8 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ExchangePage(exchange: widget.exchange),
+                        builder: (context) =>
+                            ExchangePage(exchange: widget.exchange),
                       ),
                     );
                   },
