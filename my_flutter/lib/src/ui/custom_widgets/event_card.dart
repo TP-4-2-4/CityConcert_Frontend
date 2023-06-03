@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/ui/event_details.dart';
 import '../../models/event_model.dart';
 import '../order_page.dart';
 
@@ -45,7 +46,7 @@ class _EventCardWidgetState extends State<EventCardWidget> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => OrderPage(event: widget.event),
+                    builder: (context) => EventDetailsPage(event: widget.event),
                   ),
                 );
               },
