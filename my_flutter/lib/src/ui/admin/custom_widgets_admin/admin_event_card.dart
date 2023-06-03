@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/blocs/event_bloc.dart';
 import 'package:my_flutter/src/models/event_model.dart';
+
 
 
 class AdminEventCardWidget extends StatefulWidget {
@@ -69,8 +71,8 @@ class _AdminEventCardWidgetState extends State<AdminEventCardWidget> {
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                 child: TextButton(
-                  onPressed: () {
-                    print('Button pressed ...');
+                  onPressed: () async {
+                   bloc.deleteEventById(widget.event.id!);
                   },
                   style: deleteButtonStyle,
                   child: const Text(

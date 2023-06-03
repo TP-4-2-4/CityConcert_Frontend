@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/models/venue_model.dart';
 
+
+import '../../../blocs/venue_bloc.dart';
 import '../../custom_widgets/event_card.dart';
-import '../admin_main.dart';
 import 'admin_add_event.dart';
 
-class AdminAddEvent extends StatefulWidget {
+class AdminAddVenue extends StatefulWidget {
   @override
-  _AdminAddEventState createState() => _AdminAddEventState();
+  _AdminAddVenueState createState() => _AdminAddVenueState();
 }
 
-class _AdminAddEventState extends State<AdminAddEvent> {
+class _AdminAddVenueState extends State<AdminAddVenue> {
   TextEditingController _venueNameController = TextEditingController();
   TextEditingController _venueLocationController = TextEditingController();
   TextEditingController _venueDescriptionController = TextEditingController();
-
+  TextEditingController _venueCapacityController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,18 +57,19 @@ class _AdminAddEventState extends State<AdminAddEvent> {
             InputField(controller: _venueLocationController, hintText: "Адрес"),
             InputField(
                 controller: _venueDescriptionController, hintText: "Описание"),
+            InputField(
+                controller: _venueCapacityController, hintText: "Вместимость"),
             Row(children: [
               Expanded(
                 child: Padding(
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NavigationPageAdmin(),
-                        ),
-                      );
+                      VenueModel venue = VenueModel(id:0, name:_venueNameController.text,
+                          location:_venueLocationController.text,
+                          description:_venueDescriptionController.text,capacity:int.parse(_venueCapacityController.text),
+                          image: "r");
+                    bloc.addVenue(venue);
                     },
                     style: flatroundedButtonStyleDark,
                     child: const Text(
