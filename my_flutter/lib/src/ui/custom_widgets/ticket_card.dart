@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/blocs/event_bloc.dart';
+import 'package:my_flutter/src/blocs/venue_bloc.dart' as vbloc;
 import 'package:my_flutter/src/models/event_model.dart';
 import 'package:my_flutter/src/models/ticket_model.dart';
 
+import '../../models/venue_model.dart';
 import '../event_details.dart';
 
 class TicketCardWidget extends StatefulWidget {
@@ -19,18 +21,11 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
   late EventModel event;
 
   Future<void> _getEvent() async {
-    bloc.deleteEventById(widget.ticket.eventId!);
-    StreamBuilder(
-      stream: bloc.event,
-      builder: (context, AsyncSnapshot<EventModel> snapshot) {
-        if (snapshot.hasData) {
-          event = snapshot.data!;
-        } else if (snapshot.hasError) {
-          return Text('Не удалось получить мероприятие билета');
-        }
-        return const Text('Мероприятие StreamBuilder');
-      },
-    );
+    bloc.fetchEventById(widget.ticket.eventId!);
+  }
+
+  Future<void> _getVenue(int id) async {
+    vbloc.bloc.fetchVenueById(id);
   }
 
   @override
@@ -84,32 +79,66 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                     Padding(
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                      child: Text(
-                        event.name!.toUpperCase(),
-                        style: TextStyle(
-                          color: Theme.of(context).primaryColorLight,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      child: StreamBuilder(
+                        stream: bloc.event,
+                        builder: (context, AsyncSnapshot<EventModel> snapshot) {
+                          if (snapshot.hasData) {
+                            event = snapshot.data!;
+                            _getVenue(event.venue!);
+                            return Text(
+                              event.name!.toUpperCase(),
+                              style: TextStyle(
+                                color: Theme.of(context).primaryColorLight,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            );
+                          } else if (snapshot.hasError) {
+                            return Text(
+                                'Не удалось получить мероприятие билета');
+                          }
+                          return Text("Event stream");
+                        },
                       ),
                     ),
-                    Text(
-                      event.startTime!,
-                      style: TextStyle(
-                        color: Theme.of(context)
-                            .primaryColorLight
-                            .withOpacity(0.40),
-                        fontWeight: FontWeight.bold,
-                      ),
+                    StreamBuilder(
+                      stream: bloc.event,
+                      builder: (context, AsyncSnapshot<EventModel> snapshot) {
+                        if (snapshot.hasData) {
+                          event = snapshot.data!;
+                          return Text(
+                            event.startTime!,
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryColorLight
+                                  .withOpacity(0.40),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Не удалось получить мероприятие билета');
+                        }
+                        return Text("Event stream");
+                      },
                     ),
-                    // Text(
-                    //   event.venue as String,
-                    //   style: TextStyle(
-                    //     color: Theme.of(context)
-                    //         .primaryColorLight
-                    //         .withOpacity(0.40),
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
+                    StreamBuilder(
+                      stream: vbloc.bloc.venue,
+                      builder: (context, AsyncSnapshot<VenueModel> snapshot) {
+                        if (snapshot.hasData) {
+                          return Text(
+                            snapshot.data!.name!,
+                            style: TextStyle(
+                              color: Theme.of(context)
+                                  .primaryColorLight
+                                  .withOpacity(0.40),
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Text('Не удалось получить площадку билета');
+                        }
+                        return Text("Venue stream");
+                      },
+                    ),
                   ],
                 ),
               ),
