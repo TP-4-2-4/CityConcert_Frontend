@@ -1,6 +1,6 @@
 class TicketModel {
   int? id;
-  int? price;
+  double? price;
   String? seat;
   String? status;
   String? purchaseDate;
