@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../blocs/event_bloc.dart';
 import '../../models/lists/events_list.dart';
 import '../custom_widgets/event_card.dart';
+import 'admin_services/admin_add_event.dart';
 import 'custom_widgets_admin/admin_event_card.dart';
 
 class AdminEventsPage extends StatefulWidget {
@@ -31,12 +32,12 @@ class _AdminEventsPageState extends State<AdminEventsPage> {
       backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
         top: true,
-        child: SingleChildScrollView(
+        child: Expanded(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
@@ -51,7 +52,11 @@ class _AdminEventsPageState extends State<AdminEventsPage> {
                           size: 24,
                         ),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  AdminAddEvent()));
                         },
                       ),
                     ),

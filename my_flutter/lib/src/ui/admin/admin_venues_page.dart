@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/ui/admin/admin_services/admin_add_venue.dart';
 
 import '../../blocs/venue_bloc.dart';
 import '../../models/lists/venues_list.dart';
@@ -31,12 +32,12 @@ class _AdminVenuesPageState extends State<AdminVenuesPage> {
       backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
         top: true,
-        child: SingleChildScrollView(
+        child: Expanded(
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Row(
-                mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
@@ -51,7 +52,11 @@ class _AdminVenuesPageState extends State<AdminVenuesPage> {
                           size: 24,
                         ),
                         onPressed: () {
-                          print('IconButton pressed ...');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  AdminAddVenue()));
                         },
                       ),
                     ),
