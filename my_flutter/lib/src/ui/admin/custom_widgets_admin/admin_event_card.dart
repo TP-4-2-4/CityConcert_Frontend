@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/blocs/event_bloc.dart';
 import 'package:my_flutter/src/models/event_model.dart';
+import 'package:my_flutter/src/ui/admin/admin_services/admin_update_event.dart';
 
 
 
@@ -56,7 +57,13 @@ class _AdminEventCardWidgetState extends State<AdminEventCardWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                 child: TextButton(
                   onPressed: () {
-                    //AdminAddEvent();
+
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  AdminUpdateEvent(widget.event),
+                      ),
+                    );
                   },
                   style: editButtonStyle,
                   child: const Text(

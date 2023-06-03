@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/ui/admin/admin_services/admin_update_venue.dart';
 
+import '../../../blocs/venue_bloc.dart';
 import '../../../models/venue_model.dart';
 import 'admin_event_card.dart';
 
@@ -55,7 +57,12 @@ class _AdminVenueCardWidgetState extends State<AdminVenueCardWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                 child: TextButton(
                   onPressed: () {
-                    print('Button pressed ...');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  AdminUpdateVenue(widget.venue),
+                      ),
+                    );
                   },
                   style: editButtonStyle,
                   child: const Text(
@@ -71,7 +78,8 @@ class _AdminVenueCardWidgetState extends State<AdminVenueCardWidget> {
                 padding: const EdgeInsetsDirectional.fromSTEB(8, 8, 8, 8),
                 child: TextButton(
                   onPressed: () {
-                    print('Button pressed ...');
+                    bloc.deleteVenueById(widget.venue.id!);
+
                   },
                   style: deleteButtonStyle,
                   child: const Text(
