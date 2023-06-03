@@ -17,29 +17,25 @@ class _TicketsWidgetState extends State<TicketsWidget> {
   UserModel? user;
 
   Future<void> _fetchCurrentUser() async {
-      if(await FlutterSession().get("currentUser")){
-        user = await FlutterSession().get("currentUser");
-      }
-      else {
-        user = null;
-      }
+    user = await FlutterSession().get("currentUser");
+    print("fetched user ${user!.username}");
+    if (user != null) {
+      print("start fetching tickets...");
+      _getUserTickets(user!.id!);
+      print("got tickets");
+    }
   }
 
-  Future<void> _getUserTickets(int id) async {
+  void _getUserTickets(int id) {
     bloc.fetchTicketsByUserId(id);
   }
 
   @override
   void initState() {
+    //_fetchCurrentUser();
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      // do something
-      print("Build Completed");
-      _fetchCurrentUser();
-      if (user != null) {
-        _getUserTickets(user!.id!);
-      }
-    });
+    // do something
+    print("Build Tickets Page Completed");
   }
 
   @override
@@ -49,6 +45,7 @@ class _TicketsWidgetState extends State<TicketsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _fetchCurrentUser();
     return Scaffold(
       backgroundColor: Theme.of(context).canvasColor,
       body: SafeArea(
@@ -57,12 +54,21 @@ class _TicketsWidgetState extends State<TicketsWidget> {
           mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (user != null) ...[
+            if (user == null) ...[
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                child: Text(
+                  "Зарегистрируйтесь или войдите, чтобы просматривать свои билеты",
+                  style: TextStyle(color: Theme.of(context).primaryColorLight),
+                ),
+              ),
+            ] else if (user != null) ...[
               Expanded(
                   child: StreamBuilder(
                 stream: bloc.tickets,
                 builder: (context, AsyncSnapshot<TicketsList> snapshot) {
                   if (snapshot.hasData) {
+                    print("starting list view");
                     return ListView(
                         children: List.generate(
                             snapshot.data!.tickets.length,
@@ -75,14 +81,6 @@ class _TicketsWidgetState extends State<TicketsWidget> {
                   }
                 },
               )),
-            ] else ...[
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
-                child: Text(
-                  "Зарегистрируйтесь или войдите, чтобы просматривать свои билеты",
-                  style: TextStyle(color: Theme.of(context).primaryColorLight),
-                ),
-              ),
             ]
           ],
         ),
