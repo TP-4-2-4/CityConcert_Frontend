@@ -1,5 +1,5 @@
 class ServerUrls {
-  static const SERVER_URL='https://cityconcertbackend-production.up.railway.app';
+  static const SERVER_URL='https://test-backend-telb.onrender.com';
 
   static const FILTER_BY_NAME_EVENT_URL = '/event/filter_by_name';
   static const FILTER_BY_PRICE_EVENT_URL = '/event/filter_by_price';
