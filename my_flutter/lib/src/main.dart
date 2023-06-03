@@ -5,6 +5,7 @@ import 'package:my_flutter/src/ui/account_page_unauthorized.dart';
 import 'package:my_flutter/src/ui/home_page.dart';
 import 'package:my_flutter/src/ui/recommendations_page.dart';
 import 'package:my_flutter/src/ui/splash_screen.dart';
+import 'package:my_flutter/src/ui/tickets_page.dart';
 
 
 void main() {
@@ -45,7 +46,7 @@ class NavigationPage extends StatefulWidget {
 class _NavigationPageState extends State<NavigationPage> {
   int _selectedIndex = 0;
   final List<Widget> _pages = [HomePage(), RecommendationsPage(),
-    SearchPage(), TicketsPage(), AccountPage()];
+    SearchPage(), TicketsWidget(), AccountPage()];
   final List<Widget> _appbarText = [const Text('Home'), const Text('Recommendations'),
     const Text('Search'), const Text('My tickets'), const Text('Account')];
 
@@ -82,7 +83,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.list),
+                icon: Icon(FontAwesomeIcons.boltLightning),
                 label: 'Recs',
               ),
               BottomNavigationBarItem(
@@ -103,18 +104,6 @@ class _NavigationPageState extends State<NavigationPage> {
           ),
         ),
       ),
-    );
-  }
-}
-
-
-class TicketsPage extends StatelessWidget {
-  const TicketsPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Tickets Page'),
     );
   }
 }

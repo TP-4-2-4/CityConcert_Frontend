@@ -100,7 +100,7 @@ class EventApiProvider {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
     final response = await client
-        .post(Uri.parse(apiUrl));
+        .get(Uri.parse(apiUrl));
     print(response.statusCode);
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));

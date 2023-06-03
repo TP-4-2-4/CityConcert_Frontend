@@ -6,7 +6,7 @@ import '../../models/lists/tickets_list.dart';
 import '../../resources/util/flutter_session.dart';
 import '../custom_widgets/event_card.dart';
 
-import '../../blocs/ticket_bloc.dart' as tbloc;
+import '../../blocs/ticket_bloc.dart';
 
 class CreateExchangeWidget extends StatefulWidget {
   const CreateExchangeWidget({Key? key}) : super(key: key);
@@ -16,7 +16,6 @@ class CreateExchangeWidget extends StatefulWidget {
 }
 
 class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
-  final String _dropdownValue = "Выберете билет";
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _wantedSeatController = TextEditingController();
 
@@ -39,8 +38,8 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
     return user;
   }
 
-  Future<void> _fetchTicketsByUserId(int userId) async {
-    tbloc.bloc.fetchTicketsByUserId(userId);
+  Future<void> _getCurrentUserTickets(int userId) async {
+    bloc.fetchTicketsByUserId(userId);
   }
 
   Future<void> _createExchange() async {
@@ -52,7 +51,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
         currentSeat: selectedTicket.seat,
         wantedSeat: _wantedSeatController.text,
         seatFromUser: "");
-    tbloc.bloc.exchangeTicket(newExchange);
+    bloc.exchangeTicket(newExchange);
   }
 
   @override
@@ -167,60 +166,82 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                 ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 8),
-                child: StreamBuilder(
-                    stream: tbloc.bloc.tickets,
-                    builder: (context, AsyncSnapshot<TicketsList> snapshot) {
-                      List<DropdownMenuItem> ticketItems = [];
-                      if (snapshot.hasData) {
-                        final tickets = snapshot.data!.tickets.toList();
-                        ticketItems.add(
-                          DropdownMenuItem(
-                              value: _dropdownValue,
-                              child: const Text('Отдаваемый билет')),
-                        );
-                        for (var ticket in tickets) {
-                          ticketItems.add(
-                            DropdownMenuItem(
-                              value: ticket,
-                              child: Text(
-                                ticket.seat!,
-                              ),
-                            ),
-                          );
-                        }
-                      } else if (snapshot.hasError) {
-                        return Text(snapshot.error.toString());
-                      }
-                      return DropdownButton(
-                        items: ticketItems,
-                        //onChanged: dropdownCallback(_dropdownValue),
-                        value: _dropdownValue,
-                        onChanged: (value) {
-                          setState(() {
-                            selectedTicket = value;
-                          });
-                        },
-                      );
-                    }),
-              ),
-            ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
-                child: TextButton(
+            Row(
+              children: [
+                TextButton(
                   onPressed: () {
-                    _createExchange();
+                    _getCurrentUserTickets(user.id!);
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        backgroundColor: Theme.of(context).canvasColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 300.0,
+                                child: StreamBuilder(
+                                  stream: bloc.tickets,
+                                  builder: (context,
+                                      AsyncSnapshot<TicketsList> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return ListView(
+                                          children: List.generate(
+                                              snapshot.data!.tickets.length,
+                                              (index) => TextButton(
+                                                  onPressed: () {
+                                                    selectedTicket = snapshot
+                                                        .data!.tickets[index];
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(snapshot.data!
+                                                      .tickets[index].seat!))));
+                                    } else if (snapshot.hasError) {
+                                      return Text(snapshot.error.toString());
+                                    } else {
+                                      return const Center(
+                                          child:
+                                              Text('У Вас пока нет билетов'));
+                                    }
+                                  },
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
                   },
-                  style: flatroundedButtonStyle,
-                  child: const Text(
-                    'Опубликовать',
+                  child: const Text('Выбрать отдаваемый билет'),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
+                    child: TextButton(
+                      onPressed: () {
+                        if (selectedTicket.seat != null) {
+                          _createExchange();
+                        }
+                      },
+                      style: flatroundedButtonStyle,
+                      child: const Text(
+                        'Опубликовать',
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
+              ],
+            )
           ],
         ),
       ),

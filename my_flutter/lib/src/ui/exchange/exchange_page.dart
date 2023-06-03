@@ -19,17 +19,8 @@ class ExchangePage extends StatefulWidget {
 }
 
 class _ExchangePageState extends State<ExchangePage> {
-  late String _dropdownValue = "Выберете билет";
   late TicketModel selectedTicket;
   late UserModel user;
-
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        _dropdownValue = selectedValue;
-      });
-    }
-  }
 
   @override
   void initState() {
@@ -93,48 +84,63 @@ class _ExchangePageState extends State<ExchangePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            FutureBuilder<UserModel>(
+                future: _fetchCurrentUser(),
+                builder: (context, snapshot) {
+                  return Text("Выбор билетов для пользователя ${user.id!}");
+                }),
             Row(
               children: [
-                FutureBuilder<UserModel>(
-                    future: _fetchCurrentUser(),
-                    builder: (context, snapshot) {
-                      return Text("Выбор билетов для пользователя ${user.id!}");
-                    }),
-                Expanded(
-                  child: StreamBuilder(
-                      stream: bloc.tickets,
-                      builder: (context, AsyncSnapshot<TicketsList> snapshot) {
-                        List<DropdownMenuItem> ticketItems = [];
-                        if (snapshot.hasData) {
-                          final tickets = snapshot.data!.tickets.toList();
-                          ticketItems.add(
-                            DropdownMenuItem(
-                                value: _dropdownValue,
-                                child: const Text('Отдаваемый билет')),
-                          );
-                          for (var ticket in tickets) {
-                            ticketItems.add(
-                              DropdownMenuItem(
-                                value: ticket,
-                                child: Text(
-                                  ticket.seat!,
+                TextButton(
+                  onPressed: () {
+                    _getCurrentUserTickets(user.id!);
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => Dialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        backgroundColor: Theme.of(context).canvasColor,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              SizedBox(
+                                height: 300.0,
+                                child: StreamBuilder(
+                                  stream: bloc.tickets,
+                                  builder: (context,
+                                      AsyncSnapshot<TicketsList> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return ListView(
+                                          children: List.generate(
+                                              snapshot.data!.tickets.length,
+                                              (index) => TextButton(
+                                                  onPressed: () {
+                                                    selectedTicket = snapshot
+                                                        .data!.tickets[index];
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child: Text(snapshot.data!
+                                                      .tickets[index].seat!))));
+                                    } else if (snapshot.hasError) {
+                                      return Text(snapshot.error.toString());
+                                    } else {
+                                      return const Center(
+                                          child:
+                                              Text('У Вас пока нет билетов'));
+                                    }
+                                  },
                                 ),
-                              ),
-                            );
-                          }
-                        } else if (snapshot.hasError) {
-                          return Text(snapshot.error.toString());
-                        }
-                        return DropdownButton(
-                          items: ticketItems,
-                          value: _dropdownValue,
-                          onChanged: (value) {
-                            setState(() {
-                              selectedTicket = value;
-                            });
-                          },
-                        );
-                      }),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  child: const Text('Выбрать отдаваемый билет'),
                 ),
               ],
             ),
@@ -144,18 +150,14 @@ class _ExchangePageState extends State<ExchangePage> {
                   padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      widget.exchange.seatFromUser = user.id! as String?;
-                      bloc.exchangeTicket(widget.exchange);
+                      if (selectedTicket.seat != null) {
+                        widget.exchange.seatFromUser = selectedTicket.seat;
+                        bloc.exchangeTicket(widget.exchange);
+                      }
                     },
                     style: flatroundedButtonStyle,
                     child: const Text(
                       'Обменяться',
-                      style: TextStyle(
-                        fontFamily: 'Poppins',
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
                     ),
                   ),
                 ),
