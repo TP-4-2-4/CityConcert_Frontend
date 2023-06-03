@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -16,7 +15,7 @@ class VenueBloc {
     VenuesList itemModel = await _repository.fetchVenues();
     _venuesFetcher.sink.add(itemModel);
   }
-  fetchVenueById(Long id) async {
+  fetchVenueById(int id) async {
     VenueModel venue = await _repository.fetchVenue(id);
     _venueFetcher.sink.add(venue);
   }
@@ -24,7 +23,7 @@ class VenueBloc {
     VenueModel e = await _repository.addVenue(venue);
     _venueFetcher.sink.add(e);
   }
-  deleteVenueById(Long id) async {
+  deleteVenueById(int id) async {
     VenueModel venue = await _repository.deleteVenue(id);
     _venueFetcher.sink.add(venue);
   }

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:http/http.dart' show Client;
 import 'dart:convert';
 import '../../models/lists/venues_list.dart';
@@ -23,7 +22,7 @@ class VenueApiProvider {
     }
   }
 
-  Future<VenueModel> fetchVenue(Long id) async {
+  Future<VenueModel> fetchVenue(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_VENUE_BY_ID_URL}$id';
     final response = await client
@@ -47,7 +46,7 @@ class VenueApiProvider {
       throw Exception('Failed to load venue');
     }
   }
-  Future<VenueModel> deleteVenue(Long id) async {
+  Future<VenueModel> deleteVenue(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_VENUE_URL}$id';
     final response = await client

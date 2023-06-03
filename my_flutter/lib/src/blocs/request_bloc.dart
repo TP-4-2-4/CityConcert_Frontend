@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:rxdart/rxdart.dart';
 
@@ -11,13 +10,13 @@ class RequestBloc {
   final _requestFetcher = PublishSubject<RequestModel>();
   final _requestsFetcher = PublishSubject<RequestsList>();
 
-  Stream<RequestModel> get requests => _requestFetcher.stream;
+  Stream<RequestsList> get requests => _requestsFetcher.stream;
 
   fetchRequests(String type) async {
     RequestsList itemModel = await _repository.fetchRequests(type);
     _requestsFetcher.sink.add(itemModel);
   }
-  fetchRequestById(Long id) async {
+  fetchRequestById(int id) async {
     RequestModel request = await _repository.fetchRequest(id);
     _requestFetcher.sink.add(request);
   }
@@ -25,7 +24,7 @@ class RequestBloc {
     RequestModel e = await _repository.addRequest(request);
     _requestFetcher.sink.add(e);
   }
-  deleteRequestById(Long id) async {
+  deleteRequestById(int id) async {
     RequestModel request = await _repository.deleteRequest(id);
     _requestFetcher.sink.add(request);
   }

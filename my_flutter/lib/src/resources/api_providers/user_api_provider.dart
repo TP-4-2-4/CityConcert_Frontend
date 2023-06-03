@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:ffi';
 
 import 'package:http/http.dart';
 import 'package:my_flutter/src/models/registration_model.dart';
@@ -24,7 +23,7 @@ class UserApiProvider {
     }
   }
 
-  Future<UserModel> fetchUser(Long id) async {
+  Future<UserModel> fetchUser(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_USER_BY_ID_URL}$id';
     final response = await client
@@ -48,7 +47,7 @@ class UserApiProvider {
       throw Exception('Failed to load User');
     }
   }
-  Future<UserModel> deleteUser(Long id) async {
+  Future<UserModel> deleteUser(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_USER_URL}$id';
     final response = await client

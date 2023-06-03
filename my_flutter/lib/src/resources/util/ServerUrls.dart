@@ -29,15 +29,16 @@ class ServerUrls {
   static const TICKET_MAIL_URL = '/ticket/mail/';
   static const TICKET_EXCHANGE_URL = '/ticket/exchange';
   static const GET_TICKET_BY_ID_URL = '/ticket/get/';
+  static const GET_TICKETS_BY_USER_ID_URL = '/ticket/user/';
   static const UPDATE_TICKET_URL = '/ticket/update';
   static const ADD_TICKET_URL = '/ticket/add';
   static const DELETE_TICKET_URL = '/ticket/delete/';
 
-  static const GET_USER_CURRENT_URL = '/user/current';
-  static const GET_USER_BY_ID_URL = '/user/get/';
-  static const UPDATE_USER_URL = '/user/update';
-  static const ADD_USER_URL = '/user/add';
-  static const DELETE_USER_URL = '/user/delete/';
+  static const GET_USER_CURRENT_URL = '/users/current';
+  static const GET_USER_BY_ID_URL = '/users/get/';
+  static const UPDATE_USER_URL = '/users/update';
+  static const ADD_USER_URL = '/users/add';
+  static const DELETE_USER_URL = '/users/delete/';
 
   static const LOGIN_URL = '/login';
   static const REGISTRATION_URL = '/registration';

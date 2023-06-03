@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/main.dart';
 
 import 'package:my_flutter/src/models/registration_model.dart';
+import 'package:my_flutter/src/models/user_model.dart';
 import '../blocs/user_bloc.dart';
+import '../resources/util/flutter_session.dart';
 import 'custom_widgets/event_card.dart';
-import 'home_page.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -316,24 +318,27 @@ class _AccountPageState extends State<AccountPage> {
         password: password,
         passwordConfirm: passwordConfirm);
     bloc.registration(newUser);
-    bloc.login(login, password);
+    UserModel user = await bloc.login(login, password);
+    await FlutterSession().set('currentUser', user );
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+        context, MaterialPageRoute(builder: (context) => const NavigationPage()));
   }
 
   void signIn() async {
     String login = loginController.text;
     String password = passwordController.text;
-    bloc.login(login, password);
+    UserModel user = await bloc.login(login, password);
+    await FlutterSession().set('currentUser', user );
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const HomePage()));
+        context, MaterialPageRoute(builder: (context) => const NavigationPage()));
   }
 
 
 void signInAsAdmin() async {
   String login = loginController.text;
   String password = passwordController.text;
-  bloc.login(login, password);
+  UserModel user = await bloc.login(login, password);
+  await FlutterSession().set('currentUser', user );
 //todo: admin page redirect
 }}
 

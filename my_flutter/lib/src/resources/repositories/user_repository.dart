@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:my_flutter/src/models/registration_model.dart';
 import 'package:my_flutter/src/models/user_model.dart';
@@ -9,8 +8,8 @@ class UserRepository {
   final usersApiProvider = UserApiProvider();
 
   Future<UserModel> fetchCurrentUser() => usersApiProvider.fetchCurrentUser();
-  Future<UserModel> fetchUser(Long id) => usersApiProvider.fetchUser(id);
-  Future<UserModel> deleteUser(Long id) => usersApiProvider.deleteUser(id);
+  Future<UserModel> fetchUser(int id) => usersApiProvider.fetchUser(id);
+  Future<UserModel> deleteUser(int id) => usersApiProvider.deleteUser(id);
   Future<UserModel> addUser(UserModel user) => usersApiProvider.addUser(user);
   Future<UserModel> updateUser(UserModel user) => usersApiProvider.updateUser(user);
   Future<RegistrationModel> registration(RegistrationModel user) => usersApiProvider.registration(user);
