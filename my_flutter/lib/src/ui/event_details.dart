@@ -145,7 +145,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
                                   fontFamily: 'Poppins',
-                                  fontSize: 14,
+                                    fontSize: 15,
+                                    color: Color(0xff9D9D9D)
                                 ),
                               ),
                             ),
@@ -293,7 +294,8 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(
                                     fontFamily: 'Poppins',
-                                    fontSize: 14,
+                                      fontSize: 15,
+                                      color: Color(0xff9D9D9D)
                                   ),
                                 ),
                               ),
