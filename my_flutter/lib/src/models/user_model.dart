@@ -5,7 +5,7 @@ class UserModel {
   String? password;
   String? passwordConfirm;
   String? role;
-  List<String>? image;
+  String? image;
 
   UserModel(
       {this.id,

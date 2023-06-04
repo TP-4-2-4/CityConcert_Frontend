@@ -16,17 +16,17 @@ class TicketCardWidget extends StatefulWidget {
 }
 
 class _EventCardWidgetState extends State<TicketCardWidget> {
- late EventModel event;
-  Future<EventModel> _getEvent() async {
-    return bloc.fetchEventById(widget.ticket.eventId!);
-  }
+  EventModel? event;
 
+  Future<EventModel?> _getEvent() async {
+    event = await bloc.fetchEventById(widget.ticket.eventId!);
+    return event;
+  }
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _getEvent();
       print("Got event in initState");
     });
   }
@@ -43,7 +43,7 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
             context,
             MaterialPageRoute(
                 builder: (context) => EventDetailsPage(
-                      event: event,
+                      event: event!,
                     )));
       },
       child: Container(
@@ -73,46 +73,43 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
                     Padding(
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                      child: FutureBuilder(
+                      child: FutureBuilder<EventModel?>(
                         future: _getEvent(),
-                        builder: (context,snapshot) {
-                          if (snapshot.hasData) {
-                            return Text(
-                              event.name!.toUpperCase(),
-                              style: TextStyle(
-                                color: Theme.of(context).primaryColorLight,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            );
-                          } else if (snapshot.hasError) {
-                            return Text(
-                                'Не удалось получить мероприятие билета');
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return const Text("Загружается...");
+                          } else if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            if (snapshot.hasData) {
+                              return ListView(children: [
+                                Text(
+                                  snapshot.data!.name!.toUpperCase(),
+                                  style: TextStyle(
+                                    color: Theme.of(context).primaryColorLight,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  snapshot.data!.startTime!,
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .primaryColorLight
+                                        .withOpacity(0.40),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ]);
+                            } else if (snapshot.hasError) {
+                              return Text('Error: ${snapshot.error}');
+                            }
+                          } else {
+                            return Text('State: ${snapshot.connectionState}');
                           }
-                          return Text("Event stream");
+                          return Text("");
                         },
                       ),
                     ),
-                    StreamBuilder(
-                      stream: bloc.event,
-                      builder: (context, AsyncSnapshot<EventModel> snapshot) {
-                        if (snapshot.hasData) {
-                          event = snapshot.data!;
-                          return Text(
-                            event.startTime!,
-                            style: TextStyle(
-                              color: Theme.of(context)
-                                  .primaryColorLight
-                                  .withOpacity(0.40),
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        } else if (snapshot.hasError) {
-                          return Text('Не удалось получить мероприятие билета');
-                        }
-                        return Text("Event stream");
-                      },
-                    ),
-
                   ],
                 ),
               ),

@@ -74,20 +74,20 @@ class _NavigationPageState extends State<NavigationPage> {
             type: BottomNavigationBarType.fixed, // Отменяем анимацию навбара
             elevation: 0, // Устанавливаем значение elevation на 0, чтобы убрать тень
             fixedColor: Theme.of(context).primaryColorDark, // Устанавливаем цвет активной кнопки
-            unselectedItemColor: Theme.of(context).canvasColor, // Устанавливаем цвет неактивных кнопок
+            unselectedItemColor: Theme.of(context).canvasColor.withOpacity(0.4), // Устанавливаем цвет неактивных кнопок
             showSelectedLabels: false, // Устанавливаем значение false, чтобы скрыть выбранные метки
             showUnselectedLabels: false, // Устанавливаем значение false, чтобы скрыть не выбранные метки
             items: const [
               BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.house),
+                icon: Icon(FontAwesomeIcons.house, size: 20,),
                 label: 'Home',
               ),
               BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.boltLightning),
+                icon: Icon(FontAwesomeIcons.boltLightning, size: 20),
                 label: 'Recs',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.search),
+                icon: Icon(Icons.search_rounded),
                 label: 'Search',
               ),
               BottomNavigationBarItem(
@@ -95,7 +95,7 @@ class _NavigationPageState extends State<NavigationPage> {
                 label: 'Tickets',
               ),
               BottomNavigationBarItem(
-                icon: Icon(FontAwesomeIcons.user),
+                icon: Icon(Icons.account_circle_rounded),
                 label: 'Account',
               ),
             ],

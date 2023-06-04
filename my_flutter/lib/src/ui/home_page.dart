@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage>{
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(0.0),
         child: Column(
           children: [
             const SizedBox(height: 16.0),
@@ -45,7 +45,14 @@ class _HomePageState extends State<HomePage>{
                     } else if (snapshot.hasError) {
                       return Text(snapshot.error.toString());
                     } else {
-                      return const Center(child: Text('Нет мероприятий ...'));
+                      return Center(
+                        child: Text(
+                          'Мероприятия загружаются ...',
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      );
                     }
                   },
                 )),
