@@ -9,16 +9,15 @@ import '../custom_widgets/event_card.dart';
 import '../../blocs/ticket_bloc.dart';
 import '../../blocs/request_bloc.dart' as rbloc;
 
-class CreateExchangeWidget extends StatefulWidget {
-  const CreateExchangeWidget({Key? key}) : super(key: key);
+class CreateCompanyWidget extends StatefulWidget {
+  const CreateCompanyWidget({Key? key}) : super(key: key);
 
   @override
-  _CreateExchangeWidgetState createState() => _CreateExchangeWidgetState();
+  _CreateCompanyWidgetState createState() => _CreateCompanyWidgetState();
 }
 
-class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
+class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
   final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _wantedSeatController = TextEditingController();
 
   late UserModel user;
   late TicketModel selectedTicket;
@@ -45,12 +44,12 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
 
   Future<void> _createExchange() async {
     RequestModel newExchange = RequestModel(
-        userId: selectedTicket.userId,
+        userId: user.id,
         eventId: selectedTicket.eventId,
-        requestType: "EXCHANGE",
+        requestType: "COMPANY",
         description: _descriptionController.text,
         currentSeat: selectedTicket.seat,
-        wantedSeat: _wantedSeatController.text,
+        wantedSeat: null,
         seatFromUser: null);
     rbloc.bloc.addRequest(newExchange);
   }
@@ -75,7 +74,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
         title: const Align(
           alignment: AlignmentDirectional(-0.6, 0),
           child: Text(
-            'Создать обмен',
+            'Создать компанию',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -99,7 +98,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                 future: _fetchCurrentUser(),
                 builder: (context, snapshot) {
                   return Text(
-                      "Выбор билетов для пользователя ${user.username}");
+                      "Создание компании для пользователя ${user.username}");
                 }),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
@@ -115,38 +114,6 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                   filled: true,
                   fillColor: Colors.black54,
                   hintText: 'Полное описание',
-                  hintStyle: TextStyle(
-                    color: Theme.of(context).primaryColorLight,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Theme.of(context).primaryColor,
-                      width: 2.0,
-                    ),
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    vertical: 14.0,
-                    horizontal: 10.0,
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
-              child: TextField(
-                style: TextStyle(
-                  color: Theme.of(context).primaryColorLight,
-                ),
-                controller: _wantedSeatController,
-                cursorColor: Theme.of(context).primaryColor,
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Colors.black54,
-                  hintText: 'Желаемый билет',
                   hintStyle: TextStyle(
                     color: Theme.of(context).primaryColorLight,
                   ),
@@ -194,7 +161,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                                       return ListView(
                                           children: List.generate(
                                               snapshot.data!.tickets.length,
-                                              (index) => TextButton(
+                                                  (index) => TextButton(
                                                   onPressed: () {
                                                     selectedTicket = snapshot
                                                         .data!.tickets[index];
@@ -207,7 +174,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                                     } else {
                                       return const Center(
                                           child:
-                                              Text('У Вас пока нет билетов'));
+                                          Text('У Вас пока нет билетов'));
                                     }
                                   },
                                 ),
@@ -218,7 +185,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                       ),
                     );
                   },
-                  child: const Text('Выбрать отдаваемый билет'),
+                  child: const Text('Выбрать мероприятие'),
                 ),
               ],
             ),
@@ -227,7 +194,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                 Expanded(
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
+                    const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
                     child: TextButton(
                       onPressed: () {
                         if (selectedTicket.seat != null) {
