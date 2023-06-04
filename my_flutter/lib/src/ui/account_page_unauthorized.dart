@@ -40,14 +40,24 @@ class _AccountPageState extends State<AccountPage> {
           child: Stack(
         children: [
           FutureBuilder<UserModel?>(
-              future: _fetchCurrentUser(),
-              builder: (context, snapshot) {
+            future: _fetchCurrentUser(), // async work
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Text(
+                  "...",
+                );
+              } else if (snapshot.connectionState ==
+                  ConnectionState.done) {
                 if (snapshot.hasData) {
                   return ProfilePage(user: snapshot.data!);
                 } else {
                   return logins();
                 }
-              }),
+              } else {
+                return Text('State: ${snapshot.connectionState}');
+              }
+            },
+          ),
         ],
       )),
     );
