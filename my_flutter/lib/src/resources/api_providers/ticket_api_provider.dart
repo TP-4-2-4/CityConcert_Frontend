@@ -75,6 +75,23 @@ class TicketApiProvider {
     }
   }
 
+  Future<TicketsList> fetchTicketsByEventId(int eventId) async {
+    print("entered");
+    String apiUrl =
+        '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKETS_BY_EVENT_ID_URL}$eventId';
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      return TicketsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+    } else {
+      throw Exception('Failed to load Tickets by EventID');
+    }
+  }
+
   Future<TicketModel> fetchTicket(int id) async {
     print("entered");
     String apiUrl =
