@@ -41,6 +41,9 @@ class _SearchPageState extends State<SearchPage> {
                         filled: true,
                         fillColor: Colors.black54,
                         hintText: 'Введите текст для поиска',
+                        hintStyle: TextStyle(
+                          color: Theme.of(context).primaryColor,
+                    ),
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30.0),
                         ),
@@ -82,7 +85,9 @@ class _SearchPageState extends State<SearchPage> {
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 }
-                return const Center(child: Text('Здесь пока ничего нет ...'));
+                return Center(child: Text('Здесь пока ничего нет ...',style: TextStyle(
+                  color: Theme.of(context).primaryColorLight.withOpacity(0.6),
+                ),));
               },
             )),
           ],
