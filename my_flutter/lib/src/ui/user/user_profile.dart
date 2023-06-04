@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:my_flutter/src/ui/user/user_settings.dart';
 
 import '../../models/user_model.dart';
 import '../custom_widgets/event_card.dart';
@@ -81,8 +82,13 @@ class _ProfilePageState extends State<ProfilePage> {
             children: [
               Expanded(
                 child: TextButton(
-                  onPressed: () {
-                    print('Button pressed ...');
+                  onPressed: () async {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => UserSettingsPage(user: widget.user),
+                      ),
+                    );
                   },
                   style: flatroundedButtonStyleDark,
                   child: const Text('Настройки'),
