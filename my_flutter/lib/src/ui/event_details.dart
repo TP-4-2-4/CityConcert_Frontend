@@ -2,10 +2,14 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/models/venue_model.dart';
+import 'package:my_flutter/src/ui/exchange/exchange_search.dart';
 import 'package:my_flutter/src/ui/venue_details.dart';
 
 import '../blocs/venue_bloc.dart';
+import '../main.dart';
 import '../models/event_model.dart';
+import '../models/user_model.dart';
+import '../resources/util/flutter_session.dart';
 import 'custom_widgets/event_card.dart';
 import 'order_page.dart';
 
@@ -22,9 +26,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
   VenueModel? venue;
   String? venueName;
 
-  Future<VenueModel?> _fetchCurrentUser() async {
-    venue = await bloc.fetchVenueById(widget.event.venue!);
+  Future<UserModel?> _fetchCurrentUser() async {
+    UserModel user = await FlutterSession().get("currentUser");
+    return user;
+  }
 
+  Future<VenueModel?> _fetchVenueName() async {
+    venue = await bloc.fetchVenueById(widget.event.venue!);
     return venue;
   }
 
@@ -144,10 +152,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                 widget.event.genreDescriptors!,
                                 textAlign: TextAlign.justify,
                                 style: const TextStyle(
-                                  fontFamily: 'Poppins',
+                                    fontFamily: 'Poppins',
                                     fontSize: 15,
-                                    color: Color(0xff9D9D9D)
-                                ),
+                                    color: Color(0xff9D9D9D)),
                               ),
                             ),
                           ],
@@ -203,13 +210,13 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => VenueDetailsPage(
-                                            venue: venue!),
+                                        builder: (context) =>
+                                            VenueDetailsPage(venue: venue!),
                                       ),
                                     );
                                   },
                                   child: FutureBuilder<VenueModel?>(
-                                    future: _fetchCurrentUser(), // async work
+                                    future: _fetchVenueName(), // async work
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -293,10 +300,9 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                   widget.event.description!,
                                   textAlign: TextAlign.justify,
                                   style: const TextStyle(
-                                    fontFamily: 'Poppins',
+                                      fontFamily: 'Poppins',
                                       fontSize: 15,
-                                      color: Color(0xff9D9D9D)
-                                  ),
+                                      color: Color(0xff9D9D9D)),
                                 ),
                               ),
                             ),
@@ -305,45 +311,137 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                       ),
                     ],
                   ),
+                  FutureBuilder<UserModel?>(
+                    future: _fetchCurrentUser(), // async work
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Text(
+                          "...",
+                        );
+                      } else if (snapshot.connectionState ==
+                          ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          return authorizedButtonsRow();
+                        } else {
+                          return unAuthorizedButtonsRow();
+                        }
+                      } else {
+                        return Text('State: ${snapshot.connectionState}');
+                      }
+                    },
+                  ),
                 ],
               ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
-                    child: TextButton(
-                      onPressed: () async {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                OrderPage(event: widget.event),
-                          ),
-                        );
-                      },
-                      style: flatroundedButtonStyle,
-                      child: const Text(
-                        'Купить билет',
-                        style: TextStyle(
-                          fontFamily: 'Poppins',
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget unAuthorizedButtonsRow() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
+            child: TextButton(
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderPage(event: widget.event),
+                  ),
+                );
+              },
+              style: flatroundedButtonStyle,
+              child: const Text(
+                'Купить билет',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget authorizedButtonsRow() {
+    return Row(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 4, 16),
+          child: IconButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      NavigationPage(), //todo: redirect to search company
+                ),
+              );
+            },
+            style: flatroundedButtonStyle,
+            icon: Icon(
+              Icons.emoji_people_rounded,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(4, 8, 0, 16),
+          child: IconButton(
+            onPressed: () async {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      SearchExchangeWidget(),
+                ),
+              );
+            },
+            style: flatroundedButtonStyle,
+            icon: Icon(
+              Icons.handshake_rounded,
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
+            child: TextButton(
+              onPressed: () async {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => OrderPage(event: widget.event),
+                  ),
+                );
+              },
+              style: flatroundedButtonStyle,
+              child: const Text(
+                'Купить билет',
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
