@@ -231,12 +231,12 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                         );
                                       } else if (snapshot.connectionState ==
                                           ConnectionState.done) {
-                                        if (snapshot.hasError)
+                                        if (snapshot.hasError) {
                                           return Text(
-                                              'Error: ${snapshot.error}');
-                                        else {
+                                              'Error: ${snapshot.error.toString().substring(0, 10)}...');
+                                        } else {
                                           return Text(
-                                            snapshot.data!.name!,
+                                            '${snapshot.data!.name!.substring(0, 15)}...',
                                             style: TextStyle(
                                               fontFamily: 'Poppins',
                                               color: Theme.of(context)
@@ -247,7 +247,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                         }
                                       } else {
                                         return Text(
-                                            'State: ${snapshot.connectionState}');
+                                            'State: ${snapshot.connectionState.toString().substring(0, 10)}...');
                                       }
                                     },
                                   )),
