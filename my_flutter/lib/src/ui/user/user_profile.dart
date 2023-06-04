@@ -8,6 +8,7 @@ import '../custom_widgets/event_card.dart';
 
 class ProfilePage extends StatefulWidget {
   final UserModel user;
+
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
   @override
@@ -30,10 +31,12 @@ class _ProfilePageState extends State<ProfilePage> {
             alignment: const AlignmentDirectional(0, 0),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(50),
-              child: Text('user pic'),
-              // Image(
-              //   image: MemoryImage(base64Decode(
-              //       "widget.user.image!" )),
+              child: const Icon(
+                Icons.account_circle_rounded,
+                size: 100,
+              ),
+              //     Image(
+              //   image: MemoryImage(base64Decode(widget.user.image!)),
               //   width: 100,
               //   height: 100,
               //   fit: BoxFit.cover,
@@ -51,8 +54,9 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                 child: Text(
                   widget.user.username!,
-                  style: const TextStyle(
-                    fontFamily: 'Poppins',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorLight,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -70,6 +74,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                 child: Text(
                   widget.user.email!,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorLight.withOpacity(0.6),
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ],
@@ -86,16 +94,25 @@ class _ProfilePageState extends State<ProfilePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => UserSettingsPage(user: widget.user),
+                        builder: (context) =>
+                            UserSettingsPage(user: widget.user),
                       ),
                     );
                   },
                   style: flatroundedButtonStyleDark,
-                  child: const Text('Настройки'),
+                  child: Text(
+                    'Настройки',
+                    style: TextStyle(
+                      color: Theme.of(context).primaryColorLight,
+                    ),
+                  ),
                 ),
               ),
             ],
           ),
+        ),
+        const SizedBox(
+          height: 50,
         ),
         TextButton(
           onPressed: () => showDialog<String>(
@@ -121,14 +138,22 @@ class _ProfilePageState extends State<ProfilePage> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text('Понятно'),
+                      child: const Text(
+                        'Понятно',
+                        style: TextStyle(color: Colors.black),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
-          child: const Text('Посмотреть новые возможности'),
+          child: Text(
+            'Посмотреть новые возможности',
+            style: TextStyle(
+              color: Theme.of(context).primaryColor,
+            ),
+          ),
         ),
       ],
     );
