@@ -4,7 +4,6 @@ import '../../blocs/user_bloc.dart';
 import '../../models/request_model.dart';
 import '../../models/user_model.dart';
 
-
 class CompanyDetailsPage extends StatefulWidget {
   final RequestModel company;
 
@@ -41,7 +40,7 @@ class _CompanyDetailsPageState extends State<CompanyDetailsPage> {
         title: const Align(
           alignment: AlignmentDirectional(-0.6, 0),
           child: Text(
-            'Поиск компании',
+            'Просмотр компании',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.white,
@@ -55,7 +54,6 @@ class _CompanyDetailsPageState extends State<CompanyDetailsPage> {
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 50, 16, 25),
@@ -63,27 +61,30 @@ class _CompanyDetailsPageState extends State<CompanyDetailsPage> {
               stream: bloc.user,
               builder: (context, AsyncSnapshot<UserModel> snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data!.username!);
+                  return Text(snapshot.data!.username!,
+                      style: TextStyle(
+                          color: Theme.of(context).primaryColorLight,
+                          fontWeight: FontWeight.bold));
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 } else {
                   return const Center(
-                      child: Text('Пользователь компании не найден'));
+                      child: Text('Пользователь компании загружается'));
                 }
               },
             ),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-            child: Text(
-              widget.company.description!,
-            ),
+            child: Text(widget.company.description!,
+                style: TextStyle(color: Theme.of(context).primaryColorLight)),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-            child: Text(
-              'Место автора: ${widget.company.currentSeat}',
-            ),
+            child: Text('Место автора: ${widget.company.currentSeat}',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColorLight,
+                    fontWeight: FontWeight.bold)),
           ),
         ],
       ),
