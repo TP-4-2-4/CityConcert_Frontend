@@ -10,9 +10,9 @@ class EventApiProvider {
 
   Future<EventsList> fetchEventListByName(String searchText) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.FILTER_BY_NAME_EVENT_URL}/$searchText';
-    final response = await client
-        .get(Uri.parse(apiUrl));
+    String apiUrl =
+        '${ServerUrls.SERVER_URL}${ServerUrls.FILTER_BY_NAME_EVENT_URL}/$searchText';
+    final response = await client.get(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));
@@ -24,8 +24,7 @@ class EventApiProvider {
   Future<EventsList> fetchEventListByFilter() async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.FILTER_EVENT_URL}';
-    final response = await client
-        .post(Uri.parse(apiUrl));
+    final response = await client.post(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));
@@ -33,64 +32,76 @@ class EventApiProvider {
       throw Exception('Failed to load event');
     }
   }
+
   Future<EventsList> fetchEventListAll() async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENTS_URL}';
-    final response = await client
-        .get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
-      return EventsList.fromJson(json.decode(response.body));
+      return EventsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load event');
     }
   }
+
   Future<EventModel> fetchEvent(int id) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENT_BY_ID_URL}$id';
-    final response = await client
-        .get(Uri.parse(apiUrl));
+    String apiUrl =
+        '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENT_BY_ID_URL}$id';
+    final response = await client.get(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode == 200) {
-      return EventModel.fromJson(json.decode(response.body));
+      return EventModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load event');
     }
   }
+
   Future<EventModel> addEvent(EventModel event) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_EVENT_URL}';
-    Map<String,String> headers = {'content-type':'application/json','Accept':"*/*"};
-    final response = await client
-        .post(Uri.parse(apiUrl),body: json.encode(event.toJson()),headers: headers);
+    Map<String, String> headers = {
+      'content-type': 'application/json',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl),
+        body: json.encode(event.toJson()), headers: headers);
     print(response.body.toString());
     print(response.statusCode);
     if (response.statusCode == 200) {
-      return EventModel.fromJson(json.decode(response.body));
+      return EventModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load event');
     }
   }
+
   Future<void> deleteEvent(int id) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_EVENT_URL}$id';
-    final response = await client
-        .delete(Uri.parse(apiUrl));
+    final response = await client.delete(Uri.parse(apiUrl));
     print(response.body.toString());
     if (response.statusCode != 200) {
       throw Exception('Failed to load event');
-    } }
-
+    }
+  }
 
   Future<EventModel> updateEvent(EventModel event) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.UPDATE_EVENT_URL}';
-    Map<String,String> headers = {'content-type':'application/json','Accept':"*/*"};
-    final response = await client
-        .post(Uri.parse(apiUrl),body: json.encode(event.toJson()),headers: headers);
+    Map<String, String> headers = {
+      'content-type': 'application/json',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl),
+        body: json.encode(event.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
-      return EventModel.fromJson(json.decode(response.body));
+      return EventModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load event');
     }
@@ -98,15 +109,14 @@ class EventApiProvider {
 
   Future<EventsList> fetchEventsByRecommendations() async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
-    final response = await client
-        .get(Uri.parse(apiUrl));
+    String apiUrl =
+        '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
+    final response = await client.get(Uri.parse(apiUrl));
     print(response.statusCode);
     if (response.statusCode == 200) {
-      return EventsList.fromJson(json.decode(response.body));
+      return EventsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load event');
     }
   }
-
 }
