@@ -12,9 +12,9 @@ class TicketApiProvider {
 
   Future<TicketModel> buyTicket(TicketModel ticket) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_BUY_URL}';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_BUY_URL}${ticket.id}';
     Map<String, String> headers = {
-      //'content-type': 'application/json; charset=utf-8',
+      'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
     final response = await client.put(Uri.parse(apiUrl), body: ticket.toJson(), headers: headers);
@@ -49,7 +49,7 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: ticket.toJson(), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));

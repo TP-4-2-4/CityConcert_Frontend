@@ -51,11 +51,11 @@ class RequestApiProvider {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_REQUEST_URL}';
     Map<String, String> headers = {
-      'content-type': 'application/json; charset=utf-8',
+      'Content-Type': 'application/json', //todo: fix
       'Accept': "*/*"
     };
     final response =
-        await client.post(Uri.parse(apiUrl), body: request, headers: headers);
+        await client.post(Uri.parse(apiUrl), body: request.toJson(), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(
