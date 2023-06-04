@@ -26,15 +26,15 @@ class TicketModel {
     eventId = json['eventId'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['price'] = this.price;
-    data['seat'] = this.seat;
-    data['status'] = this.status;
-    data['purchaseDate'] = this.purchaseDate;
-    data['userId'] = this.userId;
-    data['eventId'] = this.eventId;
+  Map<String, String> toJson() {
+    final Map<String, String> data = <String, String>{};
+    data['id'] = '$id';
+    data['price'] = '$price';
+    data['seat'] = seat!;
+    data['status'] = status!;
+    data['purchaseDate'] = purchaseDate!;
+    data['userId'] = '$userId';
+    data['eventId'] = '$eventId';
     return data;
   }
 }

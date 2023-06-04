@@ -28,6 +28,10 @@ class _PaymentPageState extends State<PaymentPage> {
   }
   @override
   Widget build(BuildContext context) {
+    widget.ticket.userId = 0;
+    widget.ticket.status = "SOLD";
+    String defaultDate = DateTime.now().toString();
+    widget.ticket.purchaseDate = "${defaultDate.substring(0,10)}T${defaultDate.substring(11)}";
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).canvasColor,
@@ -76,7 +80,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   ConnectionState.done) {
                 if (snapshot.hasData) {
                     _userEmailController.text = snapshot.data!.email!;
-                    widget.ticket.userId = snapshot.data!.id;//todo:change ticket fields
+                    widget.ticket.userId = snapshot.data!.id;
                 }
               }
               return Text('');
@@ -102,6 +106,7 @@ class _PaymentPageState extends State<PaymentPage> {
               Expanded(
                 child: TextButton(
                   onPressed: () {
+                    print('trying to buy ticket: ${widget.ticket.id}, ${widget.ticket.price}, ${widget.ticket.seat}, ${widget.ticket.status}, ${widget.ticket.purchaseDate}, ${widget.ticket.userId}, ${widget.ticket.eventId}');
                     bloc.buyTicket(widget.ticket);
                     Navigator.push(
                         context,

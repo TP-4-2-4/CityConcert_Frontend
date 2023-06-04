@@ -63,11 +63,13 @@ class _TicketsWidgetState extends State<TicketsWidget> {
                 builder: (context, AsyncSnapshot<TicketsList> snapshot) {
                   if (snapshot.hasData) {
                     print("starting list view");
+                    print('printing ticket: ${snapshot.data!.tickets[0].id}, ${snapshot.data!.tickets[0].price}, ${snapshot.data!.tickets[0].seat}, ${snapshot.data!.tickets[0].status}, ${snapshot.data!.tickets[0].purchaseDate}, ${snapshot.data!.tickets[0].userId}, ${snapshot.data!.tickets[0].eventId}');
                     return ListView(
                         children: List.generate(
                             snapshot.data!.tickets.length,
                             (index) => TicketCardWidget(
                                 ticket: snapshot.data!.tickets[index])));
+
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   } else {
