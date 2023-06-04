@@ -12,7 +12,11 @@ class EventApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.FILTER_BY_NAME_EVENT_URL}/$searchText';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(response.body));
@@ -24,10 +28,14 @@ class EventApiProvider {
   Future<EventsList> fetchEventListByFilter() async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.FILTER_EVENT_URL}';
-    final response = await client.post(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl),headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
-      return EventsList.fromJson(json.decode(response.body));
+      return EventsList.fromJson(json.decode(response.body) );
     } else {
       throw Exception('Failed to load event');
     }
@@ -42,6 +50,7 @@ class EventApiProvider {
     };
     final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
+
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
@@ -53,7 +62,11 @@ class EventApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.GET_EVENT_BY_ID_URL}$id';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return EventModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -65,6 +78,7 @@ class EventApiProvider {
   Future<EventModel> addEvent(EventModel event) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_EVENT_URL}';
+
     Map<String, String> headers = {
       'content-type': 'application/json',
       'Accept': "*/*"
@@ -111,7 +125,11 @@ class EventApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.statusCode);
     if (response.statusCode == 200) {
       return EventsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));

@@ -13,7 +13,11 @@ class TicketApiProvider {
   Future<TicketModel> buyTicket(TicketModel ticket) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_BUY_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: ticket);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -25,7 +29,11 @@ class TicketApiProvider {
   Future<TicketModel> mailTicket(TicketModel ticket) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_MAIL_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: ticket);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -37,7 +45,11 @@ class TicketApiProvider {
   Future<TicketModel> exchangeTicket(RequestModel ticket) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: ticket);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -50,7 +62,11 @@ class TicketApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKETS_BY_USER_ID_URL}$userId';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -63,7 +79,11 @@ class TicketApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKET_BY_ID_URL}$id';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -75,7 +95,11 @@ class TicketApiProvider {
   Future<TicketModel> addTicket(TicketModel ticket) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_TICKET_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: ticket);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -88,7 +112,11 @@ class TicketApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_TICKET_URL}$id';
-    final response = await client.delete(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.delete(Uri.parse(apiUrl), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -100,7 +128,11 @@ class TicketApiProvider {
   Future<TicketModel> updateTicket(TicketModel ticket) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.UPDATE_TICKET_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: ticket);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));

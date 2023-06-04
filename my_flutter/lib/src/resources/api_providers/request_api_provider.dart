@@ -13,7 +13,12 @@ class RequestApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.GET_REQUESTS_BY_TYPE_URL}/$type';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
+
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestsList.fromJson(
@@ -27,7 +32,12 @@ class RequestApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.GET_REQUEST_BY_ID_URL}$id';
-    final response = await client.get(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
+
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(
@@ -40,7 +50,12 @@ class RequestApiProvider {
   Future<RequestModel> addRequest(RequestModel request) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_REQUEST_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: request);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response =
+        await client.post(Uri.parse(apiUrl), body: request, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(
@@ -54,7 +69,12 @@ class RequestApiProvider {
     print("entered");
     String apiUrl =
         '${ServerUrls.SERVER_URL}${ServerUrls.DELETE_REQUEST_URL}$id';
-    final response = await client.delete(Uri.parse(apiUrl));
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.delete(Uri.parse(apiUrl), headers: headers);
+
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(
@@ -67,7 +87,12 @@ class RequestApiProvider {
   Future<RequestModel> updateRequest(RequestModel request) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.UPDATE_REQUEST_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: request);
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response =
+        await client.post(Uri.parse(apiUrl), body: request, headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(
