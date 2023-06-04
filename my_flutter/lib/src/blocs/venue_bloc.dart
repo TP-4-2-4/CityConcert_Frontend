@@ -18,9 +18,10 @@ class VenueBloc {
     _venuesFetcher.sink.add(itemModel);
   }
 
-  fetchVenueById(int id) async {
+  Future<VenueModel> fetchVenueById(int id) async {
     VenueModel venue = await _repository.fetchVenue(id);
     _venueFetcher.sink.add(venue);
+    return venue;
   }
 
   addVenue(VenueModel venue) async {
