@@ -26,6 +26,68 @@ class _AccountPageState extends State<AccountPage> {
   bool showSignIn = true;
   bool showSignInAdmin = false;
 
+  Future<UserModel?> _fetchCurrentUser() async {
+    UserModel user = await FlutterSession().get("currentUser");
+    print("fetched user ${user.username}");
+    return user;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).canvasColor,
+      body: SingleChildScrollView(
+          child: Stack(
+        children: [
+          FutureBuilder<UserModel?>(
+              future: _fetchCurrentUser(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return ProfilePage(user: snapshot.data!);
+                } else {
+                  return logins();
+                }
+              }),
+        ],
+      )),
+    );
+  }
+
+  Future<void> signup() async {
+    String login = loginController.text;
+    String password = passwordController.text;
+    String passwordConfirm = passwordConfirmController.text;
+    String email = mailController.text;
+    RegistrationModel newUser = RegistrationModel(
+        username: login,
+        email: email,
+        password: password,
+        passwordConfirm: passwordConfirm);
+    bloc.registration(newUser);
+    UserModel user = await bloc.login(login, password);
+    await FlutterSession().set('currentUser', user);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const NavigationPage()));
+  }
+
+  void signIn() async {
+    String login = loginController.text;
+    String password = passwordController.text;
+    UserModel user = await bloc.login(login, password);
+    await FlutterSession().set('currentUser', user);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const NavigationPage()));
+  }
+
+  void signInAsAdmin() async {
+    String login = loginController.text;
+    String password = passwordController.text;
+    UserModel user = await bloc.login(login, password);
+    await FlutterSession().set('currentUser', user);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => NavigationPageAdmin()));
+  }
+
   Widget logins() {
     return Column(
       mainAxisSize: MainAxisSize.max,
@@ -285,68 +347,6 @@ class _AccountPageState extends State<AccountPage> {
         ],
       ],
     );
-  }
-
-  Future<UserModel?> _fetchCurrentUser() async {
-    UserModel user = await FlutterSession().get("currentUser");
-    print("fetched user ${user.username}");
-    return user;
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).canvasColor,
-      body: SingleChildScrollView(
-          child: Stack(
-        children: [
-          FutureBuilder<UserModel?>(
-              future: _fetchCurrentUser(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ProfilePage(user: snapshot.data!);
-                } else {
-                  return logins();
-                }
-              }),
-        ],
-      )),
-    );
-  }
-
-  Future<void> signup() async {
-    String login = loginController.text;
-    String password = passwordController.text;
-    String passwordConfirm = passwordConfirmController.text;
-    String email = mailController.text;
-    RegistrationModel newUser = RegistrationModel(
-        username: login,
-        email: email,
-        password: password,
-        passwordConfirm: passwordConfirm);
-    bloc.registration(newUser);
-    UserModel user = await bloc.login(login, password);
-    await FlutterSession().set('currentUser', user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NavigationPage()));
-  }
-
-  void signIn() async {
-    String login = loginController.text;
-    String password = passwordController.text;
-    UserModel user = await bloc.login(login, password);
-    await FlutterSession().set('currentUser', user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NavigationPage()));
-  }
-
-  void signInAsAdmin() async {
-    String login = loginController.text;
-    String password = passwordController.text;
-    UserModel user = await bloc.login(login, password);
-    await FlutterSession().set('currentUser', user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => NavigationPageAdmin()));
   }
 }
 
