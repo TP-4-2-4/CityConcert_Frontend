@@ -28,14 +28,14 @@ class EventModel {
     name = json['name'];
     startTime = json['startTime'];
     ticketLimit = json['ticketLimit'];
-    ticketPrice = json['ticketLimit'];
+    ticketPrice = json['ticketPrice'];
     status = json['status'];
     genreDescriptors = json['genreDescriptors'];
     var imgArray = json['image'];
     // todo: byte array implementation
     image = imgArray;
     description = json['description'];
-    venue = json['venue'];
+    venue = json['venue_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,7 +49,7 @@ class EventModel {
     data['genreDescriptors'] = this.genreDescriptors;
     data['image'] = this.image;
     data['description'] = this.description;
-    data['venueId'] = this.venue;
+    data['venue_id'] = this.venue;
     return data;
   }
 }
