@@ -5,6 +5,7 @@ import 'package:my_flutter/src/models/registration_model.dart';
 
 import '../../models/user_model.dart';
 import '../util/ServerUrls.dart';
+import '../util/flutter_session.dart';
 
 class UserApiProvider {
   Client client = Client();
@@ -108,6 +109,7 @@ class UserApiProvider {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.LOGIN_URL}';
     final response = await client.get(Uri.parse(apiUrl),headers: headers);
+    await FlutterSession().set('currentUser', "");
     print(response.body.toString());
     if (response.statusCode == 200) {
       throw Exception('Failed to load User');
