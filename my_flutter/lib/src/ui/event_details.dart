@@ -206,14 +206,16 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    print('event name pushed');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            VenueDetailsPage(venue: venue!),
-                                      ),
-                                    );
+                                    print('venue name pushed');
+                                    if (venue != null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VenueDetailsPage(venue: venue!),
+                                        ),
+                                      );
+                                    } else {}
                                   },
                                   child: FutureBuilder<VenueModel?>(
                                     future: _fetchVenueName(), // async work
@@ -385,8 +387,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      SearchCompanyWidget(),
+                  builder: (context) => SearchCompanyWidget(),
                 ),
               );
             },
@@ -404,8 +405,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      SearchExchangeWidget(),
+                  builder: (context) => SearchExchangeWidget(),
                 ),
               );
             },

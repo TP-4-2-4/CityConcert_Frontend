@@ -33,90 +33,97 @@ class _EventCardWidgetState extends State<TicketCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      splashColor: Colors.transparent,
-      focusColor: Colors.transparent,
-      hoverColor: Colors.transparent,
-      highlightColor: Colors.transparent,
-      onTap: () async {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => EventDetailsPage(
-                      event: event!,
-                    )));
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
-          borderRadius: BorderRadius.circular(16),
-          shape: BoxShape.rectangle,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 16, 32),
-              child: Icon(
-                FontAwesomeIcons.barcode,
-                color: Theme.of(context).primaryColorLight,
-                size: 50,
-              ),
+    return Padding(
+        padding: const EdgeInsetsDirectional.fromSTEB(16, 4, 16, 4),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () async {
+            if (event != null) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => EventDetailsPage(
+                            event: event!,
+                          )));
+            } else {}
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).primaryColorDark,
+              borderRadius: BorderRadius.circular(16),
+              shape: BoxShape.rectangle,
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 16, 32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
-                      child: FutureBuilder<EventModel?>(
-                        future: _getEvent(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Text("Загружается...");
-                          } else if (snapshot.connectionState ==
-                              ConnectionState.done) {
-                            if (snapshot.hasData) {
-                              return ListView(children: [
-                                Text(
-                                  snapshot.data!.name!.toUpperCase(),
-                                  style: TextStyle(
-                                    color: Theme.of(context).primaryColorLight,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  snapshot.data!.startTime!,
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .primaryColorLight
-                                        .withOpacity(0.40),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                              ]);
-                            } else if (snapshot.hasError) {
-                              return Text('Error: ${snapshot.error}');
-                            }
-                          } else {
-                            return Text('State: ${snapshot.connectionState}');
-                          }
-                          return Text("");
-                        },
-                      ),
-                    ),
-                  ],
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Padding(
+                  padding: const EdgeInsetsDirectional.fromSTEB(32, 32, 16, 32),
+                  child: Icon(
+                    FontAwesomeIcons.barcode,
+                    color: Theme.of(context).primaryColorLight,
+                    size: 50,
+                  ),
                 ),
-              ),
+                Expanded(
+                  child: Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(32, 32, 16, 32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding:
+                              const EdgeInsetsDirectional.fromSTEB(0, 0, 0, 16),
+                          child: FutureBuilder<EventModel?>(
+                            future: _getEvent(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text("Загружается...");
+                              } else if (snapshot.connectionState ==
+                                  ConnectionState.done) {
+                                if (snapshot.hasData) {
+                                  return ListView(children: [
+                                    Text(
+                                      snapshot.data!.name!.toUpperCase(),
+                                      style: TextStyle(
+                                        color:
+                                            Theme.of(context).primaryColorLight,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    Text(
+                                      snapshot.data!.startTime!,
+                                      style: TextStyle(
+                                        color: Theme.of(context)
+                                            .primaryColorLight
+                                            .withOpacity(0.40),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ]);
+                                } else if (snapshot.hasError) {
+                                  return Text('Error: ${snapshot.error}');
+                                }
+                              } else {
+                                return Text(
+                                    'State: ${snapshot.connectionState}');
+                              }
+                              return Text("");
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 }
