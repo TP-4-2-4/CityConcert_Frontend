@@ -10,7 +10,7 @@ class Repository {
 
   Future<TicketModel> buyTicket(TicketModel ticket) => ticketsApiProvider.buyTicket(ticket);
   Future<TicketModel> mailTicket(TicketModel ticket) => ticketsApiProvider.mailTicket(ticket);
-  Future<TicketModel> exchangeTicket(RequestModel ticket) => ticketsApiProvider.exchangeTicket(ticket);
+  Future<TicketModel> exchangeTicket(RequestModel exchange) => ticketsApiProvider.exchangeTicket(exchange);
   Future<TicketsList> fetchTicketsByUserId(int userId) => ticketsApiProvider.fetchTicketsByUserId(userId);
   Future<TicketsList> fetchTicketsByEventId(int eventId) => ticketsApiProvider.fetchTicketsByEventId(eventId);
   Future<TicketModel> fetchTicket(int id) => ticketsApiProvider.fetchTicket(id);

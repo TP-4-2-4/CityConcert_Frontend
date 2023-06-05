@@ -42,14 +42,14 @@ class TicketApiProvider {
     }
   }
 
-  Future<TicketModel> exchangeTicket(RequestModel ticket) async {
+  Future<TicketModel> exchangeTicket(RequestModel exchange) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket.toJson(), headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(exchange.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
