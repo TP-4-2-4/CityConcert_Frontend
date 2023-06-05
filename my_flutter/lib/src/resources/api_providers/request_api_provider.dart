@@ -48,14 +48,14 @@ class RequestApiProvider {
   }
 
   Future<RequestModel> addRequest(RequestModel request) async {
-    print("entered");
+    print("entered add request");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_REQUEST_URL}';
     Map<String, String> headers = {
-      'Content-Type': 'application/json', //todo: fix
+      'content-type': 'application/json',
       'Accept': "*/*"
     };
     final response =
-        await client.post(Uri.parse(apiUrl), body: request.toJson(), headers: headers);
+        await client.post(Uri.parse(apiUrl), body: json.encode(request.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(
