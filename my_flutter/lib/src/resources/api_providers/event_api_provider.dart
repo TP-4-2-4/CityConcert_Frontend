@@ -111,7 +111,7 @@ class EventApiProvider {
       'content-type': 'application/json',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl),
+    final response = await client.put(Uri.parse(apiUrl),
         body: json.encode(event.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
