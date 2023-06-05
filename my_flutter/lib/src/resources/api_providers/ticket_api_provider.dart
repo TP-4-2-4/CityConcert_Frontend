@@ -17,7 +17,7 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.put(Uri.parse(apiUrl), body: ticket.toJson(), headers: headers);
+    final response = await client.put(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
