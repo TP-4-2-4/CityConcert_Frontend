@@ -153,6 +153,17 @@ class _OrderPageState extends State<OrderPage> {
                                             if (snapshot.connectionState ==
                                                 ConnectionState.done) {
                                               if (snapshot.hasData) {
+                                                if (snapshot
+                                                        .data!.tickets.length ==
+                                                    0) {
+                                                  return Center(
+                                                      child: Text(
+                                                    'На это мероприятие нет билетов',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColorLight),
+                                                  ));
+                                                }
                                                 return ListView(
                                                     children: List.generate(
                                                         snapshot.data!.tickets
@@ -161,9 +172,9 @@ class _OrderPageState extends State<OrderPage> {
                                                             onPressed: () {
                                                               setState(() {
                                                                 selectedTicket =
-                                                                snapshot.data!
-                                                                    .tickets[
-                                                                index];
+                                                                    snapshot.data!
+                                                                            .tickets[
+                                                                        index];
                                                               });
                                                               Navigator.pop(
                                                                   context);
@@ -212,13 +223,15 @@ class _OrderPageState extends State<OrderPage> {
                 ],
               ),
             ),
-            Padding(padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
               child: Text(
-                  selectedTicket!=null ? 'Ваше место: ${selectedTicket!.seat} стоимость ${selectedTicket!.price}' : 'Место пока не выбрано',
+                selectedTicket != null
+                    ? 'Ваше место: ${selectedTicket!.seat} стоимость ${selectedTicket!.price}'
+                    : 'Место пока не выбрано',
                 style: TextStyle(
-                  color: Theme.of(context).primaryColorLight,
-                  fontWeight: FontWeight.bold
-                ),
+                    color: Theme.of(context).primaryColorLight,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
@@ -229,12 +242,13 @@ class _OrderPageState extends State<OrderPage> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        selectedTicket!=null ?
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    PaymentPage(ticket: selectedTicket!))) : ();
+                        selectedTicket != null
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaymentPage(ticket: selectedTicket!)))
+                            : ();
                       },
                       style: flatroundedButtonStyle,
                       child: const Text('Перейти к оплате'),

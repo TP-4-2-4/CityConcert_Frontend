@@ -112,6 +112,16 @@ class _ExchangePageState extends State<ExchangePage> {
                                       if (snapshot.connectionState ==
                                           ConnectionState.done) {
                                         if (snapshot.hasData) {
+                                          if (snapshot.data!.tickets.length ==
+                                              0) {
+                                            return Center(
+                                                child: Text(
+                                              'У вас пока нет билетов',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColorLight),
+                                            ));
+                                          }
                                           return ListView(
                                               children: List.generate(
                                                   snapshot.data!.tickets.length,
