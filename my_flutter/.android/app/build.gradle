@@ -11,26 +11,20 @@ android {
 
     defaultConfig {
         applicationId "com.example.my_flutter.host"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
     }
-    signingConfigs{
-        release{
-            apply from: '../keystoreConfig.gradle'
-            keyAlias keystoreConfig.keyAlias
-            keyPassword keystoreConfig.keyPassword
-            storeFile file(keystoreConfig.storeFile)
-            storePassword keystoreConfig.storePassword
-        }
-    }
+
     buildTypes {
         profile {
             initWith debug
         }
         release {
-            signingConfig signingConfigs.release
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -39,6 +33,6 @@ buildDir = new File(rootProject.projectDir, "../build/host")
 dependencies {
     implementation project(':flutter')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 }

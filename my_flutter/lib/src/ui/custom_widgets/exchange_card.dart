@@ -21,7 +21,8 @@ class _ExchangeCardWidgetState extends State<ExchangeCardWidget> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ExchangeDetailsPage(exchange: widget.exchange),
+              builder: (context) =>
+                  ExchangeDetailsPage(exchange: widget.exchange),
             ),
           );
         },
@@ -51,9 +52,10 @@ class _ExchangeCardWidgetState extends State<ExchangeCardWidget> {
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 16, 0),
                     child: Text(
                       'Предлагаемый билет: ${widget.exchange.currentSeat!}',
                       style: TextStyle(

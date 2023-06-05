@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/models/venue_model.dart';
+import 'package:my_flutter/src/ui/company/company_search.dart';
 import 'package:my_flutter/src/ui/exchange/exchange_search.dart';
 import 'package:my_flutter/src/ui/venue_details.dart';
 
 import '../blocs/venue_bloc.dart';
-import '../main.dart';
 import '../models/event_model.dart';
 import '../models/user_model.dart';
 import '../resources/util/flutter_session.dart';
@@ -206,14 +206,16 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    print('event name pushed');
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            VenueDetailsPage(venue: venue!),
-                                      ),
-                                    );
+                                    print('venue name pushed');
+                                    if (venue != null) {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              VenueDetailsPage(venue: venue!),
+                                        ),
+                                      );
+                                    } else {}
                                   },
                                   child: FutureBuilder<VenueModel?>(
                                     future: _fetchVenueName(), // async work
@@ -385,8 +387,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      NavigationPage(), //todo: redirect to search company
+                  builder: (context) => SearchCompanyWidget(),
                 ),
               );
             },
@@ -404,8 +405,7 @@ class _EventDetailsPageState extends State<EventDetailsPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      SearchExchangeWidget(),
+                  builder: (context) => SearchExchangeWidget(),
                 ),
               );
             },

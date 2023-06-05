@@ -77,7 +77,7 @@ class _AdminEventsPageState extends State<AdminEventsPage> {
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   } else {
-                    return const Center(child: Text('Нет мероприятий ...'));
+                    return Center(child: Text('Загрузка мероприятий ...', style: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.6)),));
                   }
                 },
               )),

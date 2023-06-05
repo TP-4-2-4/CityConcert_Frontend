@@ -25,11 +25,12 @@ class ServerUrls {
   static const ADD_REQUEST_URL = '/request/add';
   static const DELETE_REQUEST_URL = '/request/delete/';
 
-  static const TICKET_BUY_URL = '/ticket/buy/';
+  static const TICKET_BUY_URL = '/ticket/buy';
   static const TICKET_MAIL_URL = '/ticket/mail/';
   static const TICKET_EXCHANGE_URL = '/ticket/exchange';
   static const GET_TICKET_BY_ID_URL = '/ticket/get/';
   static const GET_TICKETS_BY_USER_ID_URL = '/ticket/user/';
+  static const GET_TICKETS_BY_EVENT_ID_URL = '/ticket/event/';
   static const UPDATE_TICKET_URL = '/ticket/update';
   static const ADD_TICKET_URL = '/ticket/add';
   static const DELETE_TICKET_URL = '/ticket/delete/';

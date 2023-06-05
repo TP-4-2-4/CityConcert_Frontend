@@ -15,6 +15,7 @@ class AdminAddEvent extends StatefulWidget {
 }
 
 class _AdminAddEventState extends State<AdminAddEvent> {
+  TextEditingController _eventIdController = TextEditingController();
   TextEditingController _eventNameController = TextEditingController();
   TextEditingController _eventStartTimeController = TextEditingController();
   TextEditingController _eventTicketLimitController = TextEditingController();
@@ -65,6 +66,8 @@ class _AdminAddEventState extends State<AdminAddEvent> {
         child: Column(
           children: [
             InputField(
+                controller: _eventIdController, hintText: "Id мероприятия"),
+            InputField(
                 controller: _eventNameController,
                 hintText: "Название мероприятия"),
             InputField(
@@ -110,15 +113,18 @@ class _AdminAddEventState extends State<AdminAddEvent> {
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      EventModel event = EventModel(id:0, name:_eventNameController.text,
-                          description:_eventDescriptionController.text,
+                      EventModel event = EventModel(
+                          id: int.parse(_eventIdController.text),
+                          name: _eventNameController.text,
+                          description: _eventDescriptionController.text,
                           image: base64Encode(_image.readAsBytesSync()),
                           startTime: _eventStartTimeController.text,
                           ticketLimit: _eventTicketLimitController.text,
-                      genreDescriptors: _eventGenreDescriptorsController.text,
-                      venue: int.parse(_eventVenueController.text),
-                      ticketPrice: _eventTicketPriceController.text,
-                      status: "SELLING");
+                          genreDescriptors:
+                              _eventGenreDescriptorsController.text,
+                          venue: int.parse(_eventVenueController.text),
+                          ticketPrice: _eventTicketPriceController.text,
+                          status: "SELLING");
 
                       bloc.addEvent(event);
                       Navigator.push(

@@ -19,16 +19,17 @@ class ExchangePage extends StatefulWidget {
 }
 
 class _ExchangePageState extends State<ExchangePage> {
-  late TicketModel selectedTicket;
+  TicketModel? selectedTicket;
   late UserModel user;
 
   @override
   void initState() {
     super.initState();
+    _fetchCurrentUser();
   }
 
-  Future<void> _getCurrentUserTickets(int userId) async {
-    bloc.fetchTicketsByUserId(userId);
+  Future<TicketsList> _getCurrentUserTickets(int userId) async {
+    return bloc.fetchTicketsByUserId(userId);
   }
 
   Future<UserModel> _fetchCurrentUser() async {
@@ -82,77 +83,131 @@ class _ExchangePageState extends State<ExchangePage> {
           color: Theme.of(context).canvasColor,
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
-            FutureBuilder<UserModel>(
-                future: _fetchCurrentUser(),
-                builder: (context, snapshot) {
-                  return Text("Выбор билетов для пользователя ${user.id!}");
-                }),
-            Row(
-              children: [
-                TextButton(
-                  onPressed: () {
-                    _getCurrentUserTickets(user.id!);
-                    showDialog<String>(
-                      context: context,
-                      builder: (BuildContext context) => Dialog(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(15.0)),
-                        backgroundColor: Theme.of(context).canvasColor,
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              SizedBox(
-                                height: 300.0,
-                                child: StreamBuilder(
-                                  stream: bloc.tickets,
-                                  builder: (context,
-                                      AsyncSnapshot<TicketsList> snapshot) {
-                                    if (snapshot.hasData) {
-                                      return ListView(
-                                          children: List.generate(
-                                              snapshot.data!.tickets.length,
-                                              (index) => TextButton(
-                                                  onPressed: () {
-                                                    selectedTicket = snapshot
-                                                        .data!.tickets[index];
-                                                    Navigator.pop(context);
-                                                  },
-                                                  child: Text(snapshot.data!
-                                                      .tickets[index].seat!))));
-                                    } else if (snapshot.hasError) {
-                                      return Text(snapshot.error.toString());
-                                    } else {
-                                      return const Center(
-                                          child:
-                                              Text('У Вас пока нет билетов'));
-                                    }
-                                  },
-                                ),
-                              )
-                            ],
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+              child: Row(mainAxisSize: MainAxisSize.max, children: [
+                Expanded(
+                  child: TextButton(
+                    onPressed: () {
+                      showDialog<String>(
+                        context: context,
+                        builder: (BuildContext context) => Dialog(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                          backgroundColor: Theme.of(context).canvasColor,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                SizedBox(
+                                  height: 300.0,
+                                  child: FutureBuilder<TicketsList>(
+                                    future: _getCurrentUserTickets(user.id!),
+                                    builder: (context,
+                                        AsyncSnapshot<TicketsList> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        if (snapshot.hasData) {
+                                          if (snapshot.data!.tickets.length ==
+                                              0) {
+                                            return Center(
+                                                child: Text(
+                                              'У вас пока нет билетов',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColorLight),
+                                            ));
+                                          }
+                                          return ListView(
+                                              children: List.generate(
+                                                  snapshot.data!.tickets.length,
+                                                  (index) => TextButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          selectedTicket =
+                                                              snapshot.data!
+                                                                      .tickets[
+                                                                  index];
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                      child: Text(snapshot
+                                                          .data!
+                                                          .tickets[index]
+                                                          .seat!))));
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                              snapshot.error.toString());
+                                        } else {
+                                          return Center(
+                                              child: Text(
+                                            'У Вас пока нет билетов',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColorLight),
+                                          ));
+                                        }
+                                      } else if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const Text(
+                                          "Заугрузка...",
+                                        );
+                                      } else {
+                                        return Center(
+                                            child: Text(
+                                                'State: ${snapshot.connectionState}'));
+                                      }
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  },
-                  child: const Text('Выбрать отдаваемый билет'),
+                      );
+                    },
+                    style: flatroundedButtonStyle,
+                    child: const Text(
+                      'Выбрать отдаваемый билет',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ),
-              ],
+              ]),
+            ),
+            const Expanded(
+                child: Padding(
+              padding: EdgeInsets.all(8),
+            )),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+              child: Text(
+                selectedTicket != null
+                    ? 'Обменять место ${selectedTicket!.seat}'
+                    : 'Билет для обмена пока не выбран',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColorLight,
+                    fontWeight: FontWeight.bold),
+              ),
             ),
             Row(children: [
               Expanded(
                 child: Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
+                  padding: EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      if (selectedTicket.seat != null) {
-                        widget.exchange.seatFromUser = selectedTicket.seat;
+                      if (selectedTicket != null) {
+                        widget.exchange.seatFromUser = selectedTicket!.seat;
+                        print(
+                            '${widget.exchange.userId}, ${widget.exchange.eventId}, ${widget.exchange.requestType}, ${widget.exchange.description}, ${widget.exchange.currentSeat}, ${widget.exchange.wantedSeat}, ${widget.exchange.seatFromUser}');
                         bloc.exchangeTicket(widget.exchange);
+                        Navigator.pushReplacementNamed(context, '/Exchanges');
+                      } else {
+                        Navigator.pushReplacementNamed(context, '/Exchanges');
                       }
                     },
                     style: flatroundedButtonStyle,

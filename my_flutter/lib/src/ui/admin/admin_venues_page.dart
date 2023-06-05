@@ -77,7 +77,7 @@ class _AdminVenuesPageState extends State<AdminVenuesPage> {
                   } else if (snapshot.hasError) {
                     return Text(snapshot.error.toString());
                   } else {
-                    return const Center(child: Text('Нет площадок ...'));
+                    return Center(child: Text('Загрузка площадок ...', style: TextStyle(color: Theme.of(context).primaryColorLight.withOpacity(0.6))));
                   }
                 },
               )),

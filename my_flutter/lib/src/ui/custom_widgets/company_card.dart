@@ -22,8 +22,7 @@ class _CompanyCardWidgetState extends State<CompanyCardWidget> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) =>
-                  CompanyDetailsPage(company: widget.company),
+              builder: (context) => CompanyDetailsPage(company: widget.company),
             ),
           );
         },
@@ -53,9 +52,10 @@ class _CompanyCardWidgetState extends State<CompanyCardWidget> {
               ),
               Column(
                 mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 0),
+                    padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 16, 0),
                     child: Text(
                       'Компания # ${widget.company.userId}',
                       style: TextStyle(
@@ -66,7 +66,7 @@ class _CompanyCardWidgetState extends State<CompanyCardWidget> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(0, 8, 16, 8),
                     child: Text(
-                      '${widget.company.description!.substring(0, widget.company.description!.length > 50 ? 50 : widget.company.description!.length)}...',
+                      '${widget.company.description!.substring(0, widget.company.description!.length > 30 ? 30 : widget.company.description!.length)}...',
                       style: TextStyle(
                         color: Theme.of(context).primaryColorLight,
                       ),

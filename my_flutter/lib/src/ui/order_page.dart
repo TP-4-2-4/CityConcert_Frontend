@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:my_flutter/src/models/event_model.dart';
-import 'package:my_flutter/src/ui/successful_payment_page.dart';
+import 'package:my_flutter/src/models/ticket_model.dart';
+import 'package:my_flutter/src/models/lists/tickets_list.dart';
+import 'package:my_flutter/src/ui/payment_page.dart';
 
+import '../blocs/ticket_bloc.dart';
 import 'custom_widgets/event_card.dart';
 
 class OrderPage extends StatefulWidget {
@@ -14,8 +17,14 @@ class OrderPage extends StatefulWidget {
   @override
   _OrderPageState createState() => _OrderPageState();
 }
-//todo: get event model here by id
+
 class _OrderPageState extends State<OrderPage> {
+  TicketModel? selectedTicket;
+
+  Future<TicketsList> _getEventTickets(int eventId) async {
+    return bloc.fetchTicketsByEventId(eventId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +66,7 @@ class _OrderPageState extends State<OrderPage> {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(30),
                     child: Image(
-                      image: MemoryImage(base64Decode(
-                          widget.event.image!)),
+                      image: MemoryImage(base64Decode(widget.event.image!)),
                       width: 136,
                       height: 136,
                       fit: BoxFit.cover,
@@ -67,7 +75,7 @@ class _OrderPageState extends State<OrderPage> {
                   Expanded(
                     child: Padding(
                       padding:
-                      const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
+                          const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,14 +100,6 @@ class _OrderPageState extends State<OrderPage> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          Text(
-                            widget.event.name!, //todo:get venue name
-                            style: TextStyle(
-                              fontFamily: 'Poppins',
-                              color: Theme.of(context).primaryColorLight,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
                         ],
                       ),
                     ),
@@ -115,7 +115,7 @@ class _OrderPageState extends State<OrderPage> {
                   Padding(
                     padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 0, 0),
                     child: Text(
-                      'Выберете зону',
+                      'Выберете место',
                       style: TextStyle(
                         fontFamily: 'Poppins',
                         color: Theme.of(context).primaryColorLight,
@@ -123,25 +123,115 @@ class _OrderPageState extends State<OrderPage> {
                       ),
                     ),
                   ),
-                  ListView(
-                    padding: EdgeInsets.zero,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.vertical,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            16, 16, 16, 16),
+                  Padding(
+                    padding:
+                        const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                    child: Row(mainAxisSize: MainAxisSize.max, children: [
+                      Expanded(
                         child: TextButton(
                           onPressed: () {
-                            print('Button pressed ...');
+                            showDialog<String>(
+                              context: context,
+                              builder: (BuildContext context) => Dialog(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0)),
+                                backgroundColor: Theme.of(context).canvasColor,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 300.0,
+                                        child: FutureBuilder<TicketsList>(
+                                          future: _getEventTickets(
+                                              widget.event.id!),
+                                          builder: (context,
+                                              AsyncSnapshot<TicketsList>
+                                                  snapshot) {
+                                            if (snapshot.connectionState ==
+                                                ConnectionState.done) {
+                                              if (snapshot.hasData) {
+                                                if (snapshot
+                                                        .data!.tickets.length ==
+                                                    0) {
+                                                  return Center(
+                                                      child: Text(
+                                                    'На это мероприятие нет билетов',
+                                                    style: TextStyle(
+                                                        color: Theme.of(context)
+                                                            .primaryColorLight),
+                                                  ));
+                                                }
+                                                return ListView(
+                                                    children: List.generate(
+                                                        snapshot.data!.tickets
+                                                            .length,
+                                                        (index) => TextButton(
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                selectedTicket =
+                                                                    snapshot.data!
+                                                                            .tickets[
+                                                                        index];
+                                                              });
+                                                              Navigator.pop(
+                                                                  context);
+                                                            },
+                                                            child: Text(snapshot
+                                                                .data!
+                                                                .tickets[index]
+                                                                .seat!))));
+                                              } else if (snapshot.hasError) {
+                                                return Text(
+                                                    snapshot.error.toString());
+                                              } else {
+                                                return const Center(
+                                                    child: Text(
+                                                        'На это мероприятие нет билетов'));
+                                              }
+                                            } else if (snapshot
+                                                    .connectionState ==
+                                                ConnectionState.waiting) {
+                                              return const Text(
+                                                "Заугрузка...",
+                                              );
+                                            } else {
+                                              return Center(
+                                                  child: Text(
+                                                      'State: ${snapshot.connectionState}'));
+                                            }
+                                          },
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            );
                           },
                           style: flatroundedButtonStyle,
-                          child: const Text('A1 - A10 1500'), //todo: tickets
+                          child: const Text(
+                            'Выбрать билет',
+                            style: TextStyle(color: Colors.white),
+                          ),
                         ),
                       ),
-                    ],
+                    ]),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+              child: Text(
+                selectedTicket != null
+                    ? 'Ваше место: ${selectedTicket!.seat} стоимость ${selectedTicket!.price}'
+                    : 'Место пока не выбрано',
+                style: TextStyle(
+                    color: Theme.of(context).primaryColorLight,
+                    fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
@@ -152,13 +242,16 @@ class _OrderPageState extends State<OrderPage> {
                   Expanded(
                     child: TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const SuccessfulPaymentPage()));
+                        selectedTicket != null
+                            ? Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        PaymentPage(ticket: selectedTicket!)))
+                            : ();
                       },
                       style: flatroundedButtonStyle,
-                      child: const Text('Оплатить'),
+                      child: const Text('Перейти к оплате'),
                     ),
                   ),
                 ],

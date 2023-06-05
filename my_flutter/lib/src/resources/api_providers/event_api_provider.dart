@@ -111,7 +111,7 @@ class EventApiProvider {
       'content-type': 'application/json',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl),
+    final response = await client.put(Uri.parse(apiUrl),
         body: json.encode(event.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
@@ -124,7 +124,7 @@ class EventApiProvider {
   Future<EventsList> fetchEventsByRecommendations() async {
     print("entered");
     String apiUrl =
-        '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
+        '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}/0';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"

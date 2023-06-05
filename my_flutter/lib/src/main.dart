@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:my_flutter/src/ui/SearchPage.dart';
 import 'package:my_flutter/src/ui/account_page_unauthorized.dart';
+import 'package:my_flutter/src/ui/admin/admin_main.dart';
+import 'package:my_flutter/src/ui/company/company_search.dart';
+import 'package:my_flutter/src/ui/exchange/exchange_search.dart';
 import 'package:my_flutter/src/ui/home_page.dart';
 import 'package:my_flutter/src/ui/recommendations_page.dart';
 import 'package:my_flutter/src/ui/splash_screen.dart';
@@ -32,6 +35,14 @@ class MyApp extends StatelessWidget {
       theme: darkTheme,
         //colorScheme: const ColorScheme.dark(),
       home: SplashScreen(),
+      routes: {
+        // When navigating to the "/" route, build the FirstScreen widget.
+        '/NavigationPage': (context) => const NavigationPage(),
+        '/NavigationPageAdmin': (context) => NavigationPageAdmin(),
+        '/Exchanges': (context) => const SearchExchangeWidget(),
+        '/Company': (context) => const SearchCompanyWidget(),
+        // When navigating to the "/second" route, build the SecondScreen widget.
+      },
     );
   }
 }

@@ -17,23 +17,25 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
-    print(response.body.toString());
+    print('trying to buy ${json.encode(ticket.toJson())}');
+    final response = await client.put(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
+    print('response body to string ${response.body.toString()}');
     if (response.statusCode == 200) {
+      print('ticket model from response json ${TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)))}');
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load Ticket');
     }
   }
 
-  Future<TicketModel> mailTicket(TicketModel ticket) async {
+  Future<TicketModel> mailTicket(TicketModel ticket) async { //todo: add
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_MAIL_URL}';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -42,14 +44,14 @@ class TicketApiProvider {
     }
   }
 
-  Future<TicketModel> exchangeTicket(RequestModel ticket) async {
+  Future<TicketModel> exchangeTicket(RequestModel exchange) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}/${exchange.id}';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(exchange.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -72,6 +74,23 @@ class TicketApiProvider {
       return TicketsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load Tickets');
+    }
+  }
+
+  Future<TicketsList> fetchTicketsByEventId(int eventId) async {
+    print("entered");
+    String apiUrl =
+        '${ServerUrls.SERVER_URL}${ServerUrls.GET_TICKETS_BY_EVENT_ID_URL}$eventId';
+    Map<String, String> headers = {
+      'content-type': 'application/json; charset=utf-8',
+      'Accept': "*/*"
+    };
+    final response = await client.get(Uri.parse(apiUrl), headers: headers);
+    print(response.body.toString());
+    if (response.statusCode == 200) {
+      return TicketsList.fromJson(json.decode(utf8.decode(response.bodyBytes)));
+    } else {
+      throw Exception('Failed to load Tickets by EventID');
     }
   }
 
@@ -99,7 +118,7 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -132,7 +151,7 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));

@@ -29,9 +29,16 @@ class TicketBloc {
     _ticketFetcher.sink.add(t);
   }
 
-  fetchTicketsByUserId(int userId) async {
+  Future<TicketsList> fetchTicketsByUserId(int userId) async {
     TicketsList tickets = await _repository.fetchTicketsByUserId(userId);
     _ticketsFetcher.sink.add(tickets);
+    return tickets;
+  }
+
+  Future<TicketsList> fetchTicketsByEventId(int eventId) async {
+    TicketsList tickets = await _repository.fetchTicketsByEventId(eventId);
+    _ticketsFetcher.sink.add(tickets);
+    return tickets;
   }
 
   fetchTicketById(int id) async {

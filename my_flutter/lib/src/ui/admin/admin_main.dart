@@ -37,6 +37,7 @@ class _NavigationPageAdminState extends State<NavigationPageAdmin> {
     return Scaffold(
       appBar: AppBar(
         title: _appbarText[_selectedIndex],
+        backgroundColor: Theme.of(context).canvasColor,
       ),
       body: _pages[_selectedIndex],
       bottomNavigationBar: Container(

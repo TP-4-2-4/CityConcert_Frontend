@@ -1,4 +1,5 @@
 class RequestModel {
+  int? id;
   int? userId;
   int? eventId;
   String? requestType;
@@ -8,7 +9,8 @@ class RequestModel {
   String? seatFromUser;
 
   RequestModel(
-      {this.userId,
+      {this.id,
+        this.userId,
         this.eventId,
         this.requestType,
         this.description,
@@ -17,6 +19,7 @@ class RequestModel {
         this.seatFromUser});
 
   RequestModel.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
     userId = json['userId'];
     eventId = json['eventId'];
     requestType = json['requestType'];
@@ -27,14 +30,15 @@ class RequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['eventId'] = this.eventId;
-    data['requestType'] = this.requestType;
-    data['description'] = this.description;
-    data['currentSeat'] = this.currentSeat;
-    data['wantedSeat'] = this.wantedSeat;
-    data['seatFromUser'] = this.seatFromUser;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['userId'] = userId;
+    data['eventId'] = eventId;
+    data['requestType'] = requestType;
+    data['description'] = description;
+    data['currentSeat'] = currentSeat;
+    data['wantedSeat'] = wantedSeat;
+    data['seatFromUser'] = seatFromUser;
     return data;
   }
 }

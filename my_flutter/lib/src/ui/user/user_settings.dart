@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_flutter/src/blocs/user_bloc.dart';
 
-import '../../main.dart';
 import '../../models/user_model.dart';
 import '../custom_widgets/event_card.dart';
 
@@ -131,12 +130,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                   child: TextButton(
                     onPressed: () async {
                       bloc.logout();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => NavigationPage(),
-                        ),
-                      );
+                      Navigator.pushReplacementNamed(context, '/NavigationPage');
                     },
                     style: flatroundedButtonStyleDark,
                     child: Text(

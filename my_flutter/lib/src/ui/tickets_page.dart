@@ -14,24 +14,23 @@ class TicketsWidget extends StatefulWidget {
 }
 
 class _TicketsWidgetState extends State<TicketsWidget> {
-  late UserModel user;
+  UserModel? user;
 
   Future<UserModel?> _fetchCurrentUser() async {
     user = await FlutterSession().get("currentUser");
-      print("fetched user ${user.username}");
-      print("start fetching tickets...");
-      _getUserTickets(user.id!);
-      print("got tickets");
-      return user;
+    print("fetched user ${user?.username}");
+    print("start fetching tickets...");
+    //_getUserTickets(user!.id!);
+    print("got tickets");
+    return user;
   }
 
-  void _getUserTickets(int id) {
-    bloc.fetchTicketsByUserId(id);
+  Future<TicketsList> _getUserTickets(int id) {
+    return bloc.fetchTicketsByUserId(id);
   }
 
   @override
   void initState() {
-
     super.initState();
     // do something
     print("Build Tickets Page Completed");
@@ -49,35 +48,74 @@ class _TicketsWidgetState extends State<TicketsWidget> {
       body: SafeArea(
         top: true,
         child: Column(
-          mainAxisSize: MainAxisSize.max,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            FutureBuilder<UserModel?>(
-                future: _fetchCurrentUser(),
-                builder: (context, snapshot) {
-                  return Text(" ");
-                }),
-              Expanded(
-                  child: StreamBuilder(
-                stream: bloc.tickets,
-                builder: (context, AsyncSnapshot<TicketsList> snapshot) {
-                  if (snapshot.hasData) {
-                    print("starting list view");
-                    return ListView(
-                        children: List.generate(
-                            snapshot.data!.tickets.length,
-                            (index) => TicketCardWidget(
-                                ticket: snapshot.data!.tickets[index])));
-                  } else if (snapshot.hasError) {
-                    return Text(snapshot.error.toString());
-                  } else {
-                    return const Center(child: Text('Нет билетов ...'));
-                  }
-                },
-              )),
-            ]
-        ),
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              FutureBuilder<UserModel?>(
+                  future: _fetchCurrentUser(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return authorizedUserTickets(snapshot.data!.id!);
+                      } else {
+                        return Center(
+                            child: Text(
+                          'Зарегистрируйтесь или войдите, чтобы просматривать свои билеты',
+                          style: TextStyle(
+                              color: Theme.of(context).primaryColorLight),
+                        ));
+                      }
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.waiting) {
+                      return Center( child: Text(
+                        "Заугрузка...",
+                        style: TextStyle(color: Theme.of(context).primaryColorLight),
+                      ));
+                    }
+                    return Text('State: ${snapshot.connectionState}');
+                  }),
+            ]),
       ),
     );
+  }
+
+  Widget authorizedUserTickets(int userId) {
+    return Expanded(
+        child: FutureBuilder<TicketsList>(
+      future: _getUserTickets(userId),
+      builder: (context, AsyncSnapshot<TicketsList> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.hasData) {
+            if(snapshot.data!.tickets.length == 0) {
+              return Center(
+                  child: Text(
+                    'У вас пока нет билетов',
+                    style: TextStyle(color: Theme.of(context).primaryColorLight),
+                  ));
+            }
+            return ListView(
+                children: List.generate(
+                    snapshot.data!.tickets.length,
+                    (index) => TicketCardWidget(
+                        ticket: snapshot.data!.tickets[index])));
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else {
+            return Center(
+                child: Text(
+              'У вас пока нет билетов',
+              style: TextStyle(color: Theme.of(context).primaryColorLight),
+            ));
+          }
+        } else if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center( child: Text(
+            "Заугрузка...",
+            style: TextStyle(color: Theme.of(context).primaryColorLight),
+          ));
+        } else {
+          return Center(child: Text('State: ${snapshot.connectionState}'));
+        }
+      },
+    ));
   }
 }

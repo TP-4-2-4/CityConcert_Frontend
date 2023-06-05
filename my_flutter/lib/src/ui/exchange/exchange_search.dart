@@ -83,7 +83,7 @@ class _SearchExchangeWidgetState extends State<SearchExchangeWidget> {
             children: [
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
+                  padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
                   child: TextButton(
                     onPressed: () {
                       Navigator.push(

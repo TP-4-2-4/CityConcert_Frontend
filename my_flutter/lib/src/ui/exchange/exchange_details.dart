@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../blocs/user_bloc.dart';
 import '../../models/request_model.dart';
 import '../../models/user_model.dart';
-import '../../resources/util/flutter_session.dart';
 import '../custom_widgets/event_card.dart';
 import 'exchange_page.dart';
 
@@ -57,7 +56,6 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 50, 16, 25),
@@ -65,38 +63,47 @@ class _ExchangeDetailsPageState extends State<ExchangeDetailsPage> {
               stream: bloc.user,
               builder: (context, AsyncSnapshot<UserModel> snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data!.username!);
+                  return Text(
+                    snapshot.data!.username!,
+                    style: TextStyle(
+                        color: Theme.of(context).primaryColorLight,
+                        fontWeight: FontWeight.bold),
+                  );
                 } else if (snapshot.hasError) {
                   return Text(snapshot.error.toString());
                 } else {
-                  return const Center(
-                      child: Text('Пользователь обмена не найден'));
+                  return Text(
+                    'Пользователь обмена загрудается...',
+                    style: TextStyle(
+                        color: Theme.of(context)
+                            .primaryColorLight
+                            .withOpacity(0.6)),
+                  );
                 }
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-            child: Text(
-              widget.exchange.description!,
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+              child: Text(widget.exchange.description!,
+                  style: TextStyle(color: Theme.of(context).primaryColorLight)),
             ),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-            child: Text(
-              'Место автора: ${widget.exchange.currentSeat}',
-            ),
+            child: Text('Место автора: ${widget.exchange.currentSeat}',
+                style: TextStyle(color: Theme.of(context).primaryColorLight)),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-            child: Text(
-              'Желаемое место: ${widget.exchange.wantedSeat}',
-            ),
+            child: Text('Желаемое место: ${widget.exchange.wantedSeat}',
+                style: TextStyle(color: Theme.of(context).primaryColorLight)),
           ),
           Row(children: [
             Expanded(
               child: Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                 child: TextButton(
                   onPressed: () async {
                     Navigator.push(
