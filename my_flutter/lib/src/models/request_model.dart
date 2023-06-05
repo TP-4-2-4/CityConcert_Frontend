@@ -27,14 +27,14 @@ class RequestModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['userId'] = this.userId;
-    data['eventId'] = this.eventId;
-    data['requestType'] = this.requestType;
-    data['description'] = this.description;
-    data['currentSeat'] = this.currentSeat;
-    data['wantedSeat'] = this.wantedSeat;
-    data['seatFromUser'] = this.seatFromUser;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['userId'] = userId;
+    data['eventId'] = eventId;
+    data['requestType'] = requestType;
+    data['description'] = description;
+    data['currentSeat'] = currentSeat;
+    data['wantedSeat'] = wantedSeat;
+    data['seatFromUser'] = seatFromUser;
     return data;
   }
 }
