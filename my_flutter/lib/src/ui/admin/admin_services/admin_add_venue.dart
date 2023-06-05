@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_flutter/src/models/venue_model.dart';
 
-
 import '../../../blocs/venue_bloc.dart';
 import '../../custom_widgets/event_card.dart';
 import '../admin_main.dart';
@@ -17,7 +16,7 @@ class AdminAddVenue extends StatefulWidget {
 }
 
 class _AdminAddVenueState extends State<AdminAddVenue> {
-
+  TextEditingController _venueIdController = TextEditingController();
   TextEditingController _venueNameController = TextEditingController();
   TextEditingController _venueLocationController = TextEditingController();
   TextEditingController _venueDescriptionController = TextEditingController();
@@ -63,6 +62,7 @@ class _AdminAddVenueState extends State<AdminAddVenue> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            InputField(controller: _venueIdController, hintText: "Id площадки"),
             InputField(
                 controller: _venueNameController,
                 hintText: "Название площадки"),
@@ -99,11 +99,14 @@ class _AdminAddVenueState extends State<AdminAddVenue> {
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      VenueModel venue = VenueModel(id:0, name:_venueNameController.text,
-                          location:_venueLocationController.text,
-                          description:_venueDescriptionController.text,capacity:int.parse(_venueCapacityController.text),
+                      VenueModel venue = VenueModel(
+                          id: int.parse(_venueIdController.text),
+                          name: _venueNameController.text,
+                          location: _venueLocationController.text,
+                          description: _venueDescriptionController.text,
+                          capacity: int.parse(_venueCapacityController.text),
                           image: base64Encode(_image.readAsBytesSync()));
-                    bloc.addVenue(venue);
+                      bloc.addVenue(venue);
                       Navigator.push(
                         context,
                         MaterialPageRoute(

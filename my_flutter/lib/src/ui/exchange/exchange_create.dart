@@ -46,6 +46,7 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
 
   Future<void> _createExchange() async {
     RequestModel newExchange = RequestModel(
+        id: selectedTicket!.userId,
         userId: selectedTicket!.userId,
         eventId: selectedTicket!.eventId,
         requestType: "EXCHANGE",
@@ -282,6 +283,9 @@ class _CreateExchangeWidgetState extends State<CreateExchangeWidget> {
                       onPressed: () {
                         if (selectedTicket != null) {
                           _createExchange();
+                          Navigator.pushReplacementNamed(context, '/Exchanges');
+                        } else {
+                          Navigator.pushReplacementNamed(context, '/Exchanges');
                         }
                       },
                       style: flatroundedButtonStyle,

@@ -45,6 +45,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
 
   Future<void> _createExchange() async {
     RequestModel newExchange = RequestModel(
+        id: user.id,
         userId: user.id,
         eventId: selectedTicket!.eventId,
         requestType: "COMPANY",
@@ -249,6 +250,9 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                       onPressed: () {
                         if (selectedTicket != null) {
                           _createExchange();
+                          Navigator.pushReplacementNamed(context, '/Company');
+                        } else {
+                          Navigator.pushReplacementNamed(context, '/Company');
                         }
                       },
                       style: flatroundedButtonStyle,

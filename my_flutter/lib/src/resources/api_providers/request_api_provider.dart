@@ -92,7 +92,7 @@ class RequestApiProvider {
       'Accept': "*/*"
     };
     final response =
-        await client.post(Uri.parse(apiUrl), body: request, headers: headers);
+        await client.put(Uri.parse(apiUrl), body: json.encode(request.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return RequestModel.fromJson(

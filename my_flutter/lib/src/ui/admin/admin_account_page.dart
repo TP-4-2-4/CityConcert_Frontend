@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../blocs/user_bloc.dart';
-import '../../main.dart';
 import '../custom_widgets/event_card.dart';
 
 class AdminAccountPage extends StatefulWidget {
@@ -30,8 +29,8 @@ class _AdminAccountPageState extends State<AdminAccountPage> {
 
   void logout() async {
     bloc.logout();
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => NavigationPage()));
+    Navigator.pushReplacementNamed(
+        context, '/NavigationPage');
   }
 
   @override

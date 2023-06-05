@@ -29,7 +29,6 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     widget.ticket.userId = 0;
-    widget.ticket.status = "SOLD";
     String defaultDate = DateTime.now().toString();
     widget.ticket.purchaseDate = "${defaultDate.substring(0,10)}T${defaultDate.substring(11)}";
     return Scaffold(

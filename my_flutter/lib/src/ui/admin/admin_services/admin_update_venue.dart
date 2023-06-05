@@ -5,22 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:my_flutter/src/models/venue_model.dart';
 
-
 import '../../../blocs/venue_bloc.dart';
 import '../../custom_widgets/event_card.dart';
 import '../admin_main.dart';
 
 class AdminUpdateVenue extends StatefulWidget {
-
   final VenueModel venue;
+
   const AdminUpdateVenue(this.venue);
+
   @override
   _AdminUpdateVenueState createState() => _AdminUpdateVenueState();
 }
 
 class _AdminUpdateVenueState extends State<AdminUpdateVenue> {
-
-  late TextEditingController _venueNameController ;
+  late TextEditingController _venueNameController;
   late TextEditingController _venueLocationController;
   late TextEditingController _venueDescriptionController;
   late TextEditingController _venueCapacityController;
@@ -34,9 +33,12 @@ class _AdminUpdateVenueState extends State<AdminUpdateVenue> {
   void initState() {
     super.initState();
     _venueNameController = TextEditingController(text: widget.venue.name);
-    _venueLocationController = TextEditingController(text:widget.venue.location);
-    _venueDescriptionController = TextEditingController(text:widget.venue.description);
-    _venueCapacityController = TextEditingController(text:widget.venue.capacity.toString());
+    _venueLocationController =
+        TextEditingController(text: widget.venue.location);
+    _venueDescriptionController =
+        TextEditingController(text: widget.venue.description);
+    _venueCapacityController =
+        TextEditingController(text: widget.venue.capacity.toString());
   }
 
   @override
@@ -74,17 +76,24 @@ class _AdminUpdateVenueState extends State<AdminUpdateVenue> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                child: Text(
+                  'id площадки: ${widget.venue.id}',
+                  style: TextStyle(color: Theme.of(context).primaryColorLight),
+                )),
             TextFormField(
-                controller: _venueNameController,
-                ),
-            TextFormField(controller: _venueLocationController,
-               ),
+              controller: _venueNameController,
+            ),
             TextFormField(
-                controller: _venueDescriptionController,
-               ),
+              controller: _venueLocationController,
+            ),
             TextFormField(
-                controller: _venueCapacityController,
-               ),
+              controller: _venueDescriptionController,
+            ),
+            TextFormField(
+              controller: _venueCapacityController,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
@@ -103,7 +112,7 @@ class _AdminUpdateVenueState extends State<AdminUpdateVenue> {
                     setState(() {
                       _image = File(image!.path);
                     });
-                    widget.venue.image =base64Encode(_image.readAsBytesSync());
+                    widget.venue.image = base64Encode(_image.readAsBytesSync());
                   },
                 ),
               ),
@@ -114,10 +123,12 @@ class _AdminUpdateVenueState extends State<AdminUpdateVenue> {
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      VenueModel venue = VenueModel(id:0, name:_venueNameController.text,
-                          location:_venueLocationController.text,
-                          description:_venueDescriptionController.text,
-                          capacity:int.parse(_venueCapacityController.text),
+                      VenueModel venue = VenueModel(
+                          id: widget.venue.id,
+                          name: _venueNameController.text,
+                          location: _venueLocationController.text,
+                          description: _venueDescriptionController.text,
+                          capacity: int.parse(_venueCapacityController.text),
                           image: widget.venue.image);
                       bloc.updateVenue(venue);
                       Navigator.push(

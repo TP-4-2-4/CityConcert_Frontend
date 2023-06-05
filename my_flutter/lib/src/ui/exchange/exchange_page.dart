@@ -205,6 +205,9 @@ class _ExchangePageState extends State<ExchangePage> {
                         print(
                             '${widget.exchange.userId}, ${widget.exchange.eventId}, ${widget.exchange.requestType}, ${widget.exchange.description}, ${widget.exchange.currentSeat}, ${widget.exchange.wantedSeat}, ${widget.exchange.seatFromUser}');
                         bloc.exchangeTicket(widget.exchange);
+                        Navigator.pushReplacementNamed(context, '/Exchanges');
+                      } else {
+                        Navigator.pushReplacementNamed(context, '/Exchanges');
                       }
                     },
                     style: flatroundedButtonStyle,

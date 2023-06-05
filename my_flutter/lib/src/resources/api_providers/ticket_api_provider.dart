@@ -12,28 +12,30 @@ class TicketApiProvider {
 
   Future<TicketModel> buyTicket(TicketModel ticket) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_BUY_URL}${ticket.id}';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_BUY_URL}';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
+    print('trying to buy ${json.encode(ticket.toJson())}');
     final response = await client.put(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
-    print(response.body.toString());
+    print('response body to string ${response.body.toString()}');
     if (response.statusCode == 200) {
+      print('ticket model from response json ${TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)))}');
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
     } else {
       throw Exception('Failed to load Ticket');
     }
   }
 
-  Future<TicketModel> mailTicket(TicketModel ticket) async {
+  Future<TicketModel> mailTicket(TicketModel ticket) async { //todo: add
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_MAIL_URL}';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -44,7 +46,7 @@ class TicketApiProvider {
 
   Future<TicketModel> exchangeTicket(RequestModel exchange) async {
     print("entered");
-    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}';
+    String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.TICKET_EXCHANGE_URL}/${exchange.id}';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
@@ -116,7 +118,7 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -149,7 +151,7 @@ class TicketApiProvider {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"
     };
-    final response = await client.post(Uri.parse(apiUrl), body: ticket, headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(ticket.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return TicketModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));

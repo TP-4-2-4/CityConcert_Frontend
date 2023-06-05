@@ -124,7 +124,7 @@ class EventApiProvider {
   Future<EventsList> fetchEventsByRecommendations() async {
     print("entered");
     String apiUrl =
-        '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}';
+        '${ServerUrls.SERVER_URL}${ServerUrls.RECOMMENDATIONS_EVENT_URL}/0';
     Map<String, String> headers = {
       'content-type': 'application/json; charset=utf-8',
       'Accept': "*/*"

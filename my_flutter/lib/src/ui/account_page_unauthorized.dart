@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_flutter/src/main.dart';
 
 import 'package:my_flutter/src/models/registration_model.dart';
 import 'package:my_flutter/src/models/user_model.dart';
-import 'package:my_flutter/src/ui/admin/admin_main.dart';
 import 'package:my_flutter/src/ui/user/user_profile.dart';
 import '../blocs/user_bloc.dart';
 import '../resources/util/flutter_session.dart';
@@ -76,8 +74,8 @@ class _AccountPageState extends State<AccountPage> {
     bloc.registration(newUser);
     UserModel user = await bloc.login(login, password);
     await FlutterSession().set('currentUser', user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NavigationPage()));
+    Navigator.pushReplacementNamed(
+        context, '/NavigationPage');
   }
 
   void signIn() async {
@@ -85,8 +83,8 @@ class _AccountPageState extends State<AccountPage> {
     String password = passwordController.text;
     UserModel user = await bloc.login(login, password);
     await FlutterSession().set('currentUser', user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NavigationPage()));
+    Navigator.pushReplacementNamed(
+        context, '/NavigationPage');
   }
 
   void signInAsAdmin() async {
@@ -94,8 +92,7 @@ class _AccountPageState extends State<AccountPage> {
     String password = passwordController.text;
     UserModel user = await bloc.login(login, password);
     await FlutterSession().set('currentUser', user);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => NavigationPageAdmin()));
+    Navigator.pushReplacementNamed(context, '/NavigationPageAdmin');
   }
 
   Widget logins() {
@@ -292,7 +289,7 @@ class _AccountPageState extends State<AccountPage> {
                       signInAsAdmin();
                     },
                     style: flatroundedButtonStyle,
-                    child: const Text('Войти'),
+                    child: const Text('Войти как администратор'),
                   ),
                 ),
               ],

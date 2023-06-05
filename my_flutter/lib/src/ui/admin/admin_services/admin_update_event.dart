@@ -10,8 +10,8 @@ import '../../custom_widgets/event_card.dart';
 import '../admin_main.dart';
 
 class AdminUpdateEvent extends StatefulWidget {
-
   final EventModel event;
+
   const AdminUpdateEvent(this.event);
 
   @override
@@ -36,12 +36,18 @@ class _AdminUpdateEventState extends State<AdminUpdateEvent> {
   void initState() {
     super.initState();
     _eventNameController = TextEditingController(text: widget.event.name);
-    _eventStartTimeController = TextEditingController(text:widget.event.startTime);
-    _eventTicketLimitController = TextEditingController(text:widget.event.ticketLimit);
-    _eventTicketPriceController = TextEditingController(text:widget.event.ticketPrice);
-    _eventGenreDescriptorsController = TextEditingController(text: widget.event.genreDescriptors);
-    _eventDescriptionController = TextEditingController(text:widget.event.description);
-    _eventVenueController = TextEditingController(text:widget.event.venue.toString());
+    _eventStartTimeController =
+        TextEditingController(text: widget.event.startTime);
+    _eventTicketLimitController =
+        TextEditingController(text: widget.event.ticketLimit);
+    _eventTicketPriceController =
+        TextEditingController(text: widget.event.ticketPrice);
+    _eventGenreDescriptorsController =
+        TextEditingController(text: widget.event.genreDescriptors);
+    _eventDescriptionController =
+        TextEditingController(text: widget.event.description);
+    _eventVenueController =
+        TextEditingController(text: widget.event.venue.toString());
   }
 
   @override
@@ -79,27 +85,33 @@ class _AdminUpdateEventState extends State<AdminUpdateEvent> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
+                child: Text(
+                  'id мероприятия: ${widget.event.id}',
+                  style: TextStyle(color: Theme.of(context).primaryColorLight),
+                )),
             TextFormField(
-                controller: _eventNameController,
-             ),
+              controller: _eventNameController,
+            ),
             TextFormField(
-                controller: _eventStartTimeController,
-                ),
+              controller: _eventStartTimeController,
+            ),
             TextFormField(
-                controller: _eventTicketLimitController,
-              ),
+              controller: _eventTicketLimitController,
+            ),
             TextFormField(
-                controller: _eventTicketPriceController,
-                ),
+              controller: _eventTicketPriceController,
+            ),
             TextFormField(
-                controller: _eventGenreDescriptorsController,
-                ),
+              controller: _eventGenreDescriptorsController,
+            ),
             TextFormField(
-                controller: _eventDescriptionController,
-                 ),
+              controller: _eventDescriptionController,
+            ),
             TextFormField(
-                controller: _eventVenueController,
-                 ),
+              controller: _eventVenueController,
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
@@ -118,7 +130,7 @@ class _AdminUpdateEventState extends State<AdminUpdateEvent> {
                     setState(() {
                       _image = File(image!.path);
                     });
-                    widget.event.image =base64Encode(_image.readAsBytesSync());
+                    widget.event.image = base64Encode(_image.readAsBytesSync());
                   },
                 ),
               ),
@@ -129,12 +141,15 @@ class _AdminUpdateEventState extends State<AdminUpdateEvent> {
                   padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 16),
                   child: TextButton(
                     onPressed: () async {
-                      EventModel event = EventModel(id:0, name:_eventNameController.text,
-                          description:_eventDescriptionController.text,
-                          image:  widget.event.image,
+                      EventModel event = EventModel(
+                          id: widget.event.id,
+                          name: _eventNameController.text,
+                          description: _eventDescriptionController.text,
+                          image: widget.event.image,
                           startTime: _eventStartTimeController.text,
                           ticketLimit: _eventTicketLimitController.text,
-                          genreDescriptors: _eventGenreDescriptorsController.text,
+                          genreDescriptors:
+                              _eventGenreDescriptorsController.text,
                           venue: int.parse(_eventVenueController.text),
                           ticketPrice: _eventTicketPriceController.text,
                           status: "SELLING");

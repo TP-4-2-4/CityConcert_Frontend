@@ -25,7 +25,7 @@ class ServerUrls {
   static const ADD_REQUEST_URL = '/request/add';
   static const DELETE_REQUEST_URL = '/request/delete/';
 
-  static const TICKET_BUY_URL = '/ticket/buy/';
+  static const TICKET_BUY_URL = '/ticket/buy';
   static const TICKET_MAIL_URL = '/ticket/mail/';
   static const TICKET_EXCHANGE_URL = '/ticket/exchange';
   static const GET_TICKET_BY_ID_URL = '/ticket/get/';

@@ -62,7 +62,7 @@ class VenueApiProvider {
   Future<VenueModel> updateVenue(VenueModel venue) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.UPDATE_VENUE_URL}';
-    final response = await client.post(Uri.parse(apiUrl),
+    final response = await client.put(Uri.parse(apiUrl),
         body: json.encode(venue.toJson()), headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {

@@ -43,7 +43,7 @@ class UserApiProvider {
   Future<UserModel> addUser(UserModel user) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.ADD_USER_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: user,headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(user.toJson()),headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return UserModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
@@ -67,7 +67,7 @@ class UserApiProvider {
   Future<UserModel> updateUser(UserModel user) async {
     print("entered");
     String apiUrl = '${ServerUrls.SERVER_URL}${ServerUrls.UPDATE_USER_URL}';
-    final response = await client.post(Uri.parse(apiUrl), body: user,headers: headers);
+    final response = await client.post(Uri.parse(apiUrl), body: json.encode(user.toJson()),headers: headers);
     print(response.body.toString());
     if (response.statusCode == 200) {
       return UserModel.fromJson(json.decode(utf8.decode(response.bodyBytes)));
