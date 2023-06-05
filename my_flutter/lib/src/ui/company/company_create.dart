@@ -157,16 +157,26 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                                       if (snapshot.connectionState ==
                                           ConnectionState.done) {
                                         if (snapshot.hasData) {
+                                          if (snapshot.data!.tickets.length ==
+                                              0) {
+                                            return Center(
+                                                child: Text(
+                                              'У вас пока нет билетов',
+                                              style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColorLight),
+                                            ));
+                                          }
                                           return ListView(
                                               children: List.generate(
                                                   snapshot.data!.tickets.length,
-                                                      (index) => TextButton(
+                                                  (index) => TextButton(
                                                       onPressed: () {
                                                         setState(() {
                                                           selectedTicket =
-                                                          snapshot.data!
-                                                              .tickets[
-                                                          index];
+                                                              snapshot.data!
+                                                                      .tickets[
+                                                                  index];
                                                         });
                                                         Navigator.pop(context);
                                                       },
@@ -180,11 +190,11 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                                         } else {
                                           return Center(
                                               child: Text(
-                                                'У Вас пока нет билетов',
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                        .primaryColorLight),
-                                              ));
+                                            'У Вас пока нет билетов',
+                                            style: TextStyle(
+                                                color: Theme.of(context)
+                                                    .primaryColorLight),
+                                          ));
                                         }
                                       } else if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -216,8 +226,8 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
             ),
             const Expanded(
                 child: Padding(
-                  padding: EdgeInsets.all(8),
-                )),
+              padding: EdgeInsets.all(8),
+            )),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 16),
               child: Text(
@@ -234,7 +244,7 @@ class _CreateCompanyWidgetState extends State<CreateCompanyWidget> {
                 Expanded(
                   child: Padding(
                     padding:
-                    const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 0),
+                        const EdgeInsetsDirectional.fromSTEB(16, 90, 16, 16),
                     child: TextButton(
                       onPressed: () {
                         if (selectedTicket != null) {

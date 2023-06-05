@@ -74,10 +74,12 @@ class _CompanyDetailsPageState extends State<CompanyDetailsPage> {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
-            child: Text(widget.company.description!,
-                style: TextStyle(color: Theme.of(context).primaryColorLight)),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
+              child: Text(widget.company.description!,
+                  style: TextStyle(color: Theme.of(context).primaryColorLight)),
+            ),
           ),
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 16),
@@ -85,6 +87,15 @@ class _CompanyDetailsPageState extends State<CompanyDetailsPage> {
                 style: TextStyle(
                     color: Theme.of(context).primaryColorLight,
                     fontWeight: FontWeight.bold)),
+          ),
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 20, 16, 16),
+            child: Text(
+              'Свяжитесь с автором с помощью контактов, которые он оставил в описании!',
+              style: TextStyle(
+                color: Theme.of(context).primaryColorLight.withOpacity(0.6),
+              ),
+            ),
           ),
         ],
       ),
